@@ -105,6 +105,16 @@ export default {
           icon: 'mdi-chart-bubble',
           title: 'Devices',
           to: '/devices'
+        },
+        {
+          icon: 'mdi-chart-bubble',
+          title: 'Groups',
+          to: '/groups'
+        },
+        {
+          icon: 'mdi-chart-bubble',
+          title: 'Subnets',
+          to: '/subnets'
         }
       ],
       miniVariant: false,
