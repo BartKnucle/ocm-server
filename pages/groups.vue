@@ -22,7 +22,7 @@
             bottom
             left
             absolute
-            @click="groupAddDialog = !groupAddDialog"
+            @click="add()"
           >
             <v-icon>
               mdi-plus
@@ -30,13 +30,17 @@
           </v-btn>
         </template>
       </v-toolbar>
-      <ListGroups />
+      <ListGroups
+        @edit="edit($event)"
+      />
     </v-card>
     <AddEditGroups
-      :dialog="groupAddDialog"
-      @closed="groupAddDialog = false"
+      :groupid="groups.groupid"
+      :dialog="groups.dialog"
+      :status="groups.status"
+      @closed="groups.dialog = false"
+      @edited="reset()"
     />
-    {{ groupAddDialog }}
   </section>
 </template>
 
@@ -50,7 +54,27 @@ export default {
   },
   data () {
     return {
-      groupAddDialog: false
+      groups: {
+        dialog: false,
+        status: 'Add',
+        groupid: ''
+      }
+    }
+  },
+  methods: {
+    reset () {
+      this.groups.status = 'Add'
+      this.groups.groupid = ''
+      this.groups.dialog = false
+    },
+    add () {
+      this.groups.status = 'Add'
+      this.groups.dialog = true
+    },
+    edit (val) {
+      this.groups.status = 'Edit'
+      this.groups.groupid = val
+      this.groups.dialog = true
     }
   }
 }

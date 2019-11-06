@@ -20,7 +20,7 @@
           Close
         </v-btn>
         <v-btn text @click="save()">
-          Save
+          {{ status }}
         </v-btn>
       </v-card-actions>
     </v-card>
@@ -28,17 +28,21 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex'
+import { mapActions, mapGetters } from 'vuex'
 export default {
   components: {},
   props: {
     status: {
       type: String,
-      default: 'Add'
+      default: ''
     },
     dialog: {
       type: Boolean,
       default: true
+    },
+    groupid: {
+      type: String,
+      default: ''
     }
   },
   data () {
@@ -50,25 +54,48 @@ export default {
       visible: false
     }
   },
+  computed: { // only getters have live queries
+    ...mapGetters('groups', { get: 'get' })
+  },
   watch: {
     dialog (val) {
       this.visible = val
     },
     visible (val) {
       !val && this.close()
+    },
+    groupid (val) {
+      if (this.status === 'Edit') {
+        this.data = Object.assign(this.data, this.get(this.groupid))
+      }
     }
   },
   methods: {
-    ...mapActions('groups', { find: 'find', create: 'create', update: 'update' }),
+    ...mapActions('groups', { find: 'find', create: 'create', patch: 'patch' }),
     close () {
       this.$emit('closed')
     },
+    edited () {
+      this.$emit('edited')
+    },
     save () {
-      this.create(this.data)
+      switch (this.status) {
+        case 'Add':
+          this.create(this.data)
+          break
+        case 'Edit':
+          console.log(this.$store)
+          this.patch([this.groupid, this.data])
+          this.edited()
+          break
+      }
+      this.reset()
+      this.close()
+    },
+    reset () {
       this.data = {
         name: ''
       }
-      this.close()
     }
   }
 }

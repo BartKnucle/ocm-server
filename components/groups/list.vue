@@ -6,14 +6,14 @@
           {{ item.name }}
         </v-list-item-content>
         <v-list-item-action>
-          <v-btn icon>
+          <v-btn icon @click="edit(item._id)">
             <v-icon>
               mdi-pencil
             </v-icon>
           </v-btn>
         </v-list-item-action>
         <v-list-item-action>
-          <v-btn icon>
+          <v-btn icon @click="remove(item._id)">
             <v-icon
               color="red"
             >
@@ -41,7 +41,10 @@ export default {
     this.find()
   },
   methods: {
-    ...mapActions('groups', { find: 'find' })
+    ...mapActions('groups', { find: 'find', remove: 'remove' }),
+    edit (id) {
+      this.$emit('edit', id)
+    }
   }
 }
 </script>
