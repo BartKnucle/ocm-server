@@ -84,7 +84,6 @@ export default {
           this.create(this.data)
           break
         case 'Edit':
-          console.log(this.$store)
           this.patch([this.groupid, this.data])
           this.edited()
           break
