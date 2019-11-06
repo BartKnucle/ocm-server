@@ -1,11 +1,15 @@
 <template>
   <section>
-    Devices
+    <ListDevices />
   </section>
 </template>
 
 <script>
+import ListDevices from '~/components/devices/list.vue'
 export default {
-  name: 'Devices'
+  name: 'Devices',
+  components: {
+    ListDevices
+  }
 }
 </script>
