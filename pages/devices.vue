@@ -1,6 +1,8 @@
 <template>
   <v-card>
-    <v-toolbar>
+    <v-toolbar
+      color="primary"
+    >
       <v-toolbar-title class="white--text">
         Devices
       </v-toolbar-title>

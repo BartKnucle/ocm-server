@@ -1,7 +1,9 @@
 <template>
   <section>
     <v-card>
-      <v-toolbar extended>
+      <v-toolbar
+        color="primary"
+      >
         <v-toolbar-title class="white--text">
           Groups
         </v-toolbar-title>
