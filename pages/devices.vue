@@ -1,7 +1,23 @@
 <template>
-  <section>
+  <v-card>
+    <v-toolbar>
+      <v-toolbar-title class="white--text">
+        Devices
+      </v-toolbar-title>
+      <v-spacer />
+      <v-btn icon>
+        <v-icon>
+          mdi-magnify
+        </v-icon>
+      </v-btn>
+      <v-btn icon>
+        <v-icon>
+          mdi-view-module
+        </v-icon>
+      </v-btn>
+    </v-toolbar>
     <ListDevices />
-  </section>
+  </v-card>
 </template>
 
 <script>
