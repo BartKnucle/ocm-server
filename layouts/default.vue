@@ -115,6 +115,11 @@ export default {
           icon: 'mdi-chart-bubble',
           title: 'Subnets',
           to: '/subnets'
+        },
+        {
+          icon: 'mdi-chart-bubble',
+          title: 'Sandbox',
+          to: '/sandbox'
         }
       ],
       miniVariant: false,
