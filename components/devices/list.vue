@@ -26,7 +26,7 @@ export default {
     return {
       headers: [
         { value: 'hostname', text: 'Hostname' },
-        { value: 'hostname', text: 'Operating system' },
+        { value: 'distro', text: 'Operating system' },
         { value: '_id', text: 'Device Id' },
         { text: 'Actions', value: 'action', sortable: false }
       ]

@@ -7,10 +7,10 @@
   >
     <template v-slot:item.action="{ item }">
       <v-btn icon @click="edit(item._id)">
-          <v-icon>
-            mdi-pencil
-          </v-icon>
-        </v-btn>
+        <v-icon>
+          mdi-pencil
+        </v-icon>
+      </v-btn>
       <v-btn icon @click="remove(item._id)">
         <v-icon
           color="red"
