@@ -1,29 +1,25 @@
 <template>
-  <section>
-    <v-list>
-      <v-list-item v-for="item in groups().data" :key="item._id">
-        <v-list-item-content>
-          {{ item.name }}
-        </v-list-item-content>
-        <v-list-item-action>
-          <v-btn icon @click="edit(item._id)">
-            <v-icon>
-              mdi-pencil
-            </v-icon>
-          </v-btn>
-        </v-list-item-action>
-        <v-list-item-action>
-          <v-btn icon @click="remove(item._id)">
-            <v-icon
-              color="red"
-            >
-              mdi-delete
-            </v-icon>
-          </v-btn>
-        </v-list-item-action>
-      </v-list-item>
-    </v-list>
-  </section>
+  <v-data-table
+    :headers="headers"
+    :items="groups().data"
+    item-key="_id"
+    hide-default-footer
+  >
+    <template v-slot:item.action="{ item }">
+      <v-btn icon @click="edit(item._id)">
+          <v-icon>
+            mdi-pencil
+          </v-icon>
+        </v-btn>
+      <v-btn icon @click="remove(item._id)">
+        <v-icon
+          color="red"
+        >
+          mdi-delete
+        </v-icon>
+      </v-btn>
+    </template>
+  </v-data-table>
 </template>
 
 <script>
@@ -32,7 +28,12 @@ import { mapActions, mapGetters } from 'vuex'
 export default {
   components: {},
   data () {
-    return {}
+    return {
+      headers: [
+        { value: 'name', text: 'Name' },
+        { text: 'Actions', value: 'action', sortable: false }
+      ]
+    }
   },
   computed: { // only getters have live queries
     ...mapGetters('groups', { groups: 'find', get: 'get' })
