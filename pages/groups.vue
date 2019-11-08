@@ -8,29 +8,14 @@
           Groups
         </v-toolbar-title>
         <v-spacer />
-        <v-btn icon>
+        <v-btn
+          icon
+          @click="add()"
+        >
           <v-icon>
-            mdi-magnify
+            mdi-plus
           </v-icon>
         </v-btn>
-        <v-btn icon>
-          <v-icon>
-            mdi-view-module
-          </v-icon>
-        </v-btn>
-        <template v-slot:extension>
-          <v-btn
-            fab
-            bottom
-            left
-            absolute
-            @click="add()"
-          >
-            <v-icon>
-              mdi-plus
-            </v-icon>
-          </v-btn>
-        </template>
       </v-toolbar>
       <ListGroups
         @edit="edit($event)"
