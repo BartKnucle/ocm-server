@@ -102,22 +102,22 @@ export default {
           to: '/'
         },
         {
-          icon: 'mdi-chart-bubble',
+          icon: 'mdi-laptop',
           title: 'Devices',
           to: '/devices'
         },
         {
-          icon: 'mdi-chart-bubble',
+          icon: 'mdi-group',
           title: 'Groups',
           to: '/groups'
         },
         {
-          icon: 'mdi-chart-bubble',
+          icon: 'mdi-server-network',
           title: 'Subnets',
           to: '/subnets'
         },
         {
-          icon: 'mdi-chart-bubble',
+          icon: 'mdi-play',
           title: 'Sandbox',
           to: '/sandbox'
         }
@@ -125,7 +125,7 @@ export default {
       miniVariant: false,
       right: true,
       rightDrawer: false,
-      title: 'Vuetify.js'
+      title: 'OCM Server'
     }
   }
 }
