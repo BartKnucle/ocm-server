@@ -1,0 +1,51 @@
+<template>
+  <v-data-table
+    :headers="headers"
+    :items="subnets().data"
+    item-key="_id"
+    hide-default-footer
+  >
+    <template v-slot:item.action="{ item }">
+      <v-btn icon @click="remove(item._id)">
+        <v-icon
+          color="red"
+        >
+          mdi-delete
+        </v-icon>
+      </v-btn>
+    </template>
+  </v-data-table>
+</template>
+
+<script>
+import { mapActions, mapGetters } from 'vuex'
+
+export default {
+  components: {},
+  data () {
+    return {
+      headers: [
+        { value: '_id', text: 'Netmask' },
+        { value: 'data.network', text: 'Network' },
+        { value: 'data.bitmask', text: 'Bitmask' },
+        { value: 'data.firsthost', text: 'First' },
+        { value: 'data.lasthost', text: 'Last' },
+        { value: 'data.broadcast', text: 'Broadcast' },
+        { text: 'Actions', value: 'action', sortable: false }
+      ]
+    }
+  },
+  computed: { // only getters have live queries
+    ...mapGetters('subnets', { subnets: 'find', get: 'get' })
+  },
+  mounted () {
+    this.find()
+  },
+  methods: {
+    ...mapActions('subnets', { find: 'find', remove: 'remove' }),
+    edit (id) {
+      this.$emit('edit', id)
+    }
+  }
+}
+</script>
