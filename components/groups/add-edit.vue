@@ -12,7 +12,7 @@
           label="Name"
           hint="Enter the group name"
         />
-        <TypePicker :selected='data.type' :items="typeItems" @select="selectGroup($event)" />
+        <TypePicker :selected="data.type" :items="typeItems" @select="selectGroup($event)" />
         <small>*indicates required field</small>
       </v-card-text>
       <v-card-actions>
