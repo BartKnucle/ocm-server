@@ -1,7 +1,8 @@
 <template>
   <v-select
-    v-model="selected"
+    :value="selected"
     :items="items"
+    @change="$emit('select', $event)"
     solo
   >
     <template slot="selection" slot-scope="data">
@@ -25,15 +26,17 @@
 <script>
 export default {
   props: {
+    selected: {
+      type: String,
+      default: ''
+    },
     items: {
       type: Array,
       default: () => { return [] }
     }
   },
   data () {
-    return {
-      selected: ''
-    }
+    return {}
   },
   watch: {
     selected (val) {
