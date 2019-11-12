@@ -12,6 +12,7 @@
           label="Name"
           hint="Enter the group name"
         />
+        <TypePicker :items="typeItems" @select="selectGroup($event)" />
         <small>*indicates required field</small>
       </v-card-text>
       <v-card-actions>
@@ -29,8 +30,11 @@
 
 <script>
 import { mapActions, mapGetters } from 'vuex'
+import TypePicker from '~/components/customs/type-picker.vue'
 export default {
-  components: {},
+  components: {
+    TypePicker
+  },
   props: {
     status: {
       type: String,
@@ -51,7 +55,24 @@ export default {
       data: {
         name: ''
       },
-      visible: false
+      visible: false,
+      typeItems: [
+        {
+          value: 'location',
+          text: 'Location',
+          icon: 'mdi-home'
+        },
+        {
+          value: 'hardware',
+          text: 'Hardware',
+          icon: 'mdi-laptop'
+        },
+        {
+          value: 'Software',
+          text: 'Software',
+          icon: 'mdi-windows'
+        }
+      ]
     }
   },
   computed: { // only getters have live queries
@@ -95,6 +116,9 @@ export default {
       this.data = {
         name: ''
       }
+    },
+    selectGroup (id) {
+      this.data.type = id
     }
   }
 }

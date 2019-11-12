@@ -31,6 +31,7 @@ export default {
     return {
       headers: [
         { value: 'name', text: 'Name' },
+        { value: 'type', text: 'Type' },
         { text: 'Actions', value: 'action', sortable: false }
       ]
     }
