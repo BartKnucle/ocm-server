@@ -28,6 +28,7 @@ export default {
         { value: 'hostname', text: 'Hostname' },
         { value: 'distro', text: 'Operating system' },
         { value: '_id', text: 'Device Id' },
+        { value: 'gatewayV4', text: 'Ipv4 Gateway' },
         { text: 'Actions', value: 'action', sortable: false }
       ]
     }

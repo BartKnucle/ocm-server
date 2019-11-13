@@ -27,6 +27,12 @@ import { mapActions, mapGetters } from 'vuex'
 
 export default {
   components: {},
+  props: {
+    select: {
+      type: Boolean,
+      default: false
+    }
+  },
   data () {
     return {
       headers: [
