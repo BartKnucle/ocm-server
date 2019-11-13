@@ -1,9 +1,11 @@
 <template>
-  <GChart
-    :type="type"
-    :data="data"
-    :options="options"
-  />
+  <section>
+    <GChart
+      :type="type"
+      :data="countByOs"
+      :options="options"
+    />
+  </section>
 </template>
 
 <script>
@@ -16,14 +18,7 @@ export default {
   data () {
     return {
       type: 'PieChart',
-      data: [
-        ['Task', 'Hours per Day'],
-        ['Work', 11],
-        ['Eat', 2],
-        ['Commute', 2],
-        ['Watch TV', 2],
-        ['Sleep', 7]
-      ],
+      headers: ['OS', 'Count'],
       options: {
         title: 'OS',
         width: 300,
@@ -38,7 +33,19 @@ export default {
     }
   },
   computed: { // only getters have live queries
-    ...mapGetters('devices', { devices: 'find', get: 'get' })
+    ...mapGetters('devices', { devices: 'find', get: 'get' }),
+    countByOs () {
+      return this.devices().data.reduce((acc, obj) => {
+        const cle = obj.distro
+        let value = acc.find(x => x[0] === cle)
+        if (value) {
+          value += 1
+        } else {
+          acc.push([cle, 1])
+        }
+        return acc
+      }, [this.headers])
+    }
   },
   mounted () {
     this.find()
