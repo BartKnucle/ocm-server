@@ -1,9 +1,9 @@
-const devices = require('./devices/service.js')
-const groups = require('./groups/service.js')
-const subnets = require('./subnets/service.js')
+const logger = require('./logger')
+const devices = require('./devices')
+const groups = require('./groups')
 
 module.exports = function (app) {
+  app.configure(logger)
   app.configure(devices)
   app.configure(groups)
-  app.configure(subnets)
 }

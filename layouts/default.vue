@@ -117,6 +117,11 @@ export default {
           to: '/subnets'
         },
         {
+          icon: 'mdi-server-network',
+          title: 'Logger',
+          to: '/logger'
+        },
+        {
           icon: 'mdi-play',
           title: 'Sandbox',
           to: '/sandbox'
