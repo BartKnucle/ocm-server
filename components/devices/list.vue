@@ -5,6 +5,9 @@
     item-key="_id"
     hide-default-footer
   >
+    <template v-slot:item.updated="{ item }">
+      {{ new Date(item.updated).toLocaleString() }}
+    </template>
     <template v-slot:item.action="{ item }">
       <v-btn icon @click="remove(item._id)">
         <v-icon
@@ -28,7 +31,9 @@ export default {
         { value: 'hostname', text: 'Hostname' },
         { value: 'distro', text: 'Operating system' },
         { value: '_id', text: 'Device Id' },
+        { value: 'ip4', text: 'Ipv4 address' },
         { value: 'gatewayV4', text: 'Ipv4 Gateway' },
+        { value: 'updated', text: 'Updated' },
         { text: 'Actions', value: 'action', sortable: false }
       ]
     }
