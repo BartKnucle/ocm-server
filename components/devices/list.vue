@@ -32,6 +32,7 @@ export default {
         { value: 'distro', text: 'Operating system' },
         { value: '_id', text: 'Device Id' },
         { value: 'ip4', text: 'Ipv4 address' },
+        { value: 'ip4_subnet', text: 'Ipv4 Subnet' },
         { value: 'gatewayV4', text: 'Ipv4 Gateway' },
         { value: 'updated', text: 'Updated' },
         { text: 'Actions', value: 'action', sortable: false }
