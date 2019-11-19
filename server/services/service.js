@@ -9,6 +9,7 @@ module.exports = class Service {
     this.name = this.constructor.name.toLowerCase()
     this.app[this.name] = this
     this.log = app.logger.log
+    this.multi = true
 
     this.hooks = {
       before: {
@@ -60,7 +61,8 @@ module.exports = class Service {
 
   init () {
     const options = {
-      Model: this.model
+      Model: this.model,
+      multi: this.multi
     }
 
     // Initialize our service with any options it requires

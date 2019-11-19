@@ -1,3 +1,4 @@
+const IPCIDR = require("ip-cidr");
 const Service = require('../service')
 
 class Subnets extends Service {
@@ -11,6 +12,14 @@ class Subnets extends Service {
 
   push () {
     super.push()
+  }
+
+  add (subnet, gateway) {
+    const cidr = new IPCIDR(subnet)
+    this.data[gateway] = {
+      start: cidr.start(),
+      end: cidr.end()
+    }
   }
 }
 

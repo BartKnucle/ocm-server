@@ -25,12 +25,9 @@ export default {
   data () {
     return {
       headers: [
-        { value: '_id', text: 'Netmask' },
-        { value: 'data.network', text: 'Network' },
-        { value: 'data.bitmask', text: 'Bitmask' },
-        { value: 'data.firsthost', text: 'First' },
-        { value: 'data.lasthost', text: 'Last' },
-        { value: 'data.broadcast', text: 'Broadcast' },
+        { value: '_id', text: 'Gateway' },
+        { value: 'data.start', text: 'Start' },
+        { value: 'data.end', text: 'End' },
         { text: 'Actions', value: 'action', sortable: false }
       ]
     }
