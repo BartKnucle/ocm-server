@@ -1,6 +1,6 @@
 const Service = require('../service')
 
-class Groups extends Service {
+class Subnets extends Service {
   init () {
     super.init()
   }
@@ -15,6 +15,6 @@ class Groups extends Service {
 }
 
 module.exports = function (app) {
-  const groups = new Groups(app)
-  groups.init()
+  const subnets = new Subnets(app)
+  subnets.init()
 }

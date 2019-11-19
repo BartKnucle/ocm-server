@@ -4,7 +4,6 @@ const interfaces = require('./interfaces')
 class Devices extends Service {
   constructor (app) {
     super(app)
-    this.hooks = require('./hooks')
     app.configure(interfaces)
   }
 
