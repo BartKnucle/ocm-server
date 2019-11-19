@@ -107,6 +107,11 @@ export default {
           to: '/devices'
         },
         {
+          icon: 'mdi-sitemap',
+          title: 'Map',
+          to: '/map'
+        },
+        {
           icon: 'mdi-group',
           title: 'Groups',
           to: '/groups'
