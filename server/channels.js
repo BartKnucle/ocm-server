@@ -10,4 +10,9 @@ module.exports = (app) => {
   app.publish(() => {
     return app.channel('anonymous')
   })
+
+  app.on('login', (authResult, { connection }) => {
+    console.log(authResult)
+    console.log(connection)
+  })
 }

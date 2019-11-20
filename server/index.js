@@ -7,6 +7,7 @@ const socketio = require('@feathersjs/socketio')
 const express = require('@feathersjs/express')
 
 const services = require('./services')
+const authentication = require('./authentication')
 const channels = require('./channels')
 const certif = require('./certif')
 
@@ -35,6 +36,7 @@ async function start () {
 
   app.configure(socketio())
   app.hooks(require('./app.hooks'))
+  app.configure(authentication)
   app.configure(services)
   app.configure(channels)
 
