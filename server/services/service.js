@@ -49,14 +49,27 @@ module.exports = class Service {
       autoload: true
     })
 
-    // Proxy for data (trigers DB updates)
-    this.data = new Proxy(
-      {},
-      {
-        set: this.onDataUpdate.bind(this),
-        deleteProperty: this.onDataDelete.bind(this)
+    // Proxy for data (trigers DB updates) and load db
+    this.model.find({}, (err, docs) => {
+      if (!err && docs && (Array.isArray(docs) && docs.length)) {
+        docs = docs.reduce((obj, item) => {
+          obj[item._id] = item.data
+          return obj
+        })
+      } else {
+        docs = {}
       }
-    )
+
+      if (!err) {
+        this.data = new Proxy(
+          docs,
+          {
+            set: this.onDataUpdate.bind(this),
+            deleteProperty: this.onDataDelete.bind(this)
+          }
+        )
+      }
+    })
   }
 
   init () {
@@ -103,22 +116,23 @@ module.exports = class Service {
     this.service.patch(
       key,
       {
-        data: value,
-        updated: new Date()
+        data: value
       },
       { nedb: { upsert: true } }
     ).catch(() => {
       this.service.create({
         _id: key,
-        data: value,
-        updated: new Date()
+        data: value
       })
     })
+
+    this.push()
   }
 
   // Delete value from db
   delete (target, key) {
     this.service.remove(key)
+    this.push()
   }
 
   // Push data to server

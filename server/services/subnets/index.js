@@ -1,4 +1,4 @@
-const IPCIDR = require("ip-cidr");
+const IPCIDR = require("ip-cidr")
 const Service = require('../service')
 
 class Subnets extends Service {

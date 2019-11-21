@@ -27,6 +27,7 @@ class Devices extends Service {
 
     // When a device log
     this.app.on('login', (authResult, { connection }) => {
+      //  console.log(this.data)
     })
   }
 
