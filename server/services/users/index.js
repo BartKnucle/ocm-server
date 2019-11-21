@@ -6,8 +6,6 @@ class Users extends Service {
   constructor (app) {
     super(app)
 
-    this.model.ensureIndex({ fieldName: 'user', unique: true })
-
     this.hooks.before.create.push(hashPassword('password'))
     this.hooks.before.update.push(hashPassword('password'))
     this.hooks.before.patch.push(hashPassword('password'))

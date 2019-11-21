@@ -24,6 +24,10 @@ class Devices extends Service {
 
   init () {
     super.init()
+
+    // When a device log
+    this.app.on('login', (authResult, { connection }) => {
+    })
   }
 
   fill () {
