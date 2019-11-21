@@ -1,5 +1,4 @@
 const Service = require('../service')
-const interfaces = require('./interfaces')
 
 class Devices extends Service {
   constructor (app) {
@@ -18,8 +17,6 @@ class Devices extends Service {
     this.hooks.after.create.push(updateSubnet())
     this.hooks.after.update.push(updateSubnet())
     this.hooks.after.patch.push(updateSubnet())
-
-    app.configure(interfaces)
   }
 
   init () {
