@@ -12,4 +12,6 @@ module.exports = (app) => {
   })
 
   app.on('login', (authResult, { connection }) => {})
+
+  app.on('disconnect', ( connection ) => {})
 }
