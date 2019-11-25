@@ -28,12 +28,12 @@ export default {
   data () {
     return {
       headers: [
-        { value: 'hostname', text: 'Hostname' },
-        { value: 'distro', text: 'Operating system' },
+        { value: 'os_hostname', text: 'Hostname' },
+        { value: 'os_distro', text: 'Operating system' },
         { value: '_id', text: 'Device Id' },
-        { value: 'ip4', text: 'Ipv4 address' },
-        { value: 'ip4_subnet', text: 'Ipv4 Subnet' },
-        { value: 'gatewayV4', text: 'Ipv4 Gateway' },
+        { value: 'net_ip4', text: 'Ipv4 address' },
+        { value: 'net_ip4_subnet', text: 'Ipv4 Subnet' },
+        { value: 'net_gatewayV4', text: 'Ipv4 Gateway' },
         { value: 'updated', text: 'Updated' },
         { text: 'Actions', value: 'action', sortable: false }
       ]
