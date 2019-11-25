@@ -25,7 +25,8 @@ export default {
   data () {
     return {
       width: 1000,
-      height: 1000
+      height: 1000,
+      loaded: false
     }
   },
   computed: {
@@ -65,28 +66,30 @@ export default {
       this.restart()
     }
   },
-  created () {
+  mounted () {
+    this.svg = d3.select('#graph')
+      .attr('viewBox', `0 0 ${this.height} ${this.width}`)
+
     const loadDevices = this.findDevices()
     const loadSubnets = this.findSubnets()
 
     Promise.all([loadDevices, loadSubnets])
-      .then((devices) => {
-        this.createGraph()
+      .then((devices, subnets) => {
+        this.loaded = true
+        this.restart()
       })
   },
   methods: {
     ...mapActions('devices', { findDevices: 'find' }),
     ...mapActions('subnets', { findSubnets: 'find' }),
-    createGraph () {
-      this.svg = d3.select('#graph')
-        .attr('viewBox', `0 0 ${this.height} ${this.width}`)
-    },
     restart () {
-      this.simulation = d3.forceSimulation(this.nodes)
-        .force('charge', d3.forceManyBody().strength(d => -100))
-        .force('link', d3.forceLink(this.links).id((d) => { return d._id }).distance(50))
-        .force('center', d3.forceCenter(this.width / 2, this.height / 2))
-        .on('tick', this.ticked)
+      if (this.loaded) {
+        this.simulation = d3.forceSimulation(this.nodes)
+          .force('charge', d3.forceManyBody().strength(d => -100))
+          .force('link', d3.forceLink(this.links).id((d) => { return d._id }).distance(50))
+          .force('center', d3.forceCenter(this.width / 2, this.height / 2))
+          .on('tick', this.ticked)
+      }
     },
     ticked () {
       const u = this.svg
