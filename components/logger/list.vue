@@ -5,9 +5,9 @@
       :items="logger().data"
       item-key="_id"
     >
-      <template v-slot:item.data.level="{ item }">
+      <template v-slot:item.level="{ item }">
         <ErrorType
-          :level="item.data.level"
+          :level="item.level"
         />
       </template>
       <template v-slot:item._id="{ item }">
@@ -27,10 +27,10 @@ export default {
   data () {
     return {
       headers: [
-        { value: 'data.level', text: 'Level' },
+        { value: 'level', text: 'Level' },
         { value: '_id', text: 'Date' },
-        { value: 'data.service', text: 'Service' },
-        { value: 'data.text', text: 'Error' }
+        //  { value: 'service', text: 'Service' },
+        { value: 'text', text: 'Error' }
       ]
     }
   },

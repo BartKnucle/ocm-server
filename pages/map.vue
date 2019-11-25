@@ -5,7 +5,7 @@
         v-for="device in devices().data"
         :key="device._id"
         r="20"
-        :class="'device ' + device.distro.replace(/\s/g, '')"
+        :class="'device ' + device.os_distro.replace(/\s/g, '')"
       />
       <circle
         v-for="subnet in subnets().data"
@@ -20,7 +20,7 @@
         stroke-width="2"
       />
     </svg>
-    {{ nodes }}
+    <!-- {{ nodes }} -->
     {{ links }}
   </section>
 </template>
@@ -44,15 +44,14 @@ export default {
       return nodes
     },
     links () {
-      const devicesLinks = [...this.devices().data]
-        .filter(link => link.gatewayV4)
+      return [...this.devices().data]
+        .filter(link => link.net_gatewayV4)
         .map((link) => {
           const newLink = {}
           newLink.source = link._id
-          newLink.target = link.gatewayV4
+          newLink.target = link.net_gatewayV4
           return newLink
         })
-      return devicesLinks
     }
   },
   created () {
@@ -91,8 +90,6 @@ export default {
           return d.y
         })
 
-      u.exit().remove()
-
       const v = this.svg
         .selectAll('line')
         .data(this.links)
@@ -111,8 +108,6 @@ export default {
         .attr('y2', (d) => {
           return d.target.y
         })
-
-      v.exit().remove()
     }
   }
 }
