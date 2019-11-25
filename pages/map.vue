@@ -2,16 +2,10 @@
   <section>
     <svg id="graph" ref="graph">
       <circle
-        v-for="device in devices().data"
-        :key="device._id"
+        v-for="node in nodes"
+        :key="node._id"
         r="20"
-        :class="'device ' + device.os_distro.replace(/\s/g, '')"
-      />
-      <circle
-        v-for="subnet in subnets().data"
-        :key="subnet._id"
-        r="20"
-        class="subnet"
+        :class="node.class"
       />
       <line
         v-for="link in links"
@@ -20,8 +14,6 @@
         stroke-width="2"
       />
     </svg>
-    <!-- {{ nodes }} -->
-    {{ links }}
   </section>
 </template>
 
@@ -40,8 +32,19 @@ export default {
     ...mapGetters('devices', { devices: 'find' }),
     ...mapGetters('subnets', { subnets: 'find' }),
     nodes () {
-      const nodes = [...this.devices().data, ...this.subnets().data]
-      return nodes
+      return [
+        ...this.devices().data
+          .map((o) => {
+            o.class = 'device '
+            o.class += o.os_distro.replace(/\s/g, '')
+            return o
+          }),
+        ...this.subnets().data
+          .map((o) => {
+            o.class = 'subnet '
+            return o
+          })
+      ]
     },
     links () {
       return [...this.devices().data]
@@ -77,6 +80,7 @@ export default {
         .on('tick', this.ticked)
     },
     ticked () {
+      this.simulation.stop()
       const u = this.svg
         .selectAll('circle')
         .data(this.nodes)
@@ -89,6 +93,8 @@ export default {
         .attr('cy', (d) => {
           return d.y
         })
+
+      u.exit().remove()
 
       const v = this.svg
         .selectAll('line')
@@ -108,6 +114,9 @@ export default {
         .attr('y2', (d) => {
           return d.target.y
         })
+
+      v.exit().remove()
+      this.simulation.restart()
     }
   }
 }
@@ -119,11 +128,6 @@ export default {
     left:0;
     height: 100%;
     width: 100%;
-  }
-
-  .device {
-    fill: blue;
-    stroke: white;
   }
 
   .device {
