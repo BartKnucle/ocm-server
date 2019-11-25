@@ -26,8 +26,8 @@ export default {
     return {
       headers: [
         { value: '_id', text: 'Gateway' },
-        { value: 'data.start', text: 'Start' },
-        { value: 'data.end', text: 'End' },
+        { value: 'start', text: 'Start' },
+        { value: 'end', text: 'End' },
         { text: 'Actions', value: 'action', sortable: false }
       ]
     }
