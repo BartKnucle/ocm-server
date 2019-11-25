@@ -57,6 +57,14 @@ export default {
         })
     }
   },
+  watch: {
+    nodes () {
+      this.restart()
+    },
+    links () {
+      this.restart()
+    }
+  },
   created () {
     const loadDevices = this.findDevices()
     const loadSubnets = this.findSubnets()
@@ -72,7 +80,8 @@ export default {
     createGraph () {
       this.svg = d3.select('#graph')
         .attr('viewBox', `0 0 ${this.height} ${this.width}`)
-
+    },
+    restart () {
       this.simulation = d3.forceSimulation(this.nodes)
         .force('charge', d3.forceManyBody().strength(d => -100))
         .force('link', d3.forceLink(this.links).id((d) => { return d._id }).distance(50))
@@ -80,7 +89,6 @@ export default {
         .on('tick', this.ticked)
     },
     ticked () {
-      this.simulation.stop()
       const u = this.svg
         .selectAll('circle')
         .data(this.nodes)
@@ -116,7 +124,6 @@ export default {
         })
 
       v.exit().remove()
-      this.simulation.restart()
     }
   }
 }
