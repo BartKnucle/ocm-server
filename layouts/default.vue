@@ -122,7 +122,12 @@ export default {
           to: '/subnets'
         },
         {
-          icon: 'mdi-server-network',
+          icon: 'mdi-filter-variant',
+          title: 'Rules',
+          to: '/rules'
+        },
+        {
+          icon: 'mdi-receipt',
           title: 'Logger',
           to: '/logger'
         },

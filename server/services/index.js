@@ -4,6 +4,7 @@ const users = require('./users/users.service')
 const subnets = require('./subnets/subnets.service')
 const devices = require('./devices/devices.service')
 const groups = require('./groups/groups.service')
+const rules = require('./rules/rules.service')
 
 module.exports = function (app) {
   app.configure(setup)
@@ -12,4 +13,5 @@ module.exports = function (app) {
   app.configure(subnets)
   app.configure(devices)
   app.configure(groups)
+  app.configure(rules)
 }
