@@ -4,18 +4,18 @@ exports.Rules = class Rules extends ServiceClass {
   //  Evaluate a rule
   evaluate (id) {
     this.get(id)
-      .then((data) => {
-        console.log(data)
-        this.app.service(data.source)
+      .then(async (data) => {
+        const datas = await this.app.service(data.source).find({ query: JSON.parse(data.query) } )
+        datas.forEach(element => {
+          this.app.service(data.source)
           .patch(
-            null,
-            { groups: [data.group] },
-            { query: { '_id': '172.20.9.1' } }
+            element._id,
+            { groups: [data.group, ...element.groups] }
           )
           .catch((err) => {
             console.log(err)
           })
-        console.log({ query: JSON.parse(data.query) })
+        })
       })
   }
 

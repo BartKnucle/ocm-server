@@ -5,6 +5,11 @@
     item-key="_id"
     hide-default-footer
   >
+    <template v-slot:item.online="{ item }">
+      <OnlineOffline
+        :up="item.online"
+      />
+    </template>
     <template v-slot:item.updated="{ item }">
       {{ new Date(item.updated).toLocaleString() }}
     </template>
@@ -22,12 +27,15 @@
 
 <script>
 import { mapActions, mapGetters } from 'vuex'
-
+import OnlineOffline from '~/components/customs/OnlineOffline.vue'
 export default {
-  components: {},
+  components: {
+    OnlineOffline
+  },
   data () {
     return {
       headers: [
+        { value: 'online', text: 'Status' },
         { value: 'os_hostname', text: 'Hostname' },
         { value: 'os_distro', text: 'Operating system' },
         { value: '_id', text: 'Device Id' },

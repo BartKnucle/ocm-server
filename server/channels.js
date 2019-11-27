@@ -10,8 +10,4 @@ module.exports = (app) => {
   app.publish(() => {
     return app.channel('anonymous')
   })
-
-  app.on('login', (authResult, { connection }) => {})
-
-  app.on('disconnect', ( connection ) => {})
 }
