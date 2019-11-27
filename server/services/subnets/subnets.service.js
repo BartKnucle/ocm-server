@@ -6,7 +6,8 @@ const hooks = require('./subnets.hooks')
 module.exports = (app) => {
   const options = {
     Model: createModel(app),
-    paginate: app.get('paginate')
+    paginate: app.get('paginate'),
+    multi: true
   }
 
   app.use('/subnets', new Subnets(options, app))

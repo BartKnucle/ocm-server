@@ -1,4 +1,5 @@
 const dataChanged = require('../../hooks/dataChanged')
+const ruleEvaluate = require('../../hooks/ruleEvaluate')
 
 module.exports = {
   before: {
@@ -15,9 +16,9 @@ module.exports = {
     all: [],
     find: [],
     get: [],
-    create: [],
-    update: [],
-    patch: [],
+    create: [ruleEvaluate()],
+    update: [ruleEvaluate()],
+    patch: [ruleEvaluate()],
     remove: []
   },
 
