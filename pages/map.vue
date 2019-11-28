@@ -14,6 +14,7 @@
         stroke-width="2"
       />
     </svg>
+    {{ groups }}
   </section>
 </template>
 
@@ -47,6 +48,24 @@ export default {
           })
       ]
     },
+    groups () {
+      return [
+        ...this.devices().data,
+        ...this.subnets().data
+      ].reduce((groups, element) => {
+        if (element.groups) {
+          element.groups.forEach((group) => {
+            const currentGroup = groups.find(x => x.group === group.group)
+            if (currentGroup) {
+              currentGroup.count += 1
+            } else {
+              groups.push({ group: group.group, count: 1 })
+            }
+          })
+        }
+        return groups
+      }, [])
+    },
     links () {
       return [...this.devices().data]
         .filter(link => link.net_gatewayV4)
@@ -63,6 +82,9 @@ export default {
       this.restart()
     },
     links () {
+      this.restart()
+    },
+    groups () {
       this.restart()
     }
   },

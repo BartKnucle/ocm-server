@@ -5,15 +5,20 @@ exports.Users = class Users extends ServiceClass {
     app.on('login', (authResult, { connection }) => {
       this.patch(
         authResult.user._id,
-        {online: true}
+        { online: true }
       )
     })
 
     app.on('disconnect', (connection) => {
-      this.patch(
-        connection.user._id,
-        {online: false}
-      )
+      if (connection.user) {
+        this.patch(
+          connection.user._id,
+          { online: false }
+        )
+          .catch((err) => {
+            console.log(err)
+          })
+      }
     })
 
     super.setup(app)

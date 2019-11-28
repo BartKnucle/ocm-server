@@ -5,6 +5,9 @@ module.exports = (options = {}) => {
         context.result._id,
         { online: context.result.online }
       )
+      .catch((err) => {
+        console.log(err)
+      })
     return context
   }
 }

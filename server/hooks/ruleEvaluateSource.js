@@ -1,6 +1,6 @@
 module.exports = (options = {}) => {
   return (context) => {
-    context.service.evaluateRule(context.result._id)
+    context.app.service('rules').evaluateSource(context.service.name)
     return context
   }
 }

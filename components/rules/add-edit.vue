@@ -7,7 +7,7 @@
         <span class="headline">{{ status }} {{ name }}</span>
       </v-card-title>
       <v-card-text>
-        <ItemPicker label="Source" :selected="data.type" :items="typeItems" @select="selectSource($event)" />
+        <ItemPicker label="Source" :selected="data.source" :items="typeItems" @select="selectSource($event)" />
         <v-text-field
           v-model="data.query"
           label="Query"
