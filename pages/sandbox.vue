@@ -1,100 +1,132 @@
 <template>
   <section>
-    <svg id="graph" ref="graph">
-      <circle
-        v-for="device in devices().data"
-        :key="device._id"
-        cx="500"
-        cy="500"
-        r="20"
-        :class="'device ' + device.distro.replace(/\s/g, '')"
-      />
+    <svg width="1000" height="1000">
+      <g />
     </svg>
   </section>
 </template>
 
 <script>
 import * as d3 from 'd3'
-import { mapGetters, mapActions } from 'vuex'
 export default {
   components: {},
   data () {
     return {
-      width: 1000,
-      height: 1000
+      root: null,
+      pack: {
+        name: 'CCIR',
+        children: [
+          {
+            name: '99M',
+            children: [
+              {
+                name: '69R',
+                value: 500
+              },
+              {
+                name: '42S',
+                value: 150
+              },
+              {
+                name: '42R',
+                value: 50
+              }
+            ]
+          },
+          {
+            name: '07A',
+            children: [
+              {
+                name: 'AUBENAS',
+                value: 50
+              },
+              {
+                name: 'ANNONAY',
+                value: 30
+              },
+              {
+                name: 'LANAS',
+                value: 50
+              }
+            ]
+          },
+          {
+            name: '38G',
+            children: [
+              {
+                name: 'IMT',
+                value: 200
+              },
+              {
+                name: 'SIEGE',
+                value: 150
+              },
+              {
+                name: 'HOCHE',
+                value: 150
+              }
+            ]
+          },
+          {
+            name: '38N',
+            children: [
+              {
+                name: 'VIENNE',
+                value: 50
+              },
+              {
+                name: 'VILEFONTAINE',
+                value: 50
+              }
+            ]
+          }
+        ]
+      }
     }
   },
-  computed: {
-    ...mapGetters('devices', { devices: 'find' })
-  },
-  created () {
-    this.findDevices()
-      .then((devices) => {
-        this.createGraph()
+  computed: {},
+  watch: {},
+  mounted () {
+    const packLayout = d3.pack()
+      .size([800, 800])
+      .padding(10)
+
+    const rootNode = d3.hierarchy(this.pack)
+
+    rootNode.sum((d) => {
+      return d.value
+    })
+
+    packLayout(rootNode)
+
+    const nodes = d3.select('svg g')
+      .selectAll('g')
+      .data(rootNode.descendants())
+      .enter()
+      .append('g')
+
+    nodes
+      .append('circle')
+      .attr('cx', (d) => { return d.x })
+      .attr('cy', (d) => { return d.y })
+      .attr('r', (d) => { return d.r })
+
+    nodes
+      .append('text')
+      .attr('dx', (d) => { return d.x })
+      .attr('dy', (d) => { return d.y })
+      .style('font', '14px times')
+      .text((d) => {
+        return d.children === undefined ? d.data.name : ''
       })
   },
-  methods: {
-    ...mapActions('devices', { findDevices: 'find' }),
-    createGraph () {
-      this.svg = d3.select('#graph')
-        .attr('viewBox', `0 0 ${this.height} ${this.width}`)
-
-      this.simulation = d3.forceSimulation(
-        this.devices().data.map((device) => {
-          device.x = null
-          device.y = null
-          return device
-        })
-      )
-        .force('charge', d3.forceManyBody())
-        .force('center', d3.forceCenter(this.width / 2, this.height / 2))
-        .on('tick', this.ticked)
-    },
-    ticked () {
-      const u = this.svg
-        .selectAll('circle')
-        .data(this.devices().data)
-
-      u.enter()
-        .merge(u)
-        .attr('cx', (d) => {
-          return d.x
-        })
-        .attr('cy', (d) => {
-          return d.y
-        })
-
-      u.exit().remove()
-    }
-  }
+  methods: {}
 }
 </script>
-<style scoped>
-  #graph {
-    position:fixed;
-    top:0;
-    left:0;
-    height: 100%;
-    width: 100%;
-  }
-
-  .device {
-    fill: blue;
+<style>
+  circle {
+    fill: #333;
+    opacity: 0.3;
     stroke: white;
   }
-
-  .Ubuntu {
-    fill: orange;
-    stroke:white
-  }
-
-  .MicrosoftWindows10Entreprise {
-    fill: lightblue;
-    stroke:white
-  }
-
-  line {
-    stroke: red;
-  }
-
 </style>
