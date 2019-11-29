@@ -1,20 +1,17 @@
 <template>
-  <section>
-    <svg>
-      <g
-        v-if="rootNode">
-        <circle
-          v-for="item in rootNode.descendants()"
-          :key="item.data.name"
-          :class="item.data.class"
-          :r="item.value"
-          :cx="item.x"
-          :cy="item.y"
-        >
-        </circle>
-      </g>
-    </svg>
-  </section>
+  <svg>
+    <g
+      v-if="rootNode">
+      <circle
+        v-for="item in rootNode.descendants()"
+        :key="item.data.name"
+        :class="item.data.class"
+        :r="item.r"
+        :cx="item.x"
+        :cy="item.y"
+      />
+    </g>
+  </svg>
 </template>
 
 <script>
@@ -117,7 +114,7 @@ export default {
   watch: {},
   mounted () {
     const packLayout = d3.pack()
-      .size([1000, 1000])
+      .size([this.width * 80 / 100, this.height * 80 / 100])
       .padding(10)
 
     this.rootNode = d3.hierarchy(this.items)
