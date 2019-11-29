@@ -1,7 +1,18 @@
 <template>
   <section>
-    <svg width="1000" height="1000">
-      <g />
+    <svg>
+      <g
+        v-if="rootNode">
+        <circle
+          v-for="item in rootNode.descendants()"
+          :key="item.data.name"
+          :class="item.data.class"
+          :r="item.value"
+          :cx="item.x"
+          :cy="item.y"
+        >
+        </circle>
+      </g>
     </svg>
   </section>
 </template>
@@ -12,70 +23,88 @@ export default {
   components: {},
   data () {
     return {
-      root: null,
-      pack: {
+      rootNode: null,
+      width: 1000,
+      height: 1000,
+      items: {
         name: 'CCIR',
+        class: 'Location',
         children: [
           {
             name: '99M',
+            class: 'Location',
             children: [
               {
                 name: '69R',
+                class: 'Location',
                 value: 500
               },
               {
                 name: '42S',
+                class: 'Location',
                 value: 150
               },
               {
                 name: '42R',
+                class: 'Location',
                 value: 50
               }
             ]
           },
           {
             name: '07A',
+            class: 'Location',
             children: [
               {
                 name: 'AUBENAS',
+                class: 'Location',
                 value: 50
               },
               {
                 name: 'ANNONAY',
+                class: 'Location',
                 value: 30
               },
               {
                 name: 'LANAS',
+                class: 'Location',
                 value: 50
               }
             ]
           },
           {
             name: '38G',
+            class: 'Location',
             children: [
               {
                 name: 'IMT',
+                class: 'Location',
                 value: 200
               },
               {
                 name: 'SIEGE',
+                class: 'Location',
                 value: 150
               },
               {
                 name: 'HOCHE',
+                class: 'Location',
                 value: 150
               }
             ]
           },
           {
             name: '38N',
+            class: 'Location',
             children: [
               {
                 name: 'VIENNE',
+                class: 'Location',
                 value: 50
               },
               {
                 name: 'VILEFONTAINE',
+                class: 'Location',
                 value: 50
               }
             ]
@@ -88,44 +117,37 @@ export default {
   watch: {},
   mounted () {
     const packLayout = d3.pack()
-      .size([800, 800])
+      .size([1000, 1000])
       .padding(10)
 
-    const rootNode = d3.hierarchy(this.pack)
+    this.rootNode = d3.hierarchy(this.items)
 
-    rootNode.sum((d) => {
+    this.rootNode.sum((d) => {
       return d.value
     })
 
-    packLayout(rootNode)
+    packLayout(this.rootNode)
+    console.log(this.rootNode.descendants())
 
-    const nodes = d3.select('svg g')
-      .selectAll('g')
-      .data(rootNode.descendants())
-      .enter()
-      .append('g')
-
-    nodes
-      .append('circle')
-      .attr('cx', (d) => { return d.x })
-      .attr('cy', (d) => { return d.y })
-      .attr('r', (d) => { return d.r })
-
-    nodes
-      .append('text')
-      .attr('dx', (d) => { return d.x })
-      .attr('dy', (d) => { return d.y })
-      .style('font', '14px times')
-      .text((d) => {
-        return d.children === undefined ? d.data.name : ''
-      })
+    d3.select('svg')
+      .attr('viewBox', `0 0 ${this.height} ${this.width}`)
   },
-  methods: {}
+  methods: {
+    handleMouseOver (d, i) {
+      d.fill = 'orange'
+    }
+  }
 }
 </script>
 <style>
+   svg {
+    position:fixed;
+    height: 100%;
+    width: 100%;
+  }
+
   circle {
-    fill: #333;
+    fill: rgb(226, 132, 132);
     opacity: 0.3;
     stroke: white;
   }
