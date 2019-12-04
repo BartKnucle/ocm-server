@@ -8,7 +8,7 @@
         :class="item.data.class"
         :r="item.r"
         :cx="item.x"
-        :cy="item.y"
+        :cy="item.y + 10"
       />
     </g>
   </svg>
@@ -34,12 +34,393 @@ export default {
               {
                 name: '69R',
                 class: 'Location',
-                value: 500
+                children: [
+                  {
+                    name: '172.18.2.1',
+                    class: 'Subnet',
+                    children: [
+                      {
+                        name: 'DEVICE1',
+                        class: 'Device',
+                        value: 1
+                      },
+                      {
+                        name: 'DEVICE2',
+                        class: 'Device',
+                        value: 1
+                      },
+                      {
+                        name: 'DEVICE3',
+                        class: 'Device',
+                        value: 1
+                      },
+                      {
+                        name: 'DEVICE4',
+                        class: 'Device',
+                        value: 1
+                      },
+                      {
+                        name: 'DEVICE5',
+                        class: 'Device',
+                        value: 1
+                      }
+                    ]
+                  },
+                  {
+                    name: '172.18.9.1',
+                    class: 'Subnet',
+                    children: [
+                      {
+                        name: 'DEVICE1',
+                        class: 'Device',
+                        value: 1
+                      },
+                      {
+                        name: 'DEVICE2',
+                        class: 'Device',
+                        value: 1
+                      },
+                      {
+                        name: 'DEVICE3',
+                        class: 'Device',
+                        value: 1
+                      },
+                      {
+                        name: 'DEVICE4',
+                        class: 'Device',
+                        value: 1
+                      },
+                      {
+                        name: 'DEVICE5',
+                        class: 'Device',
+                        value: 1
+                      },
+                      {
+                        name: 'DEVICE2',
+                        class: 'Device',
+                        value: 1
+                      },
+                      {
+                        name: 'DEVICE3',
+                        class: 'Device',
+                        value: 1
+                      },
+                      {
+                        name: 'DEVICE4',
+                        class: 'Device',
+                        value: 1
+                      },
+                      {
+                        name: 'DEVICE5',
+                        class: 'Device',
+                        value: 1
+                      },
+                      {
+                        name: 'DEVICE2',
+                        class: 'Device',
+                        value: 1
+                      },
+                      {
+                        name: 'DEVICE3',
+                        class: 'Device',
+                        value: 1
+                      },
+                      {
+                        name: 'DEVICE4',
+                        class: 'Device',
+                        value: 1
+                      },
+                      {
+                        name: 'DEVICE5',
+                        class: 'Device',
+                        value: 1
+                      },
+                      {
+                        name: 'DEVICE2',
+                        class: 'Device',
+                        value: 1
+                      },
+                      {
+                        name: 'DEVICE3',
+                        class: 'Device',
+                        value: 1
+                      },
+                      {
+                        name: 'DEVICE4',
+                        class: 'Device',
+                        value: 1
+                      },
+                      {
+                        name: 'DEVICE5',
+                        class: 'Device',
+                        value: 1
+                      },
+                      {
+                        name: 'DEVICE5',
+                        class: 'Device',
+                        value: 1
+                      },
+                      {
+                        name: 'DEVICE2',
+                        class: 'Device',
+                        value: 1
+                      },
+                      {
+                        name: 'DEVICE3',
+                        class: 'Device',
+                        value: 1
+                      },
+                      {
+                        name: 'DEVICE4',
+                        class: 'Device',
+                        value: 1
+                      },
+                      {
+                        name: 'DEVICE5',
+                        class: 'Device',
+                        value: 1
+                      }
+                    ]
+                  }
+                ]
               },
               {
                 name: '42S',
                 class: 'Location',
-                value: 150
+                children: [
+                  {
+                    name: '172.18.2.1',
+                    class: 'Subnet',
+                    children: [
+                      {
+                        name: 'DEVICE1',
+                        class: 'Device',
+                        value: 1
+                      },
+                      {
+                        name: 'DEVICE2',
+                        class: 'Device',
+                        value: 1
+                      },
+                      {
+                        name: 'DEVICE3',
+                        class: 'Device',
+                        value: 1
+                      },
+                      {
+                        name: 'DEVICE4',
+                        class: 'Device',
+                        value: 1
+                      },
+                      {
+                        name: 'DEVICE5',
+                        class: 'Device',
+                        value: 1
+                      },
+                      {
+                        name: 'DEVICE1',
+                        class: 'Device',
+                        value: 1
+                      },
+                      {
+                        name: 'DEVICE2',
+                        class: 'Device',
+                        value: 1
+                      },
+                      {
+                        name: 'DEVICE3',
+                        class: 'Device',
+                        value: 1
+                      },
+                      {
+                        name: 'DEVICE4',
+                        class: 'Device',
+                        value: 1
+                      },
+                      {
+                        name: 'DEVICE5',
+                        class: 'Device',
+                        value: 1
+                      },
+                      {
+                        name: 'DEVICE2',
+                        class: 'Device',
+                        value: 1
+                      },
+                      {
+                        name: 'DEVICE3',
+                        class: 'Device',
+                        value: 1
+                      },
+                      {
+                        name: 'DEVICE4',
+                        class: 'Device',
+                        value: 1
+                      },
+                      {
+                        name: 'DEVICE5',
+                        class: 'Device',
+                        value: 1
+                      },
+                      {
+                        name: 'DEVICE2',
+                        class: 'Device',
+                        value: 1
+                      },
+                      {
+                        name: 'DEVICE3',
+                        class: 'Device',
+                        value: 1
+                      },
+                      {
+                        name: 'DEVICE4',
+                        class: 'Device',
+                        value: 1
+                      },
+                      {
+                        name: 'DEVICE5',
+                        class: 'Device',
+                        value: 1
+                      },
+                      {
+                        name: 'DEVICE2',
+                        class: 'Device',
+                        value: 1
+                      },
+                      {
+                        name: 'DEVICE3',
+                        class: 'Device',
+                        value: 1
+                      },
+                      {
+                        name: 'DEVICE4',
+                        class: 'Device',
+                        value: 1
+                      },
+                      {
+                        name: 'DEVICE5',
+                        class: 'Device',
+                        value: 1
+                      },
+                      {
+                        name: 'DEVICE5',
+                        class: 'Device',
+                        value: 1
+                      },
+                      {
+                        name: 'DEVICE2',
+                        class: 'Device',
+                        value: 1
+                      },
+                      {
+                        name: 'DEVICE3',
+                        class: 'Device',
+                        value: 1
+                      },
+                      {
+                        name: 'DEVICE4',
+                        class: 'Device',
+                        value: 1
+                      },
+                      {
+                        name: 'DEVICE5',
+                        class: 'Device',
+                        value: 1
+                      }
+                    ]
+                  },
+                  {
+                    name: '172.18.9.1',
+                    class: 'Subnet',
+                    children: [
+                      {
+                        name: 'DEVICE1',
+                        class: 'Device',
+                        value: 1
+                      },
+                      {
+                        name: 'DEVICE2',
+                        class: 'Device',
+                        value: 1
+                      },
+                      {
+                        name: 'DEVICE3',
+                        class: 'Device',
+                        value: 1
+                      },
+                      {
+                        name: 'DEVICE4',
+                        class: 'Device',
+                        value: 1
+                      },
+                      {
+                        name: 'DEVICE5',
+                        class: 'Device',
+                        value: 1
+                      },
+                      {
+                        name: 'DEVICE2',
+                        class: 'Device',
+                        value: 1
+                      },
+                      {
+                        name: 'DEVICE3',
+                        class: 'Device',
+                        value: 1
+                      },
+                      {
+                        name: 'DEVICE4',
+                        class: 'Device',
+                        value: 1
+                      },
+                      {
+                        name: 'DEVICE5',
+                        class: 'Device',
+                        value: 1
+                      },
+                      {
+                        name: 'DEVICE2',
+                        class: 'Device',
+                        value: 1
+                      },
+                      {
+                        name: 'DEVICE3',
+                        class: 'Device',
+                        value: 1
+                      },
+                      {
+                        name: 'DEVICE4',
+                        class: 'Device',
+                        value: 1
+                      },
+                      {
+                        name: 'DEVICE5',
+                        class: 'Device',
+                        value: 1
+                      },
+                      {
+                        name: 'DEVICE2',
+                        class: 'Device',
+                        value: 1
+                      },
+                      {
+                        name: 'DEVICE3',
+                        class: 'Device',
+                        value: 1
+                      },
+                      {
+                        name: 'DEVICE4',
+                        class: 'Device',
+                        value: 1
+                      },
+                      {
+                        name: 'DEVICE5',
+                        class: 'Device',
+                        value: 1
+                      }
+                    ]
+                  }
+                ]
               },
               {
                 name: '42R',
@@ -113,8 +494,11 @@ export default {
   computed: {},
   watch: {},
   mounted () {
+    d3.select('svg')
+      .attr('viewBox', `0 0 ${this.height} ${this.width}`)
+
     const packLayout = d3.pack()
-      .size([this.width * 80 / 100, this.height * 80 / 100])
+      .size([this.width * 0.85, this.height * 0.85])
       .padding(10)
 
     this.rootNode = d3.hierarchy(this.items)
@@ -124,10 +508,6 @@ export default {
     })
 
     packLayout(this.rootNode)
-    console.log(this.rootNode.descendants())
-
-    d3.select('svg')
-      .attr('viewBox', `0 0 ${this.height} ${this.width}`)
   },
   methods: {
     handleMouseOver (d, i) {
@@ -143,9 +523,21 @@ export default {
     width: 100%;
   }
 
-  circle {
-    fill: rgb(226, 132, 132);
+  .Location {
+    fill: salmon;
     opacity: 0.3;
+    stroke: white;
+  }
+
+  .Subnet {
+    fill: rebeccapurple;
+    opacity: 0.5;
+    stroke: white;
+  }
+
+  .Device {
+    fill:green;
+    opacity: 1;
     stroke: white;
   }
 </style>
