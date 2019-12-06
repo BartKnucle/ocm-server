@@ -38,6 +38,7 @@ export default {
       headers: [
         { value: '_id', text: 'Name' },
         { value: 'type', text: 'Type' },
+        { value: 'parent', text: 'Parent' },
         { text: 'Actions', value: 'action', sortable: false }
       ]
     }

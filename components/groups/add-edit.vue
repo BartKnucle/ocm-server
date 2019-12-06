@@ -12,9 +12,14 @@
           label="Name"
           hint="Enter the group name"
         />
-        <ItemPicker :selected="data.type" :items="typeItems" @select="selectGroup($event)" />
-        <small>*indicates required field</small>
+        <ItemPicker :selected="data.type" :items="typeItems" @select="selectType($event)" />
       </v-card-text>
+      <groupPicker
+        :selected="data.parent"
+        :items="[...parentGroups, { text: '' }]"
+        @selectGroup="selectGroup($event)"
+      />
+      <small>*indicates required field</small>
       <v-card-actions>
         <v-spacer />
         <v-btn text @click="close()">
@@ -30,10 +35,12 @@
 
 <script>
 import { mapActions, mapGetters } from 'vuex'
+import GroupPicker from './picker.vue'
 import ItemPicker from '~/components/customs/item-picker.vue'
 export default {
   components: {
-    ItemPicker
+    ItemPicker,
+    GroupPicker
   },
   props: {
     status: {
@@ -53,7 +60,7 @@ export default {
     return {
       name: 'group',
       data: {
-        name: ''
+        parent: ''
       },
       visible: false,
       typeItems: [
@@ -75,8 +82,14 @@ export default {
       ]
     }
   },
-  computed: { // only getters have live queries
-    ...mapGetters('groups', { get: 'get' })
+  computed: {
+    ...mapGetters('groups', { groups: 'find', get: 'get' }),
+    parentGroups () {
+      return this.groups().data.map((group) => {
+        group.text = group._id
+        return group
+      })
+    }
   },
   watch: {
     dialog (val) {
@@ -90,6 +103,9 @@ export default {
         this.data = Object.assign(this.data, this.get(this.groupid))
       }
     }
+  },
+  mounted () {
+    this.find()
   },
   methods: {
     ...mapActions('groups', { find: 'find', create: 'create', patch: 'patch' }),
@@ -115,11 +131,15 @@ export default {
     reset () {
       this.data = {
         _id: '',
-        type: ''
+        type: '',
+        parent: ''
       }
     },
-    selectGroup (id) {
+    selectType (id) {
       this.data.type = id
+    },
+    selectGroup (id) {
+      this.data.parent = id
     }
   }
 }
