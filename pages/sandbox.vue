@@ -1,21 +1,25 @@
 <template>
-  <svg>
-    <g
-      v-if="rootNode"
-    >
-      <circle
-        v-for="item in rootNode.descendants()"
-        :key="item.data.name"
-        :class="item.data.class"
-        :r="item.r"
-        :cx="item.x"
-        :cy="item.y + 10"
-      />
-    </g>
-  </svg>
+  <section>
+    {{ tree }}
+    <svg>
+      <g
+        v-if="rootNode"
+      >
+        <circle
+          v-for="item in rootNode.descendants()"
+          :key="item.data.name"
+          :class="item.data.class"
+          :r="item.r"
+          :cx="item.x"
+          :cy="item.y + 10"
+        />
+      </g>
+    </svg>
+  </section>
 </template>
 
 <script>
+import { mapActions, mapGetters } from 'vuex'
 import * as d3 from 'd3'
 export default {
   components: {},
@@ -492,9 +496,18 @@ export default {
       }
     }
   },
-  computed: {},
+  computed: {
+    ...mapGetters('devices', { devices: 'find', get: 'get' }),
+    tree () {
+      return this.devices().data
+        .map((device) => {
+          return { _id: device._id }
+        })
+    }
+  },
   watch: {},
   mounted () {
+    this.findDevices()
     d3.select('svg')
       .attr('viewBox', `0 0 ${this.height} ${this.width}`)
 
@@ -511,6 +524,7 @@ export default {
     packLayout(this.rootNode)
   },
   methods: {
+    ...mapActions('devices', { findDevices: 'find', remove: 'remove' }),
     handleMouseOver (d, i) {
       d.fill = 'orange'
     }
