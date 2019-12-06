@@ -1,7 +1,8 @@
 <template>
   <svg>
     <g
-      v-if="rootNode">
+      v-if="rootNode"
+    >
       <circle
         v-for="item in rootNode.descendants()"
         :key="item.data.name"

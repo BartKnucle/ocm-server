@@ -3,7 +3,7 @@ const ruleEvaluateItem = require('../../hooks/ruleEvaluateItem')
 
 const evaluate = (options = {}) => {
   return (context) => {
-    context.data.groups = []
+    context.data.group = ''
     return context
   }
 }
