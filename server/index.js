@@ -5,7 +5,10 @@ const consola = require('consola')
 const feathers = require('@feathersjs/feathers')
 const socketio = require('@feathersjs/socketio')
 const express = require('@feathersjs/express')
+const configuration = require('@feathersjs/configuration')
+const { Nuxt, Builder } = require('nuxt')
 
+const config = require('../nuxt.config.js')
 const services = require('./services')
 const authentication = require('./authentication')
 const channels = require('./channels')
@@ -13,13 +16,10 @@ const certif = require('./certif')
 
 process.env.NODE_CONFIG_DIR = path.join(__dirname, 'config/')
 
-async function start () {
+exports.start = async function start () {
   const app = express(feathers())
 
-  const { Nuxt, Builder } = require('nuxt')
-
   // Setup nuxt.js
-  const config = require('../nuxt.config.js')
   config.rootDir = path.resolve(__dirname, '..')
   config.dev = process.env.NODE_ENV !== 'production'
 
@@ -31,7 +31,6 @@ async function start () {
     await nuxt.ready()
   }
 
-  const configuration = require('@feathersjs/configuration')
   app.configure(configuration()).use(nuxt.render)
 
   app.configure(socketio())
@@ -57,4 +56,4 @@ async function start () {
   })
 }
 
-start()
+this.start()

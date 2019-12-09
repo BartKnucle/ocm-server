@@ -1,6 +1,6 @@
 const selfsigned = require('selfsigned')
 
-module.exports = (app) => {
+module.exports = () => {
   const attrs = [{ name: 'commonName', value: 'localhost' }]
   const opts = {
     keySize: 2048, // the size for the private key in bits (default: 1024)

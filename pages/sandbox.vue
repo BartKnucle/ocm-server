@@ -1,6 +1,5 @@
 <template>
   <section>
-    {{ tree }}
     <svg>
       <g
         v-if="rootNode"
@@ -45,16 +44,6 @@ export default {
                     class: 'Subnet',
                     children: [
                       {
-                        name: 'DEVICE1',
-                        class: 'Device',
-                        value: 1
-                      },
-                      {
-                        name: 'DEVICE2',
-                        class: 'Device',
-                        value: 1
-                      },
-                      {
                         name: 'DEVICE3',
                         class: 'Device',
                         value: 1
@@ -84,411 +73,10 @@ export default {
                         name: 'DEVICE2',
                         class: 'Device',
                         value: 1
-                      },
-                      {
-                        name: 'DEVICE3',
-                        class: 'Device',
-                        value: 1
-                      },
-                      {
-                        name: 'DEVICE4',
-                        class: 'Device',
-                        value: 1
-                      },
-                      {
-                        name: 'DEVICE5',
-                        class: 'Device',
-                        value: 1
-                      },
-                      {
-                        name: 'DEVICE2',
-                        class: 'Device',
-                        value: 1
-                      },
-                      {
-                        name: 'DEVICE3',
-                        class: 'Device',
-                        value: 1
-                      },
-                      {
-                        name: 'DEVICE4',
-                        class: 'Device',
-                        value: 1
-                      },
-                      {
-                        name: 'DEVICE5',
-                        class: 'Device',
-                        value: 1
-                      },
-                      {
-                        name: 'DEVICE2',
-                        class: 'Device',
-                        value: 1
-                      },
-                      {
-                        name: 'DEVICE3',
-                        class: 'Device',
-                        value: 1
-                      },
-                      {
-                        name: 'DEVICE4',
-                        class: 'Device',
-                        value: 1
-                      },
-                      {
-                        name: 'DEVICE5',
-                        class: 'Device',
-                        value: 1
-                      },
-                      {
-                        name: 'DEVICE2',
-                        class: 'Device',
-                        value: 1
-                      },
-                      {
-                        name: 'DEVICE3',
-                        class: 'Device',
-                        value: 1
-                      },
-                      {
-                        name: 'DEVICE4',
-                        class: 'Device',
-                        value: 1
-                      },
-                      {
-                        name: 'DEVICE5',
-                        class: 'Device',
-                        value: 1
-                      },
-                      {
-                        name: 'DEVICE5',
-                        class: 'Device',
-                        value: 1
-                      },
-                      {
-                        name: 'DEVICE2',
-                        class: 'Device',
-                        value: 1
-                      },
-                      {
-                        name: 'DEVICE3',
-                        class: 'Device',
-                        value: 1
-                      },
-                      {
-                        name: 'DEVICE4',
-                        class: 'Device',
-                        value: 1
-                      },
-                      {
-                        name: 'DEVICE5',
-                        class: 'Device',
-                        value: 1
                       }
                     ]
                   }
                 ]
-              },
-              {
-                name: '42S',
-                class: 'Location',
-                children: [
-                  {
-                    name: '172.18.2.1',
-                    class: 'Subnet',
-                    children: [
-                      {
-                        name: 'DEVICE1',
-                        class: 'Device',
-                        value: 1
-                      },
-                      {
-                        name: 'DEVICE2',
-                        class: 'Device',
-                        value: 1
-                      },
-                      {
-                        name: 'DEVICE3',
-                        class: 'Device',
-                        value: 1
-                      },
-                      {
-                        name: 'DEVICE4',
-                        class: 'Device',
-                        value: 1
-                      },
-                      {
-                        name: 'DEVICE5',
-                        class: 'Device',
-                        value: 1
-                      },
-                      {
-                        name: 'DEVICE1',
-                        class: 'Device',
-                        value: 1
-                      },
-                      {
-                        name: 'DEVICE2',
-                        class: 'Device',
-                        value: 1
-                      },
-                      {
-                        name: 'DEVICE3',
-                        class: 'Device',
-                        value: 1
-                      },
-                      {
-                        name: 'DEVICE4',
-                        class: 'Device',
-                        value: 1
-                      },
-                      {
-                        name: 'DEVICE5',
-                        class: 'Device',
-                        value: 1
-                      },
-                      {
-                        name: 'DEVICE2',
-                        class: 'Device',
-                        value: 1
-                      },
-                      {
-                        name: 'DEVICE3',
-                        class: 'Device',
-                        value: 1
-                      },
-                      {
-                        name: 'DEVICE4',
-                        class: 'Device',
-                        value: 1
-                      },
-                      {
-                        name: 'DEVICE5',
-                        class: 'Device',
-                        value: 1
-                      },
-                      {
-                        name: 'DEVICE2',
-                        class: 'Device',
-                        value: 1
-                      },
-                      {
-                        name: 'DEVICE3',
-                        class: 'Device',
-                        value: 1
-                      },
-                      {
-                        name: 'DEVICE4',
-                        class: 'Device',
-                        value: 1
-                      },
-                      {
-                        name: 'DEVICE5',
-                        class: 'Device',
-                        value: 1
-                      },
-                      {
-                        name: 'DEVICE2',
-                        class: 'Device',
-                        value: 1
-                      },
-                      {
-                        name: 'DEVICE3',
-                        class: 'Device',
-                        value: 1
-                      },
-                      {
-                        name: 'DEVICE4',
-                        class: 'Device',
-                        value: 1
-                      },
-                      {
-                        name: 'DEVICE5',
-                        class: 'Device',
-                        value: 1
-                      },
-                      {
-                        name: 'DEVICE5',
-                        class: 'Device',
-                        value: 1
-                      },
-                      {
-                        name: 'DEVICE2',
-                        class: 'Device',
-                        value: 1
-                      },
-                      {
-                        name: 'DEVICE3',
-                        class: 'Device',
-                        value: 1
-                      },
-                      {
-                        name: 'DEVICE4',
-                        class: 'Device',
-                        value: 1
-                      },
-                      {
-                        name: 'DEVICE5',
-                        class: 'Device',
-                        value: 1
-                      }
-                    ]
-                  },
-                  {
-                    name: '172.18.9.1',
-                    class: 'Subnet',
-                    children: [
-                      {
-                        name: 'DEVICE1',
-                        class: 'Device',
-                        value: 1
-                      },
-                      {
-                        name: 'DEVICE2',
-                        class: 'Device',
-                        value: 1
-                      },
-                      {
-                        name: 'DEVICE3',
-                        class: 'Device',
-                        value: 1
-                      },
-                      {
-                        name: 'DEVICE4',
-                        class: 'Device',
-                        value: 1
-                      },
-                      {
-                        name: 'DEVICE5',
-                        class: 'Device',
-                        value: 1
-                      },
-                      {
-                        name: 'DEVICE2',
-                        class: 'Device',
-                        value: 1
-                      },
-                      {
-                        name: 'DEVICE3',
-                        class: 'Device',
-                        value: 1
-                      },
-                      {
-                        name: 'DEVICE4',
-                        class: 'Device',
-                        value: 1
-                      },
-                      {
-                        name: 'DEVICE5',
-                        class: 'Device',
-                        value: 1
-                      },
-                      {
-                        name: 'DEVICE2',
-                        class: 'Device',
-                        value: 1
-                      },
-                      {
-                        name: 'DEVICE3',
-                        class: 'Device',
-                        value: 1
-                      },
-                      {
-                        name: 'DEVICE4',
-                        class: 'Device',
-                        value: 1
-                      },
-                      {
-                        name: 'DEVICE5',
-                        class: 'Device',
-                        value: 1
-                      },
-                      {
-                        name: 'DEVICE2',
-                        class: 'Device',
-                        value: 1
-                      },
-                      {
-                        name: 'DEVICE3',
-                        class: 'Device',
-                        value: 1
-                      },
-                      {
-                        name: 'DEVICE4',
-                        class: 'Device',
-                        value: 1
-                      },
-                      {
-                        name: 'DEVICE5',
-                        class: 'Device',
-                        value: 1
-                      }
-                    ]
-                  }
-                ]
-              },
-              {
-                name: '42R',
-                class: 'Location',
-                value: 50
-              }
-            ]
-          },
-          {
-            name: '07A',
-            class: 'Location',
-            children: [
-              {
-                name: 'AUBENAS',
-                class: 'Location',
-                value: 50
-              },
-              {
-                name: 'ANNONAY',
-                class: 'Location',
-                value: 30
-              },
-              {
-                name: 'LANAS',
-                class: 'Location',
-                value: 50
-              }
-            ]
-          },
-          {
-            name: '38G',
-            class: 'Location',
-            children: [
-              {
-                name: 'IMT',
-                class: 'Location',
-                value: 200
-              },
-              {
-                name: 'SIEGE',
-                class: 'Location',
-                value: 150
-              },
-              {
-                name: 'HOCHE',
-                class: 'Location',
-                value: 150
-              }
-            ]
-          },
-          {
-            name: '38N',
-            class: 'Location',
-            children: [
-              {
-                name: 'VIENNE',
-                class: 'Location',
-                value: 50
-              },
-              {
-                name: 'VILEFONTAINE',
-                class: 'Location',
-                value: 50
               }
             ]
           }
@@ -498,16 +86,48 @@ export default {
   },
   computed: {
     ...mapGetters('devices', { devices: 'find', get: 'get' }),
+    ...mapGetters('subnets', { subnets: 'find', get: 'get' }),
+    ...mapGetters('groups', { groups: 'find', get: 'get' }),
     tree () {
-      return this.devices().data
-        .map((device) => {
-          return { _id: device._id }
-        })
+      const compare = (a, b) => {
+        // Use toUpperCase() to ignore character casing
+        const itemA = a.parent.toUpperCase()
+        const itemB = b.parent.toUpperCase()
+
+        let comparison = 0
+        if (itemA > itemB) {
+          comparison = 1
+        } else if (itemA < itemB) {
+          comparison = -1
+        }
+        return comparison
+      }
+
+      return this.list_to_tree([
+        ...this.groups().data
+          .map((group) => {
+            return { _id: group._id, parent: group.parent, class: 'Location' }
+          })
+          .sort(compare),
+        ...this.subnets().data
+          .map((subnet) => {
+            return { _id: subnet._id, parent: subnet.group, class: 'Subnet' }
+          })
+          .sort(compare),
+        ...this.devices().data
+          .map((device) => {
+            return { _id: device._id, parent: device.net_gatewayV4, value: 1, Class: 'Device' }
+          })
+          .sort(compare)
+      ])[0]
     }
   },
   watch: {},
   mounted () {
-    this.findDevices()
+    const loadGroups = this.findGroups()
+    const loadSubnets = this.findSubnets()
+    const loadDevices = this.findDevices()
+
     d3.select('svg')
       .attr('viewBox', `0 0 ${this.height} ${this.width}`)
 
@@ -515,18 +135,44 @@ export default {
       .size([this.width * 0.85, this.height * 0.85])
       .padding(10)
 
-    this.rootNode = d3.hierarchy(this.items)
-
-    this.rootNode.sum((d) => {
-      return d.value
-    })
-
-    packLayout(this.rootNode)
+    Promise.all([loadDevices, loadSubnets, loadGroups])
+      .then((devices, subnets, groups) => {
+        this.rootNode = d3.hierarchy(this.tree)
+        this.rootNode.sum((d) => {
+          return d.value
+        })
+        packLayout(this.rootNode)
+      })
   },
   methods: {
     ...mapActions('devices', { findDevices: 'find', remove: 'remove' }),
+    ...mapActions('subnets', { findSubnets: 'find', remove: 'remove' }),
+    ...mapActions('groups', { findGroups: 'find', remove: 'remove' }),
     handleMouseOver (d, i) {
       d.fill = 'orange'
+    },
+    list_to_tree (list) {
+      const map = {}
+      let node
+      const roots = []
+      let i
+
+      for (i = 0; i < list.length; i += 1) {
+        map[list[i]._id] = i // initialize the map
+        list[i].children = [] // initialize the children
+      }
+
+      for (i = 0; i < list.length; i += 1) {
+        node = list[i]
+        if (node.parent !== '') {
+          // if you have dangling branches check that map[node.parentId] exists
+          list[map[node.parent]].children.push(node)
+        } else {
+          roots.push(node)
+        }
+      }
+
+      return roots
     }
   }
 }
