@@ -1,15 +1,8 @@
-const feathers = require('@feathersjs/feathers')
+const app = require('@/test/setup/feathers')
 const users = require('@/server/services/users/users.service')
+app.configure(users)
 
 describe('\'users\' service', () => {
-  let app
-
-  beforeEach(() => {
-    app = feathers()
-    app.set('nedb', './data/test/db')
-    app.configure(users)
-  })
-
   it('Service setup', (done) => {
     app.services.users.on('started', (service) => {
       expect(service).toBe('users')
@@ -70,4 +63,28 @@ describe('\'users\' service', () => {
     const disconnected = await app.services.users.onDisconnect({})
     expect(disconnected).toBe(false)
   })
+
+  it('Create 10 records', async () => {
+    const t0 = performance.now()
+
+    for (let index = 0; index < 10; index++) {
+      await app.services.users.create({ _id: index.toString(), password: index.toString() })
+    }
+
+    const t1 = performance.now()
+
+    expect(t1 - t0).toBeLessThan(2000)
+  }, 2000)
+
+  it('Patch 10 records', async () => {
+    const t0 = performance.now()
+
+    for (let index = 0; index < 10; index++) {
+      await app.services.users.patch(index.toString(), { online: false })
+    }
+
+    const t1 = performance.now()
+
+    expect(t1 - t0).toBeLessThan(2000)
+  }, 2000)
 })
