@@ -23,9 +23,11 @@ exports.Users = class Users extends ServiceClass {
         connection.user._id,
         { online: false }
       )
-        .catch((err) => {
-          return err
+        .catch(() => {
+          return false
         })
+    } else {
+      return false
     }
   }
 }

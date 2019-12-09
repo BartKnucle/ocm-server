@@ -13,6 +13,11 @@ module.exports = class ServiceClass extends Service {
 
   // Service started event
   started () {
-    this.emit('started')
+    this.emit('started', this.name)
+  }
+
+  // Service stopped event
+  stopped () {
+    this.emit('stopped', this.name)
   }
 }
