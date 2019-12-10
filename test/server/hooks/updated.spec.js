@@ -12,7 +12,7 @@ describe('\'updated\' hook', () => {
     // message data back
     app.use('/test', {
       create (data) {
-        return data
+        return Promise.resolve(data)
       }
     })
 
