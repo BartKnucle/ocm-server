@@ -11,7 +11,7 @@ describe('\'updated\' hook', () => {
     // Register a dummy custom service that just return the
     // message data back
     app.use('/test', {
-      async create (data) {
+      create (data) {
         return data
       }
     })

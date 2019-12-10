@@ -55,7 +55,7 @@ exports.Rules = class Rules extends ServiceClass {
           { groups: item.groups ? [{ group: rule.group, rule: rule._id }, ...item.groups] : [{ group: rule.group, rule: rule._id }] }
         )
         .catch((err) => {
-          console.log(err)
+          return err
         })
     }
   }
@@ -68,7 +68,7 @@ exports.Rules = class Rules extends ServiceClass {
         { groups }
       )
       .catch((err) => {
-        console.log(err)
+        return err
       })
   }
 
