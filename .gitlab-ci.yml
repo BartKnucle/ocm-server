@@ -33,7 +33,7 @@ build:
     - CI=false npm run build
   artifacts:
     paths:
-      - build
+      - dist
   dependencies:
     - install
 
@@ -42,6 +42,7 @@ deploy:
   script:
     - npm start
   dependencies:
+    - build
+    - install
     - linting
     - test
-    - install
