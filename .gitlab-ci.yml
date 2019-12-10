@@ -1,7 +1,7 @@
 linting:
-   stage: quality
-   script:
-      - npm run lint
+  stage: quality
+  script:
+    - npm run lint
 
 test:unit:
   stage: quality
