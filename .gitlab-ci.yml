@@ -50,8 +50,8 @@ deploy:
   tags:
     - deploy
   script:
-    - ls -la
-    - pwd
+    - docker build -t ocs-server dockerfile
+    - docker run ocs-server
   dependencies:
     - build
     - install

@@ -1,0 +1,5 @@
+FROM node:12.13.1
+WORKDIR $HOME/SRC
+COPY ./* $HOME/SRC
+EXPOSE 3001
+RUN npm start
