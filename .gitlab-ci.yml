@@ -6,11 +6,15 @@ stages:
 
 linting:
   stage: quality
+  tags:
+    - test
   script:
     - npm run lint
 
 test:
   stage: quality
+  tags:
+    - test
   script:
     -  npm run test
   dependencies:
@@ -19,6 +23,8 @@ test:
 
 install:
   stage: install
+  tags:
+    - test
   script:
     - npm install
   artifacts:
@@ -29,6 +35,8 @@ install:
 
 build:
   stage: build
+  tags:
+    - test
   script:
     - CI=false npm run build
   artifacts:
@@ -39,6 +47,8 @@ build:
 
 deploy:
   stage: deploy
+  tags:
+    - deploy
   script:
     - npm start
   dependencies:
