@@ -51,7 +51,7 @@ deploy:
     - deploy
   script:
     - ls -la
-    - docker build -t ocs-server DockerFile
+    - docker build -t ocs-server -f
     - docker run ocs-server
   dependencies:
     - build
