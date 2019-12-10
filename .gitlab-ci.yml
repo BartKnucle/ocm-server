@@ -53,7 +53,7 @@ deploy:
     - deploy
   script:
     - ls -la
-    - docker build -t ocs-server -f ./DockerFile
+    - docker build -t ocs-server .
     - docker run -p 3001:3001 ocs-server
   dependencies:
     - build
