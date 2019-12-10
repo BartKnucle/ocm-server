@@ -2,13 +2,14 @@ stages:
   - install
   - build
   - quality
+  - deploy
 
 linting:
   stage: quality
   script:
     - npm run lint
 
-test:unit:
+test:
   stage: quality
   script:
     -  npm run test
@@ -38,3 +39,11 @@ build:
     expire_in: 30 mins
   dependencies:
     - install
+
+deploy:
+  stage: deploy
+  script:
+    - npm start
+  dependencies:
+    - linting
+    - test
