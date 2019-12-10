@@ -44,6 +44,7 @@ build:
     expire_in: 1 week
     paths:
       - dist
+      - .nuxt
   dependencies:
     - install
 
@@ -54,7 +55,7 @@ deploy:
   script:
     - ls -la
     - docker build -t ocs-server .
-    - docker run -p 3001:3001 ocs-server
+    - docker run -p 3001:3001 ocs-server npm start
   dependencies:
     - build
     - install
