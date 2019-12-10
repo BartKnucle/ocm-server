@@ -12,6 +12,8 @@ https://docs.docker.com/install/linux/docker-ce/ubuntu/
 Installer docker runner
 https://gitlab.com/gitlab-org/gitlab-runner/blob/master/docs/install/linux-repository.md
 
+
+## RUNNER AS SUDO
 Grant sudo permissions
 
 You can grant sudo permissions to the gitlab-runner user as this is who is executing the build script.
@@ -27,6 +29,10 @@ $ sudo visudo
 Now add the following to the bottom of the file
 
 gitlab-runner ALL=(ALL) NOPASSWD: ALL
+
+## Certificate
+$SSL_CERT
+$SSL_KEY
 
 ## Build Setup
 

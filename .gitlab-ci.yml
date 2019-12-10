@@ -53,7 +53,10 @@ deploy:
   tags:
     - deploy
   script:
-    - sudo docker build -t ocs-server .
+    - mkdir data
+    - mv $SSL_CERT ./data/ssl.cert
+    - mv $SSL_KEY ./data/ssl.key
+    - sudo docker build -t  ocs-server .
     - sudo docker run -p 3001:3001 ocs-server -d npm start
   dependencies:
     - build
