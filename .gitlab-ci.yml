@@ -1,5 +1,2 @@
-install:
-  script: "npm install"
-
-test:
+test: 
   script: "npm run test"
