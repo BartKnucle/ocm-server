@@ -53,8 +53,8 @@ deploy:
   tags:
     - deploy
   script:
-    - docker build -t ocs-server .
-    - docker run -p 3001:3001 ocs-server npm start
+    - sudo docker build -t ocs-server .
+    - sudo docker run -p 3001:3001 ocs-server npm start
   dependencies:
     - build
     - install
