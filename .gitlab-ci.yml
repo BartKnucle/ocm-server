@@ -11,7 +11,7 @@ linting:
 test:unit:
   stage: quality
   script:
-    -  npm run test:coverage
+    -  npm run test
   dependencies:
     - install
   coverage: /All files[^|]*\|[^|]*\s+([\d\.]+)/
