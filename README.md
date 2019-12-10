@@ -4,6 +4,13 @@
 
 ## Node 12.13.1 LTS
 
+Install gitlab
+
+Install docker
+https://docs.docker.com/install/linux/docker-ce/ubuntu/
+
+Create a docker runner
+
 ## Build Setup
 
 ``` bash
