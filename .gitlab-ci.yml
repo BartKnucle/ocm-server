@@ -1,4 +1,5 @@
-test: 
-  tags:
-    - stable
+install:
+  script: "npm run install"
+
+test:
   script: "npm run test"

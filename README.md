@@ -9,7 +9,8 @@ Install gitlab
 Install docker
 https://docs.docker.com/install/linux/docker-ce/ubuntu/
 
-Create a docker runner
+Installer docker runner
+https://gitlab.com/gitlab-org/gitlab-runner/blob/master/docs/install/linux-repository.md
 
 ## Build Setup
 
