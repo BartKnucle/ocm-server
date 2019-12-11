@@ -72,7 +72,4 @@ deploy:
     - sudo docker build -t  ocs-server .
     - sudo docker run -p 3001:3001 -d --rm --name ocs-server ocs-server npm start
   dependencies:
-    - build
-    - install
-    - linting
-    - test
+    - remove_container
