@@ -27,7 +27,7 @@ linting:
   dependencies:
     - install
 
-test:
+run_tests:
   stage: quality
   tags:
     - test
@@ -49,7 +49,7 @@ build:
       - dist
       - .nuxt
   dependencies:
-    - test
+    - run_tests
     - linting
 
 remove_container:
