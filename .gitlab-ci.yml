@@ -5,23 +5,6 @@ stages:
   - clean
   - deploy
 
-linting:
-  stage: quality
-  tags:
-    - test
-  script:
-    - npm run lint
-
-test:
-  stage: quality
-  tags:
-    - test
-  script:
-    -  npm run test
-  dependencies:
-    - install
-  coverage: /All files[^|]*\|[^|]*\s+([\d\.]+)/
-
 install:
   stage: install
   tags:
@@ -35,6 +18,25 @@ install:
     paths:
       - node_modules/
 
+linting:
+  stage: quality
+  tags:
+    - test
+  script:
+    - npm run lint
+  dependencies:
+    - install
+
+test:
+  stage: quality
+  tags:
+    - test
+  script:
+    -  npm run test
+  dependencies:
+    - install
+  coverage: /All files[^|]*\|[^|]*\s+([\d\.]+)/
+
 build:
   stage: build
   tags:
@@ -47,7 +49,7 @@ build:
       - dist
       - .nuxt
   dependencies:
-    - install
+    - quality
 
 remove_container:
   stage: clean
@@ -55,12 +57,9 @@ remove_container:
     - deploy
   script:
     - sudo docker stop ocs-server
-  allow_failure: true
   dependencies:
     - build
-    - install
-    - linting
-    - test
+  allow_failure: true
   
 deploy:
   stage: deploy
