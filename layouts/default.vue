@@ -125,6 +125,11 @@ export default {
           to: '/rules'
         },
         {
+          icon: 'mdi-image-filter-black-white',
+          title: 'Images',
+          to: '/images'
+        },
+        {
           icon: 'mdi-receipt',
           title: 'Logger',
           to: '/logger'

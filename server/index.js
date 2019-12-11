@@ -6,9 +6,8 @@ const feathers = require('@feathersjs/feathers')
 const socketio = require('@feathersjs/socketio')
 const express = require('@feathersjs/express')
 const configuration = require('@feathersjs/configuration')
-const { Nuxt, Builder } = require('nuxt')
 
-const config = require('../nuxt.config.js')
+const middleware = require('./middleware')
 const services = require('./services')
 const authentication = require('./authentication')
 const channels = require('./channels')
@@ -16,28 +15,23 @@ const certif = require('./certif')
 
 process.env.NODE_CONFIG_DIR = path.join(__dirname, 'config/')
 
-exports.start = async function start () {
+exports.start = function start () {
   const app = express(feathers())
-
-  // Setup nuxt.js
-  config.rootDir = path.resolve(__dirname, '..')
-  config.dev = process.env.NODE_ENV !== 'production'
-
-  const nuxt = new Nuxt(config)
-  if (config.dev) {
-    const builder = new Builder(nuxt)
-    await builder.build()
-  } else {
-    await nuxt.ready()
-  }
-
-  app.configure(configuration()).use(nuxt.render)
-
   app.configure(socketio())
-  app.hooks(require('./app.hooks'))
+  // Parse HTTP JSON bodies
+  app.use(express.json())
+  // Parse URL-encoded params
+  app.use(express.urlencoded({ extended: true }))
+  // Add REST API support
+  app.configure(express.rest())
+
+  app.configure(configuration())
+
   app.configure(authentication)
   app.configure(services)
   app.configure(channels)
+  app.hooks(require('./app.hooks'))
+  app.configure(middleware)
 
   const host = app.get('host')
   const port = app.get('port')
