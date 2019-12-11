@@ -49,7 +49,8 @@ build:
       - dist
       - .nuxt
   dependencies:
-    - quality
+    - test
+    - linting
 
 remove_container:
   stage: clean
@@ -72,4 +73,4 @@ deploy:
     - sudo docker build -t  ocs-server .
     - sudo docker run -p 3001:3001 -d --rm --name ocs-server ocs-server npm start
   dependencies:
-    - clean
+    - remove_container
