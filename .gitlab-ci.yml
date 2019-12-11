@@ -48,6 +48,19 @@ build:
   dependencies:
     - install
 
+remove_container:
+  stage: deploy
+  tags:
+    - deploy
+  script:
+    - sudo docker stop ocs-server
+  allow_failure: true
+  dependencies:
+    - build
+    - install
+    - linting
+    - test
+  
 deploy:
   stage: deploy
   tags:
@@ -56,7 +69,6 @@ deploy:
     - mkdir data
     - mv $SSL_CERT ./data/ssl.cert
     - mv $SSL_KEY ./data/ssl.key
-    - sudo docker stop ocs-server
     - sudo docker build -t  ocs-server .
     - sudo docker run -p 3001:3001 -d --rm --name ocs-server ocs-server npm start
   dependencies:
