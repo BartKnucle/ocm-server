@@ -39,6 +39,7 @@ linting:
   script:
     - npm run lint
   dependencies:
+    - install
     - build
 
 run_tests:
@@ -48,6 +49,7 @@ run_tests:
   script:
     -  npm run test
   dependencies:
+    - install
     - build
   coverage: /All files[^|]*\|[^|]*\s+([\d\.]+)/
 
@@ -73,4 +75,6 @@ deploy:
     - sudo docker build -t  ocs-server .
     - sudo docker run -p 3001:3001 -d --rm --name ocs-server ocs-server npm start
   dependencies:
+    - install
+    - build
     - remove_container
