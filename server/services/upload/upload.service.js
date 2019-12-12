@@ -1,11 +1,9 @@
 const multer = require('multer')
-const blobService = require('feathers-blob')
-const fs = require('fs-blob-store')
 const hooks = require('./upload.hooks')
-const multipartMiddleware = multer()
 
 module.exports = (app) => {
-  const blobStorage = fs(app.get('data'))
+  
+/*
   app.use(
     '/api/upload',
     multipartMiddleware.single('uri'),
@@ -18,4 +16,11 @@ module.exports = (app) => {
   const service = app.service('/api/upload')
 
   service.hooks(hooks)
+  */
+
+ const upload = multer({ dest: app.get('data') + '/upload/' })
+  app.post('/upload', upload.single('avatar'), (req, res, next) => {
+    // req.file is the `avatar` file
+    // req.body will hold the text fields, if there were any
+  })
 }

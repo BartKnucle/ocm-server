@@ -1,69 +1,49 @@
 <template>
   <v-layout>
-    <div
-      class="dropbox"
-    >
-      <input
-        :name="uploadFieldName"
-        type="file"
-        multiple
-        class="input-file"
-        @change="filesChange($event.target.files)"
-      >
-      <p>
-        Drag your file(s) here to begin<br> or click to browse
-      </p>
-    </div>
+    <v-file-input
+      label="File input"
+      @change="upload($event)">
+      <template v-slot:selection="{ text }">
+        <v-chip
+          small
+          label
+          color="primary"
+        >
+          {{ text }}
+        </v-chip>
+        <v-progress-circular :value="progress"> {{ progress }} </v-progress-circular>
+      </template>
+    </v-file-input>
   </v-layout>
 </template>
 <script>
+import { mapActions } from 'vuex'
 export default {
   data () {
     return {
-      uploadedFiles: [],
-      uploadError: null,
-      currentStatus: null,
-      uploadFieldName: 'fichiers',
-      fileList: []
+      progress: 0
     }
   },
   methods: {
-    filesChange (fileList) {
-      for (let index = 0; index < Object.keys(fileList).length; index++) {
-        const reader = new FileReader()
-        reader.onloadend = () => {
-          Buffer.from(reader.result)
+    ...mapActions('upload', { create: 'create' }),
+    upload (file) {
+      const formData = new FormData()
+      formData.append('avatar', file)
+
+      const xhr = new XMLHttpRequest()
+
+      xhr.open('POST', '/upload')
+
+      xhr.upload.onprogress = (e) => {
+        if (e.lengthComputable) {
+          this.progress = Math.round((e.loaded / e.total) * 100)
         }
-        reader.readAsArrayBuffer(fileList[index])
       }
+
+      xhr.send(formData)
     }
   }
 }
 </script>
 <style>
-.dropbox {
-  outline: 2px dashed grey; /* the dash box */
-  outline-offset: -10px;
-  background: lightcyan;
-  color: dimgray;
-  padding: 10px 10px;
-  min-height: 200px; /* minimum height */
-  position: relative;
-  cursor: pointer;
-}
-.input-file {
-  opacity: 0; /* invisible but it's there! */
-  width: 100%;
-  height: 200px;
-  position: absolute;
-  cursor: pointer;
-}
-.dropbox:hover {
-  background: lightblue; /* when mouse over to the drop zone, change color */
-}
-.dropbox p {
-  font-size: 1.2em;
-  text-align: center;
-  padding: 50px 0;
-}
 </style>

@@ -4,13 +4,16 @@
   >
     <v-card>
       <v-card-title>
-        <span class="headline">{{ status }} {{ name }}</span>
+        <span class="headline" />
       </v-card-title>
       <v-card-text>
         <v-text-field
           label="Name"
           hint="Enter the image name"
         />
+      </v-card-text>
+      <v-card-text>
+        Image file
       </v-card-text>
       <Upload />
       <small>*indicates required field</small>
