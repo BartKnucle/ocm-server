@@ -9,8 +9,8 @@ module.exports = (app) => {
     multi: true
   }
 
-  app.use('/devices', new Devices(options, app))
-  const service = app.service('devices')
+  app.use('/api/devices', new Devices(options, app))
+  const service = app.service('/api/devices')
 
   service.hooks(hooks)
 }

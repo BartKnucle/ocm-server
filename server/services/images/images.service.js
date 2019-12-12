@@ -8,8 +8,8 @@ module.exports = (app) => {
     paginate: app.get('paginate')
   }
 
-  app.use('/images', new Images(options, app))
-  const service = app.service('images')
+  app.use('/api/images', new Images(options, app))
+  const service = app.service('/api/images')
 
   service.hooks(hooks)
 }

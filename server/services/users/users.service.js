@@ -9,8 +9,8 @@ module.exports = (app) => {
     paginate: app.get('paginate')
   }
 
-  app.use('/users', new Users(options, app))
-  const service = app.service('users')
+  app.use('/api/users', new Users(options, app))
+  const service = app.service('/api/users')
 
   service.hooks(hooks)
 }

@@ -8,8 +8,8 @@ module.exports = (app) => {
     paginate: app.get('paginate')
   }
 
-  app.use('/groups', new Groups(options, app))
-  const service = app.service('groups')
+  app.use('/api/groups', new Groups(options, app))
+  const service = app.service('/api/groups')
 
   service.hooks(hooks)
 }

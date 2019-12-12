@@ -4,8 +4,8 @@ const hooks = require('./upload.hooks')
 
 module.exports = (app) => {
   const blobStorage = fs(__dirname)
-  app.use('/upload', blobService({ Model: blobStorage }))
-  const service = app.service('upload')
+  app.use('/api/upload', blobService({ Model: blobStorage }))
+  const service = app.service('/api/upload')
 
   service.hooks(hooks)
 }

@@ -11,8 +11,8 @@ module.exports = (app) => {
     whitelist: [ '$search' ]
   }
 
-  app.use('/subnets', new Subnets(options, app))
-  const service = app.service('subnets')
+  app.use('/api/subnets', new Subnets(options, app))
+  const service = app.service('/api/subnets')
 
   service.hooks(hooks)
 }
