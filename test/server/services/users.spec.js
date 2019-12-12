@@ -5,7 +5,7 @@ app.configure(users)
 describe('\'users\' service', () => {
   it('Service setup', (done) => {
     app.services.users.on('started', (service) => {
-      expect(service).toBe('users')
+      expect(service).toBe('/api/users')
       done()
     })
 
@@ -13,7 +13,7 @@ describe('\'users\' service', () => {
   })
 
   it('Service created', () => {
-    expect(app.services).toHaveProperty('users')
+    expect(app.services).toHaveProperty('/api/users')
   })
 
   it('User to be created', async () => {
