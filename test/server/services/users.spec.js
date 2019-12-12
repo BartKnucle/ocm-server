@@ -4,20 +4,20 @@ app.configure(users)
 
 describe('\'users\' service', () => {
   it('Service setup', (done) => {
-    app.services.users.on('started', (service) => {
-      expect(service).toBe('/api/users')
+    app.service('/api/users').on('started', (service) => {
+      expect(service).toBe('users')
       done()
     })
 
-    app.services.users.setup(app)
+    app.service('/api/users').setup(app)
   })
 
   it('Service created', () => {
-    expect(app.services).toHaveProperty('/api/users')
+    expect(app.services).toHaveProperty('api/users')
   })
 
   it('User to be created', async () => {
-    const created = await app.services.users.create({ _id: '123456' })
+    const created = await app.service('/api/users').create({ _id: '123456' })
     expect(created).toHaveProperty('_id')
     expect(created._id).toBe('123456')
   })
@@ -33,7 +33,7 @@ describe('\'users\' service', () => {
   })
 
   it('On user connection', async () => {
-    const connected = await app.services.users.onConnect({ user: { _id: '123456' } })
+    const connected = await app.service('/api/users').onConnect({ user: { _id: '123456' } })
     expect(connected).toHaveProperty('online')
     expect(connected.online).toBe(true)
   })
@@ -49,18 +49,18 @@ describe('\'users\' service', () => {
   })
 
   it('On user disconnection', async () => {
-    const disconnected = await app.services.users.onDisconnect({ user: { _id: '123456' } })
+    const disconnected = await app.service('/api/users').onDisconnect({ user: { _id: '123456' } })
     expect(disconnected).toHaveProperty('online')
     expect(disconnected.online).toBe(false)
   })
 
   it('On false user disconnection', async () => {
-    const disconnected = await app.services.users.onDisconnect({ user: { _id: 'nonExistingUser' } })
+    const disconnected = await app.service('/api/users').onDisconnect({ user: { _id: 'nonExistingUser' } })
     expect(disconnected).toBe(false)
   })
 
   it('On empty user disconnection', async () => {
-    const disconnected = await app.services.users.onDisconnect({})
+    const disconnected = await app.service('/api/users').onDisconnect({})
     expect(disconnected).toBe(false)
   })
 
@@ -68,7 +68,7 @@ describe('\'users\' service', () => {
     const t0 = performance.now()
 
     for (let index = 0; index < 10; index++) {
-      await app.services.users.create({ _id: index.toString(), password: index.toString() })
+      await app.service('/api/users').create({ _id: index.toString(), password: index.toString() })
     }
 
     const t1 = performance.now()
@@ -80,7 +80,7 @@ describe('\'users\' service', () => {
     const t0 = performance.now()
 
     for (let index = 0; index < 10; index++) {
-      await app.services.users.patch(index.toString(), { online: false })
+      await app.service('/api/users').patch(index.toString(), { online: false })
     }
 
     const t1 = performance.now()
