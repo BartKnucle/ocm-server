@@ -2,7 +2,8 @@
   <v-layout>
     <v-file-input
       label="File input"
-      @change="upload($event)">
+      @change="upload($event)"
+    >
       <template v-slot:selection="{ text }">
         <v-chip
           small
@@ -11,7 +12,11 @@
         >
           {{ text }}
         </v-chip>
-        <v-progress-circular :value="progress"> {{ progress }} </v-progress-circular>
+        <v-progress-circular
+          :value="progress"
+        >
+          {{ progress }}
+        </v-progress-circular>
       </template>
     </v-file-input>
   </v-layout>

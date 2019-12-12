@@ -1,8 +1,6 @@
 const multer = require('multer')
-const hooks = require('./upload.hooks')
-
+//  const hooks = require('./upload.hooks')
 module.exports = (app) => {
-  
 /*
   app.use(
     '/api/upload',
@@ -18,7 +16,7 @@ module.exports = (app) => {
   service.hooks(hooks)
   */
 
- const upload = multer({ dest: app.get('data') + '/upload/' })
+  const upload = multer({ dest: app.get('data') + '/upload/' })
   app.post('/upload', upload.single('avatar'), (req, res, next) => {
     // req.file is the `avatar` file
     // req.body will hold the text fields, if there were any
