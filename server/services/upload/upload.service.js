@@ -18,7 +18,10 @@ module.exports = (app) => {
 
   const upload = multer({ dest: app.get('data') + '/upload/' })
   app.post('/upload', upload.single('avatar'), (req, res, next) => {
-    // req.file is the `avatar` file
-    // req.body will hold the text fields, if there were any
+    if (req.file) {
+      res.send({
+        filename: req.file.filename
+      })
+    }
   })
 }

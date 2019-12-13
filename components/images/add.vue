@@ -1,6 +1,6 @@
 <template>
   <v-dialog
-    v-model="dialog"
+    v-model="isVisible"
   >
     <v-card>
       <v-card-title>
@@ -12,10 +12,11 @@
           hint="Enter the image name"
         />
       </v-card-text>
-      <v-card-text>
-        Image file
-      </v-card-text>
       <Upload />
+      <ItemPicker
+        :items="imagesType"
+        :selected="selectedType"
+      />
       <small>*indicates required field</small>
       <v-card-actions>
         <v-spacer />
@@ -32,9 +33,11 @@
 
 <script>
 import Upload from '~/components/customs/upload.vue'
+import ItemPicker from '~/components/customs/item-picker.vue'
 export default {
   components: {
-    Upload
+    Upload,
+    ItemPicker
   },
   props: {
     dialog: {
@@ -43,13 +46,34 @@ export default {
     }
   },
   data () {
-    return {}
+    return {
+      isVisible: false,
+      imagesType: [
+        {
+          text: 'Windows'
+        },
+        {
+          text: 'Linux'
+        }
+      ],
+      selectedType: 'Windows'
+    }
   },
   computed: {},
-  watch: {},
+  watch: {
+    dialog (val) {
+      this.isVisible = val
+    },
+    isVisible (val) {
+      !val && this.close()
+    }
+  },
   mounted () {},
   methods: {
-    add () {}
+    add () {},
+    close () {
+      this.$emit('closed')
+    }
   }
 }
 </script>

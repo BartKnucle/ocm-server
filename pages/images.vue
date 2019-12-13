@@ -23,6 +23,7 @@
     </v-card>
     <AddImages
       :dialog="showAddDialog"
+      @closed="showAddDialog = false"
     />
   </section>
 </template>

@@ -26,7 +26,13 @@ import { mapActions } from 'vuex'
 export default {
   data () {
     return {
-      progress: 0
+      progress: 0,
+      response: {}
+    }
+  },
+  watch: {
+    response (val) {
+      this.$emit('uploaded', this.response)
     }
   },
   methods: {
@@ -36,8 +42,11 @@ export default {
       formData.append('avatar', file)
 
       const xhr = new XMLHttpRequest()
-
       xhr.open('POST', '/upload')
+
+      xhr.onload = (e) => {
+        this.response = xhr.response
+      }
 
       xhr.upload.onprogress = (e) => {
         if (e.lengthComputable) {
