@@ -18,6 +18,7 @@ process.env.NODE_CONFIG_DIR = path.join(__dirname, 'config/')
 exports.start = function start () {
   const app = express(feathers())
   app.configure(socketio())
+
   // Parse HTTP JSON bodies
   app.use(express.json())
   // Parse URL-encoded params
@@ -26,6 +27,9 @@ exports.start = function start () {
   app.configure(express.rest())
 
   app.configure(configuration())
+
+  app.set('homePath', path.join(require('os').homedir(), '.ocs-server'))
+  app.set('dbPath', path.join(app.get('homePath'), app.get('nedb')))
 
   app.configure(authentication)
   app.configure(services)

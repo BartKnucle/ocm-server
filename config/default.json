@@ -2,7 +2,7 @@
   "host": "0.0.0.0",
   "port": 3001,
   "data": "../data/dev/",
-  "nedb": "../data/dev/db/",
+  "nedb": "db",
   "logLevel": 2,
   "authentication": {
     "entity": "user",

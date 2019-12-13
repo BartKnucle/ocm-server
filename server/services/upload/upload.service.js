@@ -1,3 +1,4 @@
+const path = require('path')
 const multer = require('multer')
 //  const hooks = require('./upload.hooks')
 module.exports = (app) => {
@@ -16,7 +17,7 @@ module.exports = (app) => {
   service.hooks(hooks)
   */
 
-  const upload = multer({ dest: app.get('data') + '/upload/' })
+  const upload = multer({ dest: path.join(app.get('homePath'), '/upload/') })
   app.post('/upload', upload.single('avatar'), (req, res, next) => {
     if (req.file) {
       res.send({
