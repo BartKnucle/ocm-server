@@ -5,9 +5,9 @@ const selfsigned = require('selfsigned')
 module.exports = (app) => {
   let pems = {}
   // Find a local certificate file
-  if (fs.existsSync(path.join(app.get('homePath'), 'ssl.cert')) && fs.existsSync(path.join(app.get('homePath'), 'ssl.key'))) {
-    pems.cert = fs.readFileSync(path.join(app.get('homePath'), 'ssl.cert'))
-    pems.private = fs.readFileSync(path.join(app.get('homePath'), 'ssl.key'))
+  if (fs.existsSync('./data/ssl.cert') && fs.existsSync('./data/ssl.key')) {
+    pems.cert = fs.readFileSync('./data/ssl.cert')
+    pems.private = fs.readFileSync('./data/ssl.key')
   } else {
     // Generate a self signed certificate
     const attrs = [{ name: 'commonName', value: 'localhost' }]

@@ -70,8 +70,8 @@ deploy:
     - deploy
   script:
     - mkdir data
-    - mv $SSL_CERT ~/data/production/ssl.cert
-    - mv $SSL_KEY ~/data/production/ssl.key
+    - mv $SSL_CERT ./data/ssl.cert
+    - mv $SSL_KEY ./data/ssl.key
     - sudo docker build -t  ocs-server .
     - sudo docker run -p 3001:3001 -d --rm --name ocs-server ocs-server npm start
   dependencies:
