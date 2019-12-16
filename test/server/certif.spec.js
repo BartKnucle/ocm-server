@@ -9,10 +9,6 @@ describe('Self signed ceritificate generator', () => {
     expect(app.certificate).toHaveProperty('private')
   })
 
-  it('Public key exist', () => {
-    expect(app.certificate).toHaveProperty('public')
-  })
-
   it('Certificate key exist', () => {
     expect(app.certificate).toHaveProperty('cert')
   })
