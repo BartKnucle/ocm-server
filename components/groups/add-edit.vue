@@ -12,7 +12,11 @@
           label="Name"
           hint="Enter the group name"
         />
-        <ItemPicker :selected="data.type" :items="typeItems" @select="selectType($event)" />
+        <ItemPicker
+          :selected="data.type"
+          :items="typeItems"
+          @select="selectType($event)"
+        />
       </v-card-text>
       <groupPicker
         :selected="data.parent"
@@ -22,10 +26,16 @@
       <small>*indicates required field</small>
       <v-card-actions>
         <v-spacer />
-        <v-btn text @click="close()">
+        <v-btn
+          @click="close()"
+          text
+        >
           Close
         </v-btn>
-        <v-btn text @click="save()">
+        <v-btn
+          @click="save()"
+          text
+        >
           {{ status }}
         </v-btn>
       </v-card-actions>

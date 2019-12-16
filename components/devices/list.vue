@@ -14,7 +14,10 @@
       {{ new Date(item.updated).toLocaleString() }}
     </template>
     <template v-slot:item.action="{ item }">
-      <v-btn icon @click="remove(item._id)">
+      <v-btn
+        @click="remove(item._id)"
+        icon
+      >
         <v-icon
           color="red"
         >

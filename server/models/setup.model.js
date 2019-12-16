@@ -2,9 +2,8 @@ const path = require('path')
 const NeDB = require('nedb')
 
 module.exports = function (app) {
-  const dbPath = app.get('dbPath')
   const Model = new NeDB({
-    filename: path.join(dbPath, 'setup.db'),
+    filename: path.join(app.get('homePath'), 'db', 'setup.db'),
     autoload: true
   })
 

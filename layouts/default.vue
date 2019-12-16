@@ -31,28 +31,28 @@
     >
       <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
       <v-btn
-        icon
         @click.stop="miniVariant = !miniVariant"
+        icon
       >
         <v-icon>mdi-{{ `chevron-${miniVariant ? 'right' : 'left'}` }}</v-icon>
       </v-btn>
       <v-btn
-        icon
         @click.stop="clipped = !clipped"
+        icon
       >
         <v-icon>mdi-application</v-icon>
       </v-btn>
       <v-btn
-        icon
         @click.stop="fixed = !fixed"
+        icon
       >
         <v-icon>mdi-minus</v-icon>
       </v-btn>
       <v-toolbar-title v-text="title" />
       <v-spacer />
       <v-btn
-        icon
         @click.stop="rightDrawer = !rightDrawer"
+        icon
       >
         <v-icon>mdi-menu</v-icon>
       </v-btn>

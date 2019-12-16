@@ -1,5 +1,7 @@
+const path = require('path')
 const app = require('@/test/setup/feathers')
 const users = require('@/server/services/users/users.service')
+app.set('homePath', path.join(require('os').homedir(), '.ocs-server', 'test'))
 app.configure(users)
 
 describe('\'users\' service', () => {

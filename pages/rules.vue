@@ -9,8 +9,8 @@
         </v-toolbar-title>
         <v-spacer />
         <v-btn
-          icon
           @click="add()"
+          icon
         >
           <v-icon>
             mdi-plus

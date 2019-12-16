@@ -4,8 +4,8 @@
       <circle
         v-for="node in nodes"
         :key="node._id"
-        r="20"
         :class="node.class"
+        r="20"
       />
       <line
         v-for="link in links"

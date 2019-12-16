@@ -7,21 +7,37 @@
         <span class="headline">{{ status }} {{ name }}</span>
       </v-card-title>
       <v-card-text>
-        <ItemPicker label="Source" :selected="data.source" :items="typeItems" @select="selectSource($event)" />
+        <ItemPicker
+          :selected="data.source"
+          :items="typeItems"
+          @select="selectSource($event)"
+          label="Source"
+        />
         <v-text-field
           v-model="data.query"
           label="Query"
           hint="Enter the query for selection"
         />
-        <ItemPicker label="Group" :selected="data.group" :items="groupsToSelection" @select="selectGroup($event)" />
+        <ItemPicker
+          :selected="data.group"
+          :items="groupsToSelection"
+          @select="selectGroup($event)"
+          label="Group"
+        />
         <small>*indicates required field</small>
       </v-card-text>
       <v-card-actions>
         <v-spacer />
-        <v-btn text @click="close()">
+        <v-btn
+          @click="close()"
+          text
+        >
           Close
         </v-btn>
-        <v-btn text @click="save()">
+        <v-btn
+          @click="save()"
+          text
+        >
           {{ status }}
         </v-btn>
       </v-card-actions>

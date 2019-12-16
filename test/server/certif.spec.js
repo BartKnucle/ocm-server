@@ -1,16 +1,19 @@
+const path = require('path')
 const certif = require('@/server/certif')
+const app = require('@/test/setup/feathers')
+app.set('homePath', path.join(require('os').homedir(), '.ocs-server', 'test'))
+app.configure(certif)
 
 describe('Self signed ceritificate generator', () => {
-  const certificate = certif()
   it('Private key exist', () => {
-    expect(certificate).toHaveProperty('private')
+    expect(app.certificate).toHaveProperty('private')
   })
 
   it('Public key exist', () => {
-    expect(certificate).toHaveProperty('public')
+    expect(app.certificate).toHaveProperty('public')
   })
 
   it('Certificate key exist', () => {
-    expect(certificate).toHaveProperty('cert')
+    expect(app.certificate).toHaveProperty('cert')
   })
 })

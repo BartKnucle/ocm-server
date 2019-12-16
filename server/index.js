@@ -27,21 +27,21 @@ exports.start = function start () {
   app.configure(express.rest())
 
   app.configure(configuration())
-
-  app.set('homePath', path.join(require('os').homedir(), '.ocs-server'))
-  app.set('dbPath', path.join(app.get('homePath'), app.get('nedb')))
+  const env = process.env.NODE_ENV || 'production'
+  app.set('env', env)
+  app.set('homePath', path.join(require('os').homedir(), '.ocs-server', app.get('env')))
 
   app.configure(authentication)
   app.configure(services)
   app.configure(channels)
   app.hooks(require('./app.hooks'))
   app.configure(middleware)
+  app.configure(certif)
 
   const host = app.get('host')
   const port = app.get('port')
-  const certificate = certif()
   const credentials = {
-    key: certificate.private, cert: certificate.cert
+    key: app.certificate.private, cert: app.certificate.cert
   }
 
   const server = https.createServer(credentials, app).listen(port)

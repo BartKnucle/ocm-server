@@ -6,12 +6,18 @@
     hide-default-footer
   >
     <template v-slot:item.action="{ item }">
-      <v-btn icon @click="edit(item._id)">
+      <v-btn
+        @click="edit(item._id)"
+        icon
+      >
         <v-icon>
           mdi-pencil
         </v-icon>
       </v-btn>
-      <v-btn icon @click="remove(item._id)">
+      <v-btn
+        @click="remove(item._id)"
+        icon
+      >
         <v-icon
           color="red"
         >

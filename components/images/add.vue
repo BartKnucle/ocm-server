@@ -20,10 +20,16 @@
       <small>*indicates required field</small>
       <v-card-actions>
         <v-spacer />
-        <v-btn text @click="close()">
+        <v-btn
+          @click="close()"
+          text
+        >
           Close
         </v-btn>
-        <v-btn text @click="add()">
+        <v-btn
+          @click="add()"
+          text
+        >
           Add
         </v-btn>
       </v-card-actions>

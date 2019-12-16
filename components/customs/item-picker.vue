@@ -3,8 +3,8 @@
     :value="selected"
     :items="items"
     :label="label"
-    solo
     @change="$emit('select', $event)"
+    solo
   >
     <template slot="selection" slot-scope="data">
       <v-list-item-icon

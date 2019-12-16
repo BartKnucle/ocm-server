@@ -1,8 +1,8 @@
 <template>
   <v-layout>
     <v-file-input
-      label="File input"
       @change="upload($event)"
+      label="File input"
     >
       <template v-slot:selection="{ text }">
         <v-chip
