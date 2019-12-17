@@ -105,6 +105,11 @@ export default {
           to: '/devices'
         },
         {
+          icon: 'mdi-laptop',
+          title: 'NewDevices',
+          to: '/devices1'
+        },
+        {
           icon: 'mdi-sitemap',
           title: 'Map',
           to: '/map'
