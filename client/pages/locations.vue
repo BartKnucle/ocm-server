@@ -1,24 +1,50 @@
 <template>
   <section>
+    <br>
     <Card>
+      <ActionBar
+        :items="buttons"
+        @componentEvent="onBtnBar"
+      >
+        <v-spacer />
+      </ActionBar>
+      <TextField
+        :properties="textProperties"
+        @textChanged="onTextChanged"
+      />
       <Treeview
-        :items="items"
+        :nodes="items"
         :properties="treeProperties"
-        @componentEvent="onEvent"
+        @selectItem="selectLocation"
       />
     </Card>
+    {{ items }}
   </section>
 </template>
 <script>
 import Card from '~/components/atomic/atoms/card.vue'
+import TextField from '~/components/atomic/atoms/text-field.vue'
+import ActionBar from '~/components/atomic/molecules/action-bar.vue'
 import Treeview from '~/components/atomic/atoms/treeview.vue'
 export default {
   components: {
     Card,
+    TextField,
+    ActionBar,
     Treeview
   },
   data () {
     return {
+      buttons: [
+        {
+          _id: 'addLocation',
+          btnIcon: 'mdi-plus'
+        }
+      ],
+      textProperties: [
+        { 'outlined': true },
+        { 'placeholder': 'Location name' }
+      ],
       treeProperties: [
         { 'item-key': '_id' },
         { 'activatable': true }
@@ -41,14 +67,29 @@ export default {
         { _id: 15, name: '38N' },
         { _id: 16, name: 'IMT', parent: 15 },
         { _id: 17, name: 'Champ de mines', parent: 8 }
-      ]
+      ],
+      selected: null,
+      locationName: ''
     }
   },
   computed: {},
   mounted () {},
   methods: {
-    onEvent (event) {
-      console.log(event)
+    onBtnBar (event) {
+      if (event.item._id === 'addLocation') {
+        const Location = { _id: this.items.length + 1, name: this.locationName }
+        if (this.selected) {
+          Location.parent = this.selected
+        }
+        console.log(Location)
+        this.items.push(Location)
+      }
+    },
+    onTextChanged (event) {
+      this.locationName = event
+    },
+    selectLocation (event) {
+      this.selected = event[0]
     }
   }
 }

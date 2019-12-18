@@ -1,9 +1,9 @@
 <template>
   <section>
     <v-treeview
-      v-bind="properties"
       :items="list_to_tree"
-      @update:active="sendEvent($event)"
+      v-bind="properties"
+      @update:active="$emit('selectItem', $event)"
     />
   </section>
 </template>
@@ -11,7 +11,7 @@
 
 export default {
   props: {
-    items: {
+    nodes: {
       type: Array,
       default: () => { return [] }
     },
@@ -26,10 +26,10 @@ export default {
   computed: {
     list_to_tree () {
       let roots = []
-      roots = this.items.filter(item => !item.parent)
+      roots = JSON.parse(JSON.stringify(this.nodes.filter(item => !item.parent)))
 
       const getChildren = (node) => {
-        node.children = this.items.filter(item => item.parent === node._id)
+        node.children = JSON.parse(JSON.stringify(this.nodes.filter(item => item.parent === node._id)))
         node.children.forEach((child) => {
           getChildren(child)
         })
