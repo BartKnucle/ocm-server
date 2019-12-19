@@ -7,6 +7,7 @@ const groups = require('./groups/groups.service')
 const rules = require('./rules/rules.service')
 const images = require('./images/images.service')
 const upload = require('./upload/upload.service')
+const locations = require('./locations/locations.service')
 
 module.exports = function (app) {
   app.configure(setup)
@@ -18,4 +19,5 @@ module.exports = function (app) {
   app.configure(rules)
   app.configure(images)
   app.configure(upload)
+  app.configure(locations)
 }

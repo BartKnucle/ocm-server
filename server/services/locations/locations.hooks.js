@@ -1,5 +1,3 @@
-const dataChanged = require('../../hooks/dataChanged')
-
 module.exports = {
   before: {
     all: [],
@@ -7,7 +5,7 @@ module.exports = {
     get: [],
     create: [],
     update: [],
-    patch: [dataChanged()],
+    patch: [],
     remove: []
   },
 

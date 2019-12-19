@@ -1,20 +1,16 @@
 <template>
   <section>
-    <v-text-field
+    <v-list
       v-bind="properties"
-      :value="item"
-      @change="$emit('textChanged', $event)"
-    />
+    >
+      <slot/>
+    </v-list>
   </section>
 </template>
 <script>
 
 export default {
   props: {
-    item: {
-      type: String,
-      default: ''
-    },
     properties: {
       type: Array,
       default: () => { return [] }
@@ -23,6 +19,7 @@ export default {
   data () {
     return {}
   },
+  computed: {},
   methods: {}
 }
 </script>
