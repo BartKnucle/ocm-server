@@ -1,12 +1,10 @@
 <template>
   <section>
-    <v-btn
+    <v-select
       v-bind="bind"
-      @click="sendEvent($event, item)"
-    >
-      <v-icon>{{ getValue('btnIcon') }}</v-icon>
-      {{ getValue('label') }}
-    </v-btn>
+      @change="sendEvent($event, item)"
+      @update:list-index="sendEvent($event, item)"
+    />
   </section>
 </template>
 <script>
@@ -23,7 +21,9 @@ export default {
     }
   },
   data () {
-    return {}
+    return {
+      select: ''
+    }
   },
   computed: {
     isBindings () {
@@ -53,17 +53,6 @@ export default {
         item,
         eventName: this.bindings.event
       })
-    },
-    getValue (value) {
-      try {
-        if (this.isBindings) {
-          return this.bind.find(item => Object.keys(item)[0] === value)[value]
-        } else {
-          return this.item[value]
-        }
-      } catch {
-        return null
-      }
     }
   }
 }

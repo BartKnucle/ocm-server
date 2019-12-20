@@ -26,11 +26,13 @@
 import Label from '~/components/atomic/atoms/label.vue'
 import Button from '~/components/atomic/atoms/button.vue'
 import Chip from '~/components/atomic/atoms/chip.vue'
+import Select from '~/components/atomic/atoms/select.vue'
 export default {
   components: {
     Button,
     Label,
-    Chip
+    Chip,
+    Select
   },
   props: {
     items: {

@@ -3,7 +3,7 @@
     <v-list
       v-bind="properties"
     >
-      <slot/>
+      <slot />
     </v-list>
   </section>
 </template>

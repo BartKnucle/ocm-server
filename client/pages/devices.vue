@@ -86,6 +86,7 @@ export default {
           component: {
             name: 'Button',
             bindings: {
+              event: 'removeDevice',
               btnIcon: 'removeIcon',
               color: 'removeColor'
             }
@@ -135,8 +136,10 @@ export default {
   methods: {
     ...mapActions('devices', { findDevices: 'find', remove: 'remove' }),
     onEvent (event) {
-      if (event.item.removeIcon === 'mdi-delete') {
-        this.remove(event.item._id)
+      switch (event.eventName) {
+        case 'removeDevice':
+          this.remove(event.item._id)
+          break
       }
     }
   }

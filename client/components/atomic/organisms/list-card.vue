@@ -11,7 +11,7 @@
         :properties="properties"
         @selectItem="$emit('selectItem', $event)"
       >
-        <slot/>
+        <slot />
       </List>
     </Card>
   </section>
