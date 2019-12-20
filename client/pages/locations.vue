@@ -39,7 +39,7 @@
             v-model="locationSubnet"
           >
             <v-list-item
-              v-for="(item) in this.subnets().data.filter(subnet => subnet.location === this.selectedLocation)"
+              v-for="(item) in subnets().data.filter(subnet => subnet.location === selectedLocation)"
               :key="item._id"
             >
               {{ item.start }}
@@ -56,7 +56,7 @@
                 v-model="availableSubnet"
               >
                 <v-list-item
-                  v-for="(item) in this.subnets().data.filter(subnet => (!subnet.location || subnet.location === ''))"
+                  v-for="(item) in subnets().data.filter(subnet => (!subnet.location || subnet.location === ''))"
                   :key="item._id"
                 >
                   {{ item.start }}
@@ -73,7 +73,7 @@
         </v-dialog>
       </v-col>
     </v-row>
-    {{ allowSuppress }}
+    {{ availableSubnet }}
   </section>
 </template>
 <script>
@@ -105,30 +105,10 @@ export default {
       listProperties: [
         { 'disabled': false }
       ],
-      saveLocationsButtons: [
-        {
-          _id: 'cancelLocation',
-          btnIcon: 'mdi-undo'
-        },
-        {
-          _id: 'saveLocation',
-          btnIcon: 'mdi-content-save'
-        }
-      ],
-      saveSubnetsButtons: [
-        {
-          _id: 'cancelSubnet',
-          btnIcon: 'mdi-undo'
-        },
-        {
-          _id: 'saveSubnet',
-          btnIcon: 'mdi-content-save'
-        }
-      ],
       selectedLocation: null,
       locationName: '',
-      locationSubnet: '',
-      availableSubnet: '',
+      locationSubnet: null,
+      availableSubnet: null,
       locationDialog: false,
       subnetDialog: false
     }
@@ -136,12 +116,38 @@ export default {
   computed: {
     ...mapGetters('subnets', { subnets: 'find', get: 'get' }),
     ...mapGetters('locations', { locations: 'find', get: 'get' }),
+    saveSubnetsButtons () {
+      return [
+        {
+          _id: 'cancelSubnet',
+          btnIcon: 'mdi-undo'
+        },
+        {
+          _id: 'saveSubnet',
+          btnIcon: 'mdi-content-save',
+          disabled: !(this.availableSubnet)
+        }
+      ]
+    },
+    saveLocationsButtons () {
+      return [
+        {
+          _id: 'cancelLocation',
+          btnIcon: 'mdi-undo'
+        },
+        {
+          _id: 'saveLocation',
+          btnIcon: 'mdi-content-save',
+          disabled: !(this.locationName !== '')
+        }
+      ]
+    },
     treeButtons () {
       return [
         {
           _id: 'removeLocation',
           btnIcon: 'mdi-delete',
-          disabled: !this.allowSuppress
+          disabled: !this.allowSuppressLocation
         },
         {
           _id: 'addLocation',
@@ -149,7 +155,7 @@ export default {
         }
       ]
     },
-    allowSuppress () {
+    allowSuppressLocation () {
       return (
         this.locations().data
           .filter(x => x.parent === this.selectedLocation)
@@ -159,12 +165,16 @@ export default {
           .length === 0
       )
     },
+    allowSuppressSubnet () {
+      console.log(this.locationSubnet)
+      return this.locationSubnet >= 0 && this.locationSubnet !== null
+    },
     subnetsButtons () {
       return [
         {
           _id: 'removeSubnet',
           btnIcon: 'mdi-delete',
-          disabled: !this.selectedLocation
+          disabled: !this.allowSuppressSubnet
         },
         {
           _id: 'addSubnet',
@@ -172,6 +182,18 @@ export default {
           disabled: !this.selectedLocation
         }
       ]
+    }
+  },
+  watch: {
+    selectedLocation (val) {
+      if (val === undefined) {
+        this.locationSubnet = null
+      }
+    },
+    subnetDialog (val) {
+      if (!val) {
+        this.availableSubnet = null
+      }
     }
   },
   mounted () {

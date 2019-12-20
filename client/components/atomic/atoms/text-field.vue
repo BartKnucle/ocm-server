@@ -2,8 +2,10 @@
   <section>
     <v-text-field
       v-bind="properties"
+      v-model="inputText"
       :value="item"
-      @change="$emit('textChanged', $event)"
+      @change="$emit('textChanged', inputText)"
+      @keydown="$emit('textChanged', inputText)"
     />
   </section>
 </template>
@@ -21,8 +23,14 @@ export default {
     }
   },
   data () {
-    return {}
+    return {
+      inputText: ''
+    }
   },
-  methods: {}
+  watch: {
+    item (val) {
+      this.inputText = val
+    }
+  }
 }
 </script>
