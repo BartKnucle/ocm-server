@@ -73,7 +73,6 @@
         </v-dialog>
       </v-col>
     </v-row>
-    {{ availableSubnet }}
   </section>
 </template>
 <script>
@@ -125,7 +124,7 @@ export default {
         {
           _id: 'saveSubnet',
           btnIcon: 'mdi-content-save',
-          disabled: !(this.availableSubnet)
+          disabled: !this.allowSaveSubnet
         }
       ]
     },
@@ -165,8 +164,10 @@ export default {
           .length === 0
       )
     },
+    allowSaveSubnet () {
+      return this.availableSubnet >= 0 && this.availableSubnet !== null
+    },
     allowSuppressSubnet () {
-      console.log(this.locationSubnet)
       return this.locationSubnet >= 0 && this.locationSubnet !== null
     },
     subnetsButtons () {
