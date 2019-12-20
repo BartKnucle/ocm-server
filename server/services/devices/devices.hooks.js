@@ -14,9 +14,9 @@ module.exports = {
     all: [],
     find: [],
     get: [],
-    create: [evaluate()],
-    update: [dataChanged()],
-    patch: [dataChanged()],
+    create: [addSubnet()],
+    update: [dataChanged(), addSubnet()],
+    patch: [dataChanged(), addSubnet()],
     remove: []
   },
 
@@ -24,9 +24,9 @@ module.exports = {
     all: [],
     find: [],
     get: [],
-    create: [addSubnet(), ruleEvaluateItem()],
-    update: [addSubnet(), ruleEvaluateItem()],
-    patch: [addSubnet(), ruleEvaluateItem()],
+    create: [],
+    update: [],
+    patch: [],
     remove: []
   },
 

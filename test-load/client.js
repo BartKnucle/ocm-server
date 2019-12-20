@@ -1,64 +1,53 @@
-const winston = require('winston')
-const feathers = require('@feathersjs/client')
 const io = require('socket.io-client')
-const fetch = require('node-fetch')
-const https = require('https')
+const feathers = require('@feathersjs/feathers')
+const socketio = require('@feathersjs/socketio-client')
+const auth = require('@feathersjs/authentication-client')
+const winston = require('winston')
 const util = require('util')
 const randomScenario = require('./scenarios')
 
 const level = process.env.LOG_LEVEL || 'info'
 const logger = new winston.createLogger({ level, transports: [ new winston.transports.Console({ colorize: true }) ] })
 const authenticate = true
-let accessToken
 
-async function connectClient(url, transport, id) {
+async function connectClient(url, id) {
   const start = process.hrtime()
   // Configure our client (hooks, auth, connection)
-  let client = feathers()
-  client.data = { id, durations: { } }
-  if (transport === 'websocket') {
-    client.socket = io(url, { transports: ['websocket'], path: '/apiws', rejectUnauthorized: false })
-    client.configure(feathers.socketio(client.socket, { timeout: 20000 }))
-  } else {
-    if (url.startsWith('https')) {
-      const agent = new https.Agent({ rejectUnauthorized: false })
-      client.configure(feathers.rest(url).fetch((url, options) => fetch(url, Object.assign({ agent, timeout: 20000 }, options))))
-    } else {
-      client.configure(feathers.rest(url).fetch((url, options) => fetch(url, Object.assign({ timeout: 20000 }, options))))
+  const socket = io(url, { secure: true, reconnect: true, rejectUnauthorized: false })
+  client = feathers()
+  client.configure(socketio(socket))
+  client.configure(auth())
+
+  client.data = {
+    id: id.toString(),
+    durations: [],
+    credentials: {
+      _id: id.toString(),
+      password: Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15)
     }
   }
-  client.configure(feathers.authentication({ path: '/api/authentication', timeout: 20000 }))
-  // Helper to store the duration of a particular operation giving its start time
+ 
+  await client.service('/api/users').create(client.data.credentials)
+    .catch((err) => {
+      logger.verbose(err)
+    })
+
+  await client.service('/api/authentication').create({ ...client.data.credentials, strategy: 'local' })
+    .catch((err) => {
+      logger.verbose(err)
+    })
+
   client.setDuration = function (key, start) {
     const end = process.hrtime()
     client.data.durations[key] = (end[0] + end[1] / 1000000000) - (start[0] + start[1] / 1000000000)
   }
-  // Helper to make the client wait simulating a "human"
+
   client.wait = async function (duration) {
     await util.promisify(setTimeout)(duration)
   }
-  client.setDuration('connect', start)
-  logger.verbose('Configured new client ' + client.data.id)
-  return client
-}
 
-async function authenticateClient(client, strategy) {
-  const start = process.hrtime()
-  // When no JWT make a local login first to retrieve it
-  let response = (accessToken && strategy === 'jwt' ? await client.authenticate({
-    strategy: 'jwt',
-    accessToken
-  }) : await client.authenticate({
-    strategy: 'local',
-    email: 'kalisio@kalisio.xyz',
-    password: 'Pass;word1'
-  }))
-  logger.verbose('Authenticated new client ' + client.data.id + ' with ' + strategy + ' strategy')
-  accessToken = response.accessToken
-  // We always need to get the user after authenticating
-  const payload = await client.passport.verifyJWT(accessToken)
-  client.data.user = await client.service('/api/users').get(payload.userId)
-  client.setDuration('authenticate', start)
+  logger.verbose('Configured new client ' + client.data.id)
+  client.setDuration('connect', start)
   return client
 }
 
@@ -71,25 +60,22 @@ async function disconnectClient(client) {
 }
 
 module.exports = async function (options, callback) {
-  const { url, transport, jwtRatio, index, nbScenarios, rampUp, rampDown } = options
+  const { url, index, nbScenarios, rampUp, rampDown } = options
   let client
   try {
     logger.verbose('Initiating client ' + index)
     // We don't start all clients at the same time to avoid overflowing,
     // let them start continuously during the ramp up duration
     if (rampUp) {
-      const pause = Math.random() * 1000 * rampUp
+      const pause = Math.random() * 200 * rampUp
       logger.verbose('Pausing client ' + index + ' for ' + pause)
       await util.promisify(setTimeout)(pause)
     }
-    client = await connectClient(url, transport, index)
-    if (authenticate) {
-      // Do we use local authentication or JWT based ?
-      await authenticateClient(client, Math.random() <= jwtRatio ? 'jwt' : 'local')
-    }
+    client = await connectClient(url, index)
+    
     // During the ramp down phase create "dummy" clients exiting randomly
     if (rampDown) {
-      const pause = Math.random() * 1000 * rampDown
+      const pause = Math.random() * 200 * rampDown
       logger.verbose('Pausing client ' + index + ' for ' + pause)
       await client.wait(pause)
     } else {

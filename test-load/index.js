@@ -5,7 +5,7 @@ const workerFarm = require('worker-farm')
 
 program
     .usage('[options]')
-    .option('-u, --url [url]', 'Base URL of the application to be tested', 'http://localhost:8081')
+    .option('-u, --url [url]', 'Base URL of the application to be tested', 'https://localhost:3001')
     .option('-t, --total [total]', 'Total # of virtual clients to be created', '1000')
     .option('-c, --concurrency [concurrency]', '# of concurrent clients during the steady phase', '100')
     .option('-s, --scenarios [scenarios]', 'Total # of scenarios performed by each virtual client before disconnecting', '100')
@@ -45,7 +45,7 @@ const start = process.hrtime()
 
 for (var i = 0; i < total; i++) {
   // Default options include URL, client ID and the # of scenarios it has to execute
-  let workerOptions = { url: program.url, transport: program.transport, jwtRatio: parseFloat(program.jwt), index: i + 1, nbScenarios }
+  let workerOptions = { url: program.url, transport: program.transport, index: i + 1, nbScenarios }
   // For the first/last clients include the ramp option as well
   if (i < concurrency) workerOptions.rampUp = ramp
   if (i > total - concurrency) workerOptions.rampDown = ramp
@@ -61,6 +61,7 @@ for (var i = 0; i < total; i++) {
     } else {
       nbErrors++
       logger.error(err)
+      console.log(err)
     }
     if (n === total) {
       const end = process.hrtime()
