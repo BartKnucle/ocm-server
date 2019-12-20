@@ -150,32 +150,39 @@ export default {
       }
     }
   },
-  watch: {},
+  watch: {
+    tree (val) {
+      this.updateGraph()
+    }
+  },
   mounted () {
     const loadLocations = this.findLocations()
     const loadSubnets = this.findSubnets()
     const loadDevices = this.findDevices()
 
-    d3.select('svg')
-      .attr('viewBox', `0 0 ${this.height} ${this.width}`)
-
-    const packLayout = d3.pack()
-      .size([this.width * 0.85, this.height * 0.85])
-      .padding(10)
-
     Promise.all([loadDevices, loadSubnets, loadLocations])
       .then((devices, subnets, groups) => {
-        this.rootNode = d3.hierarchy(this.tree)
-        this.rootNode.sum((d) => {
-          return d.value
-        })
-        packLayout(this.rootNode)
+        this.updateGraph()
       })
   },
   methods: {
     ...mapActions('devices', { findDevices: 'find', remove: 'remove' }),
     ...mapActions('subnets', { findSubnets: 'find', remove: 'remove' }),
     ...mapActions('locations', { findLocations: 'find', remove: 'remove' }),
+    updateGraph () {
+      d3.select('svg')
+        .attr('viewBox', `0 0 ${this.height} ${this.width}`)
+
+      const packLayout = d3.pack()
+        .size([this.width * 0.85, this.height * 0.85])
+        .padding(10)
+
+      this.rootNode = d3.hierarchy(this.tree)
+      this.rootNode.sum((d) => {
+        return d.value
+      })
+      packLayout(this.rootNode)
+    },
     handleMouseOver (d, i) {
       d.fill = 'orange'
     },
