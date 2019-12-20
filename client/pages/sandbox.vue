@@ -79,6 +79,22 @@ export default {
                 ]
               }
             ]
+          },
+          {
+            name: '172.18.9.1',
+            class: 'Subnet',
+            children: [
+              {
+                name: 'DEVICE1',
+                class: 'Device',
+                value: 1
+              },
+              {
+                name: 'DEVICE2',
+                class: 'Device',
+                value: 1
+              }
+            ]
           }
         ]
       }
@@ -87,10 +103,18 @@ export default {
   computed: {
     ...mapGetters('devices', { devices: 'find', get: 'get' }),
     ...mapGetters('subnets', { subnets: 'find', get: 'get' }),
-    ...mapGetters('groups', { groups: 'find', get: 'get' }),
+    ...mapGetters('locations', { locations: 'find', get: 'get' }),
     tree () {
       const compare = (a, b) => {
         // Use toUpperCase() to ignore character casing
+        if (a.parent === undefined) {
+          return 1
+        }
+
+        if (b.parent === undefined) {
+          return -1
+        }
+
         const itemA = a.parent.toUpperCase()
         const itemB = b.parent.toUpperCase()
 
@@ -103,28 +127,32 @@ export default {
         return comparison
       }
 
-      return this.list_to_tree([
-        ...this.groups().data
-          .map((group) => {
-            return { _id: group._id, parent: group.parent, class: 'Location' }
-          })
-          .sort(compare),
-        ...this.subnets().data
-          .map((subnet) => {
-            return { _id: subnet._id, parent: subnet.group, class: 'Subnet' }
-          })
-          .sort(compare),
-        ...this.devices().data
-          .map((device) => {
-            return { _id: device._id, parent: device.net_gatewayV4, value: 1, Class: 'Device' }
-          })
-          .sort(compare)
-      ])[0]
+      return {
+        name: 'root',
+        class: 'Location',
+        children: this.list_to_tree([
+          ...this.locations().data
+            .map((location) => {
+              return { _id: location._id, parent: location.parent, class: 'Location' }
+            })
+            .sort(compare),
+          ...this.subnets().data
+            .map((subnet) => {
+              return { _id: subnet._id, parent: subnet.location, class: 'Subnet' }
+            })
+            .sort(compare),
+          ...this.devices().data
+            .map((device) => {
+              return { _id: device._id, parent: device.net_gatewayV4, value: 1, Class: 'Device' }
+            })
+            .sort(compare)
+        ])
+      }
     }
   },
   watch: {},
   mounted () {
-    const loadGroups = this.findGroups()
+    const loadLocations = this.findLocations()
     const loadSubnets = this.findSubnets()
     const loadDevices = this.findDevices()
 
@@ -135,7 +163,7 @@ export default {
       .size([this.width * 0.85, this.height * 0.85])
       .padding(10)
 
-    Promise.all([loadDevices, loadSubnets, loadGroups])
+    Promise.all([loadDevices, loadSubnets, loadLocations])
       .then((devices, subnets, groups) => {
         this.rootNode = d3.hierarchy(this.tree)
         this.rootNode.sum((d) => {
@@ -147,7 +175,7 @@ export default {
   methods: {
     ...mapActions('devices', { findDevices: 'find', remove: 'remove' }),
     ...mapActions('subnets', { findSubnets: 'find', remove: 'remove' }),
-    ...mapActions('groups', { findGroups: 'find', remove: 'remove' }),
+    ...mapActions('locations', { findLocations: 'find', remove: 'remove' }),
     handleMouseOver (d, i) {
       d.fill = 'orange'
     },
@@ -164,7 +192,7 @@ export default {
 
       for (i = 0; i < list.length; i += 1) {
         node = list[i]
-        if (node.parent !== '') {
+        if (node.parent !== undefined) {
           // if you have dangling branches check that map[node.parentId] exists
           list[map[node.parent]].children.push(node)
         } else {
