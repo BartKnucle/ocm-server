@@ -143,7 +143,13 @@ export default {
             .sort(compare),
           ...this.devices().data
             .map((device) => {
-              return { _id: device._id, parent: device.net_gatewayV4, value: 1, Class: 'Device' }
+              let deviceclass = ''
+              if (device.online) {
+                deviceclass = 'Online'
+              } else {
+                deviceclass = 'Offline'
+              }
+              return { _id: device._id, parent: device.net_gatewayV4, value: 1, class: deviceclass }
             })
             .sort(compare)
         ])
@@ -226,14 +232,20 @@ export default {
   }
 
   .Subnet {
-    fill: rebeccapurple;
+    fill: salmon;
     opacity: 0.5;
     stroke: white;
   }
 
-  .Device {
-    fill:green;
+  .Online {
+    fill: green;
     opacity: 1;
-    stroke: white;
+    stroke-width: 0;
+  }
+
+  .Offline {
+    fill: red;
+    opacity: 1;
+    stroke-width: 0;
   }
 </style>

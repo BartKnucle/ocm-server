@@ -6,7 +6,7 @@ module.exports = {
     find: [],
     get: [],
     create: [],
-    update: [],
+    update: [dataChanged()],
     patch: [dataChanged()],
     remove: []
   },

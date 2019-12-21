@@ -1,10 +1,9 @@
+const updated = require('../../hooks/updated')
 const dataChanged = require('../../hooks/dataChanged')
-const addSubnet = require('../../hooks/addSubnet')
-const ruleEvaluateItem = require('../../hooks/ruleEvaluateItem')
 
-const evaluate = (options = {}) => {
+const addSubnet = (options = {}) => {
   return (context) => {
-    context.data.groups = []
+    context.app.service('/api/subnets').add(context.result.net_ip4_subnet, context.result.net_gatewayV4)
     return context
   }
 }
@@ -14,9 +13,9 @@ module.exports = {
     all: [],
     find: [],
     get: [],
-    create: [addSubnet()],
-    update: [dataChanged(), addSubnet()],
-    patch: [dataChanged(), addSubnet()],
+    create: [updated()],
+    update: [updated()],
+    patch: [updated()],
     remove: []
   },
 
@@ -24,9 +23,9 @@ module.exports = {
     all: [],
     find: [],
     get: [],
-    create: [],
-    update: [],
-    patch: [],
+    create: [addSubnet()],
+    update: [addSubnet()],
+    patch: [addSubnet()],
     remove: []
   },
 

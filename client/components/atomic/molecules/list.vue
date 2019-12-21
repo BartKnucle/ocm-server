@@ -1,26 +1,32 @@
 <template>
-  <v-data-table
-    :headers="headers"
-    :items="items"
-  >
-    <template
-      v-slot:item="{ item }"
+  <section>
+    <v-data-table
+      :headers="headers"
+      :items="items"
+      :search="search"
+      show-group-by
+      dense
     >
-      <tr>
-        <td
-          v-for="(header) in headers"
-          :key="header.value"
-        >
-          <component
-            v-bind:is="header.component.name"
-            @componentEvent="$emit('componentEvent', $event)"
-            :bindings="header.component.bindings"
-            :item="item"
-          />
-        </td>
-      </tr>
-    </template>
-  </v-data-table>
+      <template
+        v-slot:item="{ item }"
+      >
+        <tr>
+          <td
+            v-for="(header) in headers"
+            :key="header.value"
+          >
+            <component
+              v-bind:is="header.component.name"
+              @componentEvent="$emit('componentEvent', $event)"
+              :bindings="header.component.bindings"
+              :item="item"
+            />
+          </td>
+        </tr>
+      </template>
+    </v-data-table>
+    {{ search }}
+  </section>
 </template>
 <script>
 import Label from '~/components/atomic/atoms/label.vue'
@@ -42,6 +48,10 @@ export default {
     headers: {
       type: Array,
       default: () => { return [] }
+    },
+    search: {
+      type: String,
+      default: ''
     }
   },
   data () {

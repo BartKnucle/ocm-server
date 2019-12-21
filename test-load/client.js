@@ -66,16 +66,18 @@ module.exports = async function (options, callback) {
     logger.verbose('Initiating client ' + index)
     // We don't start all clients at the same time to avoid overflowing,
     // let them start continuously during the ramp up duration
+    let pause = Math.random() * 1000 * rampUp
     if (rampUp) {
-      const pause = Math.random() * 200 * rampUp
       logger.verbose('Pausing client ' + index + ' for ' + pause)
       await util.promisify(setTimeout)(pause)
     }
     client = await connectClient(url, index)
+
+    await util.promisify(setTimeout)(pause)
     
     // During the ramp down phase create "dummy" clients exiting randomly
     if (rampDown) {
-      const pause = Math.random() * 200 * rampDown
+      pause = Math.random() * 1000 * rampDown
       logger.verbose('Pausing client ' + index + ' for ' + pause)
       await client.wait(pause)
     } else {

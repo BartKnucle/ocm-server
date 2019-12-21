@@ -23,9 +23,9 @@ module.exports = {
     all: [],
     find: [],
     get: [],
-    create: [hashPassword('password'), setOnline()],
-    update: [hashPassword('password'), setOnline()],
-    patch: [hashPassword('password'), setOnline()],
+    create: [setOnline(), hashPassword('password')],
+    update: [setOnline(), hashPassword('password')],
+    patch: [setOnline(), hashPassword('password')],
     remove: []
   },
 
