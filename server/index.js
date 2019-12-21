@@ -9,7 +9,6 @@ const configuration = require('@feathersjs/configuration')
 
 const middleware = require('./middleware')
 const services = require('./services')
-const authentication = require('./authentication')
 const channels = require('./channels')
 const certif = require('./certif')
 
@@ -31,7 +30,6 @@ exports.start = function start () {
   app.set('env', env)
   app.set('homePath', path.join(require('os').homedir(), '.ocs-server', app.get('env')))
 
-  app.configure(authentication)
   app.configure(services)
   app.configure(channels)
   app.hooks(require('./app.hooks'))

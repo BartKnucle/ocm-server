@@ -1,14 +1,31 @@
 const { hashPassword } = require('@feathersjs/authentication-local').hooks
-const setOnline = require('../../hooks/setOnline')
+
+const setOnline = (options = {}) => {
+  return (context) => {
+    if (context.app.service('/api/devices')) {
+      if (context.id !== undefined) {
+        context.app.service('/api/devices')
+        .create({ _id: context.id, online: context.data.online })
+        .catch(() => {
+          context.app.service('/api/devices').patch(
+            context.id,
+            { online: context.data.online }
+          )
+        })
+      }
+    }
+    return context
+  }
+}
 
 module.exports = {
   before: {
     all: [],
     find: [],
     get: [],
-    create: [hashPassword('password')],
-    update: [hashPassword('password')],
-    patch: [hashPassword('password')],
+    create: [hashPassword('password'), setOnline()],
+    update: [hashPassword('password'), setOnline()],
+    patch: [hashPassword('password'), setOnline()],
     remove: []
   },
 
@@ -16,9 +33,9 @@ module.exports = {
     all: [],
     find: [],
     get: [],
-    create: [setOnline()],
-    update: [setOnline()],
-    patch: [setOnline()],
+    create: [],
+    update: [],
+    patch: [],
     remove: []
   },
 

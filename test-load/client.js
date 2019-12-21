@@ -8,16 +8,9 @@ const randomScenario = require('./scenarios')
 
 const level = process.env.LOG_LEVEL || 'info'
 const logger = new winston.createLogger({ level, transports: [ new winston.transports.Console({ colorize: true }) ] })
-const authenticate = true
 
 async function connectClient(url, id) {
-  const start = process.hrtime()
-  // Configure our client (hooks, auth, connection)
-  const socket = io(url, { secure: true, reconnect: true, rejectUnauthorized: false })
   client = feathers()
-  client.configure(socketio(socket))
-  client.configure(auth())
-
   client.data = {
     id: id.toString(),
     durations: [],
@@ -26,6 +19,17 @@ async function connectClient(url, id) {
       password: Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15)
     }
   }
+
+  client.setDuration = function (key, start) {
+    const end = process.hrtime()
+    client.data.durations[key] = (end[0] + end[1] / 1000000000) - (start[0] + start[1] / 1000000000)
+  }
+
+  const start = process.hrtime()
+  // Configure our client (hooks, auth, connection)
+  const socket = io(url, { secure: true, reconnect: true, rejectUnauthorized: false })
+  client.configure(socketio(socket))
+  client.configure(auth())
  
   await client.service('/api/users').create(client.data.credentials)
     .catch((err) => {
@@ -36,11 +40,6 @@ async function connectClient(url, id) {
     .catch((err) => {
       logger.verbose(err)
     })
-
-  client.setDuration = function (key, start) {
-    const end = process.hrtime()
-    client.data.durations[key] = (end[0] + end[1] / 1000000000) - (start[0] + start[1] / 1000000000)
-  }
 
   client.wait = async function (duration) {
     await util.promisify(setTimeout)(duration)
@@ -53,8 +52,9 @@ async function connectClient(url, id) {
 
 async function disconnectClient(client) {
   const start = process.hrtime()
-  if (authenticate) await client.logout()
-  if (client.socket) client.socket.disconnect()
+  //await client.logout()
+  //console.log(client)
+  client.io.disconnect()
   logger.verbose('Closed client ' + client.data.id)
   client.setDuration('disconnect', start)
 }
