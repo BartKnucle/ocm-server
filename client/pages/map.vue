@@ -14,7 +14,6 @@
         stroke-width="2"
       />
     </svg>
-    {{ groups }}
   </section>
 </template>
 
@@ -38,7 +37,7 @@ export default {
         ...this.devices().data
           .map((o) => {
             o.class = 'device '
-            o.class += o.os_distro.replace(/\s/g, '')
+            //  o.class += o.os_distro.replace(/\s/g, '')
             return o
           }),
         ...this.subnets().data
@@ -47,24 +46,6 @@ export default {
             return o
           })
       ]
-    },
-    groups () {
-      return [
-        ...this.devices().data,
-        ...this.subnets().data
-      ].reduce((groups, element) => {
-        if (element.groups) {
-          element.groups.forEach((group) => {
-            const currentGroup = groups.find(x => x.group === group.group)
-            if (currentGroup) {
-              currentGroup.count += 1
-            } else {
-              groups.push({ group: group.group, count: 1 })
-            }
-          })
-        }
-        return groups
-      }, [])
     },
     links () {
       return [...this.devices().data]
