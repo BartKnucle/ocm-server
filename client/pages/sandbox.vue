@@ -8,9 +8,9 @@
           v-for="item in rootNode.descendants()"
           :key="item.data.name"
           :class="item.data.class"
-          :r="item.r"
-          :cx="item.x"
-          :cy="item.y + 10"
+          :r="item.r || 0"
+          :cx="item.x || 0"
+          :cy="item.y + 10 || 0"
         />
       </g>
     </svg>
@@ -133,12 +133,20 @@ export default {
         children: this.list_to_tree([
           ...this.locations().data
             .map((location) => {
-              return { _id: location._id, parent: location.parent, class: 'Location' }
+              return {
+                _id: location._id,
+                parent: location.parent,
+                class: 'Location'
+              }
             })
             .sort(compare),
           ...this.subnets().data
             .map((subnet) => {
-              return { _id: subnet._id, parent: subnet.location, class: 'Subnet' }
+              return {
+                _id: subnet._id,
+                parent: subnet.location,
+                class: 'Subnet'
+              }
             })
             .sort(compare),
           ...this.devices().data
@@ -149,7 +157,12 @@ export default {
               } else {
                 deviceclass = 'Offline'
               }
-              return { _id: device._id, parent: device.net_gatewayV4, value: 1, class: deviceclass }
+              return {
+                _id: device._id,
+                parent: device.net_gatewayV4,
+                value: 1,
+                class: deviceclass
+              }
             })
             .sort(compare)
         ])
@@ -166,7 +179,7 @@ export default {
     const loadSubnets = this.findSubnets()
     const loadDevices = this.findDevices()
 
-    Promise.all([loadDevices, loadSubnets, loadLocations])
+    Promise.all([loadLocations, loadSubnets, loadDevices])
       .then((devices, subnets, groups) => {
         this.updateGraph()
       })
@@ -206,8 +219,9 @@ export default {
       for (i = 0; i < list.length; i += 1) {
         node = list[i]
         if (node.parent !== undefined) {
-          // if you have dangling branches check that map[node.parentId] exists
-          list[map[node.parent]].children.push(node)
+          if (map[node.parent] !== undefined) {
+            list[map[node.parent]].children.push(node)
+          }
         } else {
           roots.push(node)
         }
