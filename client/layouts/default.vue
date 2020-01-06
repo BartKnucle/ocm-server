@@ -109,26 +109,26 @@ export default {
           title: 'Locations',
           to: '/locations'
         },
-        {
+        /* {
           icon: 'mdi-sitemap',
           title: 'Map',
           to: '/map'
-        },
-        {
+        }, */
+        /* {
           icon: 'mdi-group',
           title: 'Groups',
           to: '/groups'
-        },
+        }, */
         {
           icon: 'mdi-server-network',
           title: 'Subnets',
           to: '/subnets'
         },
-        {
+        /* {
           icon: 'mdi-filter-variant',
           title: 'Rules',
           to: '/rules'
-        },
+        }, */
         {
           icon: 'mdi-image-filter-black-white',
           title: 'Images',

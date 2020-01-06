@@ -16,7 +16,9 @@
         Map
       </v-tab>
       <v-tab-item>
-        <svg>
+        <svg
+          viewBox="0 0 1000 1000"
+        >
           <g
             v-if="rootNode"
           >
@@ -222,6 +224,8 @@ export default {
           this.remove(event.item._id)
           break
       }
+
+      this.updateGraph()
     },
     updateGraph () {
       d3.select('svg')
@@ -268,12 +272,6 @@ export default {
 }
 </script>
 <style>
-   svg {
-    position:fixed;
-    height: 100%;
-    width: 100%;
-  }
-
   .Location {
     fill: salmon;
     opacity: 0.3;
