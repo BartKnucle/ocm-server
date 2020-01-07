@@ -25,7 +25,6 @@
         </tr>
       </template>
     </v-data-table>
-    {{ search }}
   </section>
 </template>
 <script>
