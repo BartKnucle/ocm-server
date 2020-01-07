@@ -15,23 +15,33 @@
       <v-tab>
         Map
       </v-tab>
-      <v-tab-item>
-        <svg
-          viewBox="0 0 1000 1000"
+      <v-tab-item
+        class="d-flex flex-grow-1 flex-shrink-1"
+      >
+        <v-card
+          width="400"
         >
-          <g
-            v-if="rootNode"
+          {{ hovered }}
+        </v-card>
+        <div id="container" class="svg-container">
+          <svg
+            viewBox="0 0 1000 600"
           >
-            <circle
-              v-for="item in rootNode.descendants()"
-              :key="item.data.name"
-              :class="item.data.class"
-              :r="item.r || 0"
-              :cx="item.x || 0"
-              :cy="item.y + 10 || 0"
-            />
-          </g>
-        </svg>
+            <g
+              v-if="rootNode"
+            >
+              <circle
+                v-for="item in rootNode.descendants()"
+                :key="item.data._id"
+                :class="item.data.class"
+                :r="item.r || 0"
+                :cx="item.x || 0"
+                :cy="item.y + 10 || 0"
+                @mouseover="hovered = getNode(item.data._id)"
+              />
+            </g>
+          </svg>
+        </div>
       </v-tab-item>
     </v-tabs>
   </section>
@@ -105,8 +115,9 @@ export default {
         }
       ],
       rootNode: null,
-      width: 900,
-      height: 900
+      width: 1000,
+      height: 600,
+      hovered: null
     }
   },
   computed: { // only getters have live queries
@@ -128,7 +139,7 @@ export default {
         return item
       })
     },
-    tree () {
+    nodes () {
       const compare = (a, b) => {
         // Use toUpperCase() to ignore character casing
         if (a.parent === undefined) {
@@ -151,45 +162,60 @@ export default {
         return comparison
       }
 
+      return [
+        ...this.locations().data
+          .map((location) => {
+            return {
+              _id: location._id,
+              parent: location.parent,
+              type: 'Location',
+              name: location.name,
+              get class () {
+                return this.type + ' Node'
+              }
+            }
+          })
+          .sort(compare),
+        ...this.subnets().data
+          .map((subnet) => {
+            return {
+              _id: subnet._id,
+              parent: subnet.location,
+              type: 'Subnet',
+              name: subnet._id,
+              get class () {
+                return this.type + ' Node'
+              }
+            }
+          })
+          .sort(compare),
+        ...this.devices().data
+          .map((device) => {
+            return {
+              _id: device._id,
+              parent: device.net_gatewayV4,
+              type: 'Device',
+              name: device.os_hostname,
+              online: device.online,
+              value: 1,
+              get class () {
+                switch (this.online) {
+                  case true:
+                    return 'Online Node'
+                  case false:
+                    return 'Offline Node'
+                }
+              }
+            }
+          })
+          .sort(compare)
+      ]
+    },
+    tree () {
       return {
         name: 'root',
         class: 'Location',
-        children: this.list_to_tree([
-          ...this.locations().data
-            .map((location) => {
-              return {
-                _id: location._id,
-                parent: location.parent,
-                class: 'Location'
-              }
-            })
-            .sort(compare),
-          ...this.subnets().data
-            .map((subnet) => {
-              return {
-                _id: subnet._id,
-                parent: subnet.location,
-                class: 'Subnet'
-              }
-            })
-            .sort(compare),
-          ...this.devices().data
-            .map((device) => {
-              let deviceclass = ''
-              if (device.online) {
-                deviceclass = 'Online'
-              } else {
-                deviceclass = 'Offline'
-              }
-              return {
-                _id: device._id,
-                parent: device.net_gatewayV4,
-                value: 1,
-                class: deviceclass
-              }
-            })
-            .sort(compare)
-        ])
+        children: this.list_to_tree(this.nodes)
       }
     }
   },
@@ -228,11 +254,14 @@ export default {
       this.updateGraph()
     },
     updateGraph () {
-      d3.select('svg')
-        .attr('viewBox', `0 0 ${this.height} ${this.width}`)
+      const svg = d3.select('svg')
+
+      svg.call(d3.zoom().on('zoom', function () {
+        svg.attr('transform', d3.event.transform)
+      }))
 
       const packLayout = d3.pack()
-        .size([this.width * 0.85, this.height * 0.85])
+        .size([this.width * 0.90, this.height * 0.90])
         .padding(10)
 
       this.rootNode = d3.hierarchy(this.tree)
@@ -240,9 +269,6 @@ export default {
         return d.value
       })
       packLayout(this.rootNode)
-    },
-    handleMouseOver (d, i) {
-      d.fill = 'orange'
     },
     list_to_tree (list) {
       const map = {}
@@ -267,11 +293,33 @@ export default {
       }
 
       return roots
+    },
+    getNode (nodeId) {
+      const node = this.nodes.find(x => x._id === nodeId)
+      if (node) {
+        return {
+          type: node.type,
+          name: node.name
+        }
+      }
     }
   }
 }
 </script>
 <style>
+  .svg-container {
+    width: 100%;
+  }
+
+  .svg {
+    fill: blue;
+    vertical-align: middle;
+  }
+
+  .Node:hover {
+    stroke: red;
+  }
+
   .Location {
     fill: salmon;
     opacity: 0.3;
