@@ -38,7 +38,11 @@ export default {
         return Object.entries(this.bindings)
           .map((item) => {
             const value = {}
-            value[item[0]] = this.item[item[1]]
+            if (this.item[item[1]]) {
+              value[item[0]] = this.item[item[1]]
+            } else {
+              value[item[0]] = item[1]
+            }
             return value
           })
       } else {

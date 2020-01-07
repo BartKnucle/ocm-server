@@ -1,18 +1,17 @@
 <template>
   <Card>
     <v-card-title>
+      <v-text-field
+        v-model="search"
+        append-icon="mdi-search"
+        label="Search"
+        single-line
+        hide-details
+      />
       <ActionBar
         :items="buttons"
         @componentEvent="$emit('componentEvent', $event)"
-      >
-        <v-text-field
-          v-model="search"
-          append-icon="mdi-search"
-          label="Search"
-          single-line
-          hide-details
-        />
-      </ActionBar>
+      />
     </v-card-title>
     <List
       :headers="headers"

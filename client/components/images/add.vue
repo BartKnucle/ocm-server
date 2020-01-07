@@ -38,7 +38,7 @@
 </template>
 
 <script>
-import Upload from '~/components/customs/upload.vue'
+import Upload from '~/components/atomic/atoms/upload.vue'
 import ItemPicker from '~/components/customs/item-picker.vue'
 export default {
   components: {
