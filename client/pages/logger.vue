@@ -1,49 +1,105 @@
 <template>
   <section>
-    <v-card>
-      <v-toolbar
-        color="primary"
-      >
-        <v-toolbar-title class="white--text">
-          Logs
-        </v-toolbar-title>
-        <v-spacer />
-        <v-spacer />
-        <v-btn
-          @click="$refs.ListLogs.clear()"
-          icon
-        >
-          <v-icon>
-            mdi-delete
-          </v-icon>
-        </v-btn>
-      </v-toolbar>
-      <ListLogs ref="ListLogs" />
-    </v-card>
+    <Datatable
+      :items="componentItems"
+      :headers="headers"
+      :buttons="buttons"
+      @componentEvent="onEvent"
+    />
   </section>
 </template>
 <script>
-import ListLogs from '~/components/logger/list.vue'
+import { mapActions, mapGetters } from 'vuex'
+import Datatable from '~/components/atomic/organisms/data-table.vue'
 export default {
   components: {
-    ListLogs
+    Datatable
   },
   data () {
-    return {}
+    return {
+      buttons: [
+        {
+          _id: 'clearLogs',
+          label: 'Clear'
+        }
+      ],
+      headers: [
+        {
+          value: 'level',
+          text: 'Level',
+          component: {
+            name: 'Chip',
+            bindings: {
+              text: 'levelLabel',
+              color: 'levelColor'
+            }
+          }
+        },
+        {
+          value: 'text',
+          text: 'Text',
+          component: {
+            name: 'Label',
+            bindings: {
+              label: 'text'
+            }
+          }
+        },
+        {
+          value: 'updated',
+          text: 'Date',
+          component: {
+            name: 'Label',
+            bindings: {
+              label: 'updatedLabel'
+            }
+          }
+        }
+      ]
+    }
   },
-  computed: {},
-  mounted () {},
-  methods: {}
+  computed: {
+    ...mapGetters('logger', { logger: 'find', get: 'get' }),
+    componentItems () {
+      return this.logger().data.map((item) => {
+        switch (item.level) {
+          case 0:
+            item = { ...item, levelLabel: 'Info' }
+            item = { ...item, levelColor: 'yellow' }
+            break
+          case 1:
+            item = { ...item, levelLabel: 'Warning' }
+            item = { ...item, levelColor: 'orange' }
+            break
+          case 2:
+            item = { ...item, levelLabel: 'Error' }
+            item = { ...item, levelColor: 'red' }
+            break
+        }
+
+        item.updatedLabel = new Date(item.updated)
+
+        return item
+      })
+    }
+  },
+  mounted () {
+    this.findLogger()
+  },
+  methods: {
+    ...mapActions('logger', { findLogger: 'find', removeLogger: 'remove' }),
+    onEvent (event) {
+      if (event.item._id === 'clearLogs') {
+        this.clearLog()
+      }
+    },
+    clearLog () {
+      this.removeLogger(null, {
+        query: {}
+      })
+    }
+  }
 }
 </script>
-
 <style>
-.auth-form ul {
-  list-style: none;
-  padding: 0;
-}
-
-.auth-form li + li {
-  margin-top: .5em;
-}
 </style>
