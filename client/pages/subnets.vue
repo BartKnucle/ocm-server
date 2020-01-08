@@ -1,10 +1,23 @@
 <template>
   <section>
     <v-tabs>
-      <v-tab>
+      <v-tab
+        :key="1"
+        :href="'#tab-1'"
+      >
         List
       </v-tab>
-      <v-tab-item>
+      <v-tab
+        :key="2"
+        :href="'#tab-2'"
+        @change="updateGraph"
+      >
+        Map
+      </v-tab>
+      <v-tab-item
+        :key="1"
+        :value="'tab-1'"
+      >
         <Datatable
           :items="componentItems"
           :headers="headers"
@@ -12,35 +25,41 @@
           @componentEvent="onEvent"
         />
       </v-tab-item>
-      <v-tab>
-        Map
-      </v-tab>
       <v-tab-item
-        class="d-flex flex-grow-1 flex-shrink-1"
+        :key="2"
+        :value="'tab-2'"
       >
-        <v-card
-          width="400"
+        <div
+          class="d-flex flex-grow-1 flex-shrink-1"
         >
-          {{ hovered }}
-        </v-card>
-        <div id="container" class="svg-container">
-          <svg
-            viewBox="0 0 1000 600"
+          <v-card
+            width="400"
           >
-            <g
-              v-if="rootNode"
+            {{ hovered }}
+          </v-card>
+          <div
+            id="container"
+            @mouseenter="updateGraph()"
+            class="svg-container"
+          >
+            <svg
+              viewBox="0 0 1000 600"
             >
-              <circle
-                v-for="item in rootNode.descendants()"
-                :key="item.data._id"
-                :class="item.data.class"
-                :r="item.r || 0"
-                :cx="item.x || 0"
-                :cy="item.y + 10 || 0"
-                @mouseover="hovered = getNode(item.data._id)"
-              />
-            </g>
-          </svg>
+              <g
+                v-if="rootNode"
+              >
+                <circle
+                  v-for="item in rootNode.descendants()"
+                  :key="item.data._id"
+                  :class="item.data.class"
+                  :r="item.r || 0"
+                  :cx="item.x || 0"
+                  :cy="item.y + 10 || 0"
+                  @mouseover="hovered = getNode(item.data._id)"
+                />
+              </g>
+            </svg>
+          </div>
         </div>
       </v-tab-item>
     </v-tabs>
@@ -214,7 +233,7 @@ export default {
     tree () {
       return {
         name: 'root',
-        class: 'Location',
+        class: 'Root',
         children: this.list_to_tree(this.nodes)
       }
     }
@@ -225,14 +244,9 @@ export default {
     }
   },
   mounted () {
-    const loadLocations = this.findLocations()
-    const loadSubnets = this.findSubnets()
-    const loadDevices = this.findDevices()
-
-    Promise.all([loadLocations, loadSubnets, loadDevices])
-      .then((devices, subnets, groups) => {
-        this.updateGraph()
-      })
+    this.findLocations()
+    this.findSubnets()
+    this.findDevices()
   },
   methods: {
     ...mapActions('devices', { findDevices: 'find', remove: 'remove' }),
@@ -250,8 +264,6 @@ export default {
           this.remove(event.item._id)
           break
       }
-
-      this.updateGraph()
     },
     updateGraph () {
       const svg = d3.select('svg')
@@ -262,7 +274,7 @@ export default {
 
       const packLayout = d3.pack()
         .size([this.width * 0.90, this.height * 0.90])
-        .padding(10)
+        .padding(1)
 
       this.rootNode = d3.hierarchy(this.tree)
       this.rootNode.sum((d) => {
@@ -311,24 +323,22 @@ export default {
     width: 100%;
   }
 
-  .svg {
-    fill: blue;
-    vertical-align: middle;
-  }
-
   .Node:hover {
     stroke: red;
   }
 
+  .Root {
+    fill: #6c737e;
+    stroke: white;
+  }
+
   .Location {
-    fill: salmon;
-    opacity: 0.3;
+    fill: #7393a7;
     stroke: white;
   }
 
   .Subnet {
-    fill: salmon;
-    opacity: 0.5;
+    fill: #b5cfd8;
     stroke: white;
   }
 
