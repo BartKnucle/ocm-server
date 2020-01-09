@@ -2,6 +2,7 @@
   <section>
     <v-dialog
       v-bind="bindings"
+      persistent
     >
       <slot />
     </v-dialog>

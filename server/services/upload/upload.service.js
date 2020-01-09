@@ -20,9 +20,7 @@ module.exports = (app) => {
   const upload = multer({ dest: path.join(app.get('homePath'), '/upload/') })
   app.post('/upload', upload.single('avatar'), (req, res, next) => {
     if (req.file) {
-      res.send({
-        filename: req.file.filename
-      })
+      res.send(req.file.filename)
     }
   })
 }
