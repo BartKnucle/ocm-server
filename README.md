@@ -5,6 +5,7 @@
 ## Node 12.13.1 LTS
 
 Install gitlab
+https://about.gitlab.com/install/#ubuntu
 
 Install docker
 https://docs.docker.com/install/linux/docker-ce/ubuntu/
