@@ -81,6 +81,18 @@ export default {
           }
         },
         {
+          value: 'isDp',
+          text: 'Dp',
+          component: {
+            name: 'Button',
+            bindings: {
+              event: 'switchDp',
+              label: 'isDPText',
+              color: 'isDPColor'
+            }
+          }
+        },
+        {
           value: '_id',
           text: 'Remove',
           component: {
@@ -97,6 +109,7 @@ export default {
   },
   computed: {
     ...mapGetters('devices', { devices: 'find', get: 'get' }),
+    ...mapGetters('devicesdps', { devicesDPs: 'find', getdevicesDp: 'get' }),
     componentItems () {
       return this.devices().data.map((item) => {
         item = { ...item, removeIcon: 'mdi-delete' }
@@ -109,19 +122,13 @@ export default {
           item = { ...item, onlineText: 'Offline' }
           item = { ...item, onlineColor: 'red' }
         }
-        switch (item.level) {
-          case 0:
-            item = { ...item, levelLabel: 'Info' }
-            item = { ...item, levelColor: 'yellow' }
-            break
-          case 1:
-            item = { ...item, levelLabel: 'Warning' }
-            item = { ...item, levelColor: 'orange' }
-            break
-          case 2:
-            item = { ...item, levelLabel: 'Error' }
-            item = { ...item, levelColor: 'red' }
-            break
+
+        if (this.getdevicesDp(item._id)) {
+          item = { ...item, isDPText: 'Yes' }
+          item = { ...item, isDPColor: 'green' }
+        } else {
+          item = { ...item, isDPText: 'No' }
+          item = { ...item, isDPColor: 'red' }
         }
 
         item.updatedLabel = new Date(item.updated)
@@ -132,13 +139,23 @@ export default {
   },
   mounted () {
     this.findDevices()
+    this.findDevicesDPs()
   },
   methods: {
-    ...mapActions('devices', { findDevices: 'find', remove: 'remove' }),
+    ...mapActions('devices', { findDevices: 'find', patch: 'patch', remove: 'remove' }),
+    ...mapActions('devicesdps', { findDevicesDPs: 'find', createDp: 'create', removeDp: 'remove' }),
     onEvent (event) {
       switch (event.eventName) {
         case 'removeDevice':
           this.remove(event.item._id)
+          break
+        case 'switchDp':
+          const isDp = this.getdevicesDp(event.item._id)
+          if (!isDp) {
+            this.createDp({ _id: event.item._id })
+          } else {
+            this.removeDp(event.item._id)
+          }
           break
       }
     }

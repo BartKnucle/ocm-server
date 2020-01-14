@@ -4,21 +4,21 @@
       :dialog="addDialog"
     >
       <v-card-title>
-        Add image
+        Add Application
       </v-card-title>
       <v-card-text>
         <v-text-field
-          v-model="image.name"
+          v-model="application.name"
           label="Name"
-          hint="Enter the image name"
+          hint="Enter the application name"
         />
       </v-card-text>
       <Upload
-        @uploaded="image.file = $event"
+        @uploaded="application.file = $event"
       />
       <Select
         :bindings="addTypes"
-        @componentEvent="image.type = $event.event"
+        @componentEvent="application.type = $event.event"
       />
       <small>*indicates required field</small>
       <v-card-actions>
@@ -101,7 +101,7 @@ export default {
           }
         }
       ],
-      image: {
+      application: {
         name: null,
         file: null,
         type: null
@@ -133,9 +133,9 @@ export default {
     }
   },
   computed: {
-    ...mapGetters('images', { images: 'find', get: 'get' }),
+    ...mapGetters('applications', { applications: 'find', get: 'get' }),
     componentItems () {
-      return this.images().data.map((item) => {
+      return this.applications().data.map((item) => {
         item = { ...item, removeIcon: 'mdi-delete' }
         item = { ...item, removeColor: 'red' }
 
@@ -144,17 +144,17 @@ export default {
     }
   },
   mounted () {
-    this.findImages()
+    this.findApplications()
   },
   methods: {
-    ...mapActions('images', { findImages: 'find', create: 'create', remove: 'remove' }),
+    ...mapActions('applications', { findApplications: 'find', create: 'create', remove: 'remove' }),
     addEvents (event) {
       switch (event.item.label) {
         case 'Close':
           this.addDialog.value = false
           break
         case 'Add':
-          this.create(this.image)
+          this.create(this.application)
           this.addDialog.value = false
       }
     },

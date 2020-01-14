@@ -130,6 +130,11 @@ export default {
           to: '/rules'
         }, */
         {
+          icon: 'mdi-package-variant',
+          title: 'Applications',
+          to: '/applications'
+        },
+        {
           icon: 'mdi-image-filter-black-white',
           title: 'Images',
           to: '/images'
