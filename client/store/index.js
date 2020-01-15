@@ -1,3 +1,4 @@
+//  Feather services
 const requireModule = require.context('./services', false, /.js$/)
 const servicePlugins = requireModule
   .keys()
