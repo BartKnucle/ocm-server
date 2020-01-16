@@ -42,7 +42,7 @@ export default {
       formData.append('avatar', file)
 
       const xhr = new XMLHttpRequest()
-      xhr.open('POST', '/upload')
+      xhr.open('POST', '/files')
 
       xhr.onload = (e) => {
         this.response = xhr.response

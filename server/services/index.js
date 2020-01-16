@@ -9,7 +9,7 @@ const devicesDps = require('./devicesDps/devicesDps.service')
 //  const rules = require('./rules/rules.service')
 const images = require('./images/images.service')
 const applications = require('./applications/applications.service')
-const upload = require('./upload/upload.service')
+const files = require('./files/files.service')
 const locations = require('./locations/locations.service')
 
 module.exports = function (app) {
@@ -24,6 +24,6 @@ module.exports = function (app) {
   //  app.configure(rules)
   app.configure(images)
   app.configure(applications)
-  app.configure(upload)
+  app.configure(files)
   app.configure(locations)
 }
