@@ -140,6 +140,11 @@ export default {
           to: '/images'
         },
         {
+          icon: 'mdi-library-books',
+          title: 'Files',
+          to: '/files'
+        },
+        {
           icon: 'mdi-receipt',
           title: 'Logger',
           to: '/logger'
