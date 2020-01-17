@@ -6,7 +6,7 @@ const workerFarm = require('worker-farm')
 program
     .usage('[options]')
     .option('-u, --url [url]', 'Base URL of the application to be tested', 'https://localhost:3001')
-    .option('-t, --total [total]', 'Total # of virtual clients to be created', '2000')
+    .option('-t, --total [total]', 'Total # of virtual clients to be created', '800')
     .option('-c, --concurrency [concurrency]', '# of concurrent clients during the steady phase', '50')
     .option('-s, --scenarios [scenarios]', 'Total # of scenarios performed by each virtual client before disconnecting', '1')
     .option('-r, --ramp [ramp]', 'Duration in seconds of the ramp up/down phases', '300')
