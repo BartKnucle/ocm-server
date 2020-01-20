@@ -21,7 +21,7 @@ exports.Device = class Device {
     }
 
     // Configure our client (hooks, auth, connection)
-    const socket = io(this.url, { secure: true, reconnect: true, rejectUnauthorized: false })
+    const socket = io(this.url, { secure: true, reconnect: true, rejectUnauthorized: false, timeout: 15000 })
     this.client.configure(socketio(socket))
     this.client.configure(auth())
 
@@ -29,7 +29,7 @@ exports.Device = class Device {
       this.client.service('/api/authentication').create({ ...this.credentials, strategy: 'local' })
         .then(() => {
           this.connected = true
-          console.log('Connected ' + this.id)
+          this.setDeviceNetwork()
         })
         .catch((err) => {
           console.log(err)
@@ -48,6 +48,7 @@ exports.Device = class Device {
 
   // Disconnect the device
   disconnect() {
+    this.client.io.disconnect()
     this.connected = false
     console.log('Disonnected ' + this.id)
   }
@@ -73,5 +74,28 @@ exports.Device = class Device {
     //  Run
     this.simStarted = process.hrtime()
     this.interval = setInterval(this.execute.bind(this), 1000)
+  }
+
+  // Set device network informations
+  setDeviceNetwork () {
+  const subnet = Math.round(Math.random() * 40).toString()
+  this.client.service('/api/devices')
+    .create({
+      _id: this.id.toString(),
+      os_hostname: this.id.toString(),
+      net_ip4_subnet: '172.20.' + subnet + '.17/24',
+      net_gatewayV4: '172.20.' + subnet + '.1'
+    })
+    .catch(() => {
+      this.client.service('/api/devices')
+      .patch(
+        this.id.toString(),
+        {
+          os_hostname: this.id.toString(),
+          net_ip4_subnet: '172.20.' + subnet + '.17/24',
+          net_gatewayV4: '172.20.' + subnet + '.1'
+        }
+      )
+    })
   }
 }
