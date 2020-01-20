@@ -2,13 +2,16 @@ const io = require('socket.io-client')
 const feathers = require('@feathersjs/feathers')
 const socketio = require('@feathersjs/socketio-client')
 const auth = require('@feathersjs/authentication-client')
+const events = require('events')
 
 exports.Device = class Device {
   constructor(id, params) {
     this.id = id
     this.params = params
-    this.connected = false
     this.url = 'https://localhost:3001'
+    this.eventEmitter = new events.EventEmitter()
+    this.eventEmitter.addListener('endStart', this.runSimulate.bind(this))
+    this.eventEmitter.addListener('endRun', this.stopSimulate.bind(this))
     this.startSimulate()
   }
 
@@ -28,8 +31,7 @@ exports.Device = class Device {
     const authenticate = () => {
       this.client.service('/api/authentication').create({ ...this.credentials, strategy: 'local' })
         .then(() => {
-          this.connected = true
-          this.setDeviceNetwork()
+          this.eventEmitter.emit('connected')
         })
         .catch((err) => {
           console.log(err)
@@ -49,31 +51,52 @@ exports.Device = class Device {
   // Disconnect the device
   disconnect() {
     this.client.io.disconnect()
-    this.connected = false
     console.log('Disonnected ' + this.id)
-  }
-
-  // Execute an action
-  execute() {
-    // Current simulation time
-    const simCurrent = process.hrtime()
-    const remaining = this.params.simulate * 60 - ( simCurrent[0] - this.simStarted[0] )
-
-    //  Stop
-    if (remaining <= 0) {
-      clearInterval(this.interval)
-      setTimeout(this.disconnect.bind(this), this.params.stop)
-    }
   }
   
   // Manage the node simulation
   startSimulate() {
-    //  Start
-    setTimeout(this.connect.bind(this), this.params.start)
+    const startOperations = () => {
+      console.log(`Start ${this.id}`)
+      this.eventEmitter.addListener('connected', () => {
+        this.setDeviceNetwork()
+        this.eventEmitter.emit('endStart')
+      })
 
-    //  Run
+      this.connect()
+    }
+
+    setTimeout(startOperations.bind(this), this.params.start)
+  }
+
+  runSimulate() {
+    console.log(`Run ${this.id}`)
     this.simStarted = process.hrtime()
-    this.interval = setInterval(this.execute.bind(this), 1000)
+
+    const runOperations = () => {
+      // Current simulation time
+      const simCurrent = process.hrtime()
+      const remaining = this.params.run * 60 - ( simCurrent[0] - this.simStarted[0] )
+
+      //  Stop
+      if (remaining <= 0) {
+        setTimeout(this.disconnect.bind(this), this.params.stop)
+        this.eventEmitter.emit('endRun')
+        clearInterval(this.interval)
+      }
+    }
+
+    this.interval = setInterval(runOperations.bind(this), 1000)
+  }
+
+  stopSimulate() {
+    console.log(`Stop ${this.id}`)
+    const stopOperations = () => {
+      this.disconnect.bind(this)
+      this.eventEmitter.emit('endStop')
+    }
+
+    setTimeout(stopOperations.bind(this), this.params.start)
   }
 
   // Set device network informations

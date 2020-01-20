@@ -3,7 +3,7 @@ let devices = []
 
 const nbDevices = 500
 const start = 3 // Time in minutes to load all devices
-const simulate = 1 // Siumlation duration in minutes
+const run = 1 // Siumlation duration in minutes
 const stop = 3 // Time in minutes to stop all devies
 
 for (var i = 0; i < nbDevices; i++) {
@@ -12,7 +12,7 @@ for (var i = 0; i < nbDevices; i++) {
       i,
       {
         start: ( start * 60000 / nbDevices ) * Math.floor(Math.random() * nbDevices + 1),
-        simulate,
+        run,
         stop: ( stop * 60000 / nbDevices ) * Math.floor(Math.random() * nbDevices + 1)
       }
     )
