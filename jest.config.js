@@ -13,8 +13,8 @@ module.exports = {
   transformIgnorePatterns: ['./server', '/node_modules/'],
   collectCoverage: true,
   collectCoverageFrom: [
-    '<rootDir>/components/**/*.vue',
-    '<rootDir>/pages/**/*.vue',
+    '<rootDir>/client/**/*.vue',
+    '<rootDir>/client/store/**/*.js',
     '<rootDir>/server/**/*.js'
   ]
 }
