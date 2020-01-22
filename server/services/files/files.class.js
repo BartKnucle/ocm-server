@@ -1,7 +1,6 @@
-const ServiceClass = require('../service.class')
 const fs = require('fs')
 const path = require('path')
-
+const ServiceClass = require('../service.class')
 
 exports.Files = class Files extends ServiceClass {
   setup (app) {
@@ -10,13 +9,20 @@ exports.Files = class Files extends ServiceClass {
   }
 
   // Sync files and database
-  clear() {
+  clear () {
     fs.readdir(path.join(this.app.get('homePath'), '/files/'), (err, files) => {
+      if (err) {
+        return err
+      }
       files.map((file) => {
         //  Remove local file
         this.get(file)
           .catch(() => {
-            fs.unlink(path.join(this.app.get('homePath'), '/files/' + file), (err) => {})
+            fs.unlink(path.join(this.app.get('homePath'), '/files/' + file), (err) => {
+              if (err) {
+                return err
+              }
+            })
           })
       })
     })
@@ -25,8 +31,8 @@ exports.Files = class Files extends ServiceClass {
     this.find()
       .then((files) => {
         files.data.map((file) => {
-          fs.exists(path.join(this.app.get('homePath'), '/files/' + file._id), (exist) => {
-            if (!exist) {
+          fs.access(path.join(this.app.get('homePath'), '/files/' + file._id), fs.constants.F_OK, (err) => {
+            if (err) {
               this.remove(file._id)
             }
           })

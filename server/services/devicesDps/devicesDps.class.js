@@ -1,9 +1,9 @@
 const ServiceClass = require('../service.class')
 
 exports.DevicesDps = class DevicesDps extends ServiceClass {
-  find() {
+  find () {
     return super.find()
-      .then(async (dps) => {
+      .then((dps) => {
         return this.app.service('/api/devices').find({
           query: {
             _id: {

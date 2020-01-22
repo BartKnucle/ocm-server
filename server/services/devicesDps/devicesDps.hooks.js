@@ -1,4 +1,4 @@
-const { authenticate } = require('@feathersjs/authentication');
+const { authenticate } = require('@feathersjs/authentication')
 
 module.exports = {
   before: {

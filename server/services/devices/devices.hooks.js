@@ -1,5 +1,4 @@
 const updated = require('../../hooks/updated')
-const dataChanged = require('../../hooks/dataChanged')
 
 const addSubnet = (options = {}) => {
   return (context) => {

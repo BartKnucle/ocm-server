@@ -1,11 +1,11 @@
+const events = require('events')
 const io = require('socket.io-client')
 const feathers = require('@feathersjs/feathers')
 const socketio = require('@feathersjs/socketio-client')
 const auth = require('@feathersjs/authentication-client')
-const events = require('events')
 
 exports.Device = class Device {
-  constructor(id, params) {
+  constructor (id, params) {
     this.id = id
     this.params = params
     this.url = 'https://localhost:3001'
@@ -16,7 +16,7 @@ exports.Device = class Device {
   }
 
   // Connect the device
-  connect() {
+  connect () {
     this.client = feathers()
     this.credentials = {
       _id: this.id.toString(),
@@ -33,31 +33,26 @@ exports.Device = class Device {
         .then(() => {
           this.eventEmitter.emit('connected')
         })
-        .catch((err) => {
-          console.log(err)
-        })
+        .catch(() => {})
     }
-  
+
     this.client.service('/api/users').create(this.credentials)
       .then(() => {
         authenticate()
       })
-      .catch((err) => {
+      .catch(() => {
         authenticate()
       })
-
   }
 
   // Disconnect the device
-  disconnect() {
+  disconnect () {
     this.client.io.disconnect()
-    console.log('Disonnected ' + this.id)
   }
-  
+
   // Manage the node simulation
-  startSimulate() {
+  startSimulate () {
     const startOperations = () => {
-      console.log(`Start ${this.id}`)
       this.eventEmitter.addListener('connected', () => {
         this.setDeviceNetwork()
         this.eventEmitter.emit('endStart')
@@ -69,14 +64,13 @@ exports.Device = class Device {
     setTimeout(startOperations.bind(this), this.params.start)
   }
 
-  runSimulate() {
-    console.log(`Run ${this.id}`)
+  runSimulate () {
     this.simStarted = process.hrtime()
 
     const runOperations = () => {
       // Current simulation time
       const simCurrent = process.hrtime()
-      const remaining = this.params.run * 60 - ( simCurrent[0] - this.simStarted[0] )
+      const remaining = this.params.run * 60 - (simCurrent[0] - this.simStarted[0])
 
       //  Stop
       if (remaining <= 0) {
@@ -89,8 +83,7 @@ exports.Device = class Device {
     this.interval = setInterval(runOperations.bind(this), 1000)
   }
 
-  stopSimulate() {
-    console.log(`Stop ${this.id}`)
+  stopSimulate () {
     const stopOperations = () => {
       this.disconnect.bind(this)
       this.eventEmitter.emit('endStop')
@@ -101,24 +94,24 @@ exports.Device = class Device {
 
   // Set device network informations
   setDeviceNetwork () {
-  const subnet = Math.round(Math.random() * 40).toString()
-  this.client.service('/api/devices')
-    .create({
-      _id: this.id.toString(),
-      os_hostname: this.id.toString(),
-      net_ip4_subnet: '172.20.' + subnet + '.17/24',
-      net_gatewayV4: '172.20.' + subnet + '.1'
-    })
-    .catch(() => {
-      this.client.service('/api/devices')
-      .patch(
-        this.id.toString(),
-        {
-          os_hostname: this.id.toString(),
-          net_ip4_subnet: '172.20.' + subnet + '.17/24',
-          net_gatewayV4: '172.20.' + subnet + '.1'
-        }
-      )
-    })
+    const subnet = Math.round(Math.random() * 40).toString()
+    this.client.service('/api/devices')
+      .create({
+        _id: this.id.toString(),
+        os_hostname: this.id.toString(),
+        net_ip4_subnet: '172.20.' + subnet + '.17/24',
+        net_gatewayV4: '172.20.' + subnet + '.1'
+      })
+      .catch(() => {
+        this.client.service('/api/devices')
+          .patch(
+            this.id.toString(),
+            {
+              os_hostname: this.id.toString(),
+              net_ip4_subnet: '172.20.' + subnet + '.17/24',
+              net_gatewayV4: '172.20.' + subnet + '.1'
+            }
+          )
+      })
   }
 }

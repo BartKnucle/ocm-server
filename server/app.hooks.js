@@ -1,4 +1,4 @@
-const updated = require('./hooks/updated')
+//  const updated = require('./hooks/updated')
 
 // Global feathers Hooks
 module.exports = {
