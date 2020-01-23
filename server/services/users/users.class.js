@@ -8,26 +8,49 @@ exports.Users = class Users extends ServiceClass {
     super.setup(app)
   }
 
-  //  On user connection
-  onConnect (authResult) {
-    return this.patch(
-      authResult.user._id,
+  setOnline(userId) {
+    this.patch(
+      userId,
       { online: true }
     )
+    .catch((err) => {
+      return err
+    })
+  }
+
+  setOffline(userId) {
+    this.patch(
+      userId,
+      { online: false }
+    )
+    .catch((err) => {
+      return err
+    })
+  }
+
+  //  On user connection
+  onConnect (authResult) {
+    this.setOnline(authResult.user._id)
+    switch (authResult.user.type) {
+      case 'device':
+        this.app.service('/api/devices').setOnline(authResult.user._id)
+        break
+    
+      default:
+        break
+    }
   }
 
   //  On user diconnection
   onDisconnect (connection) {
-    if (connection.user) {
-      return this.patch(
-        connection.user._id,
-        { online: false }
-      )
-        .catch(() => {
-          return false
-        })
-    } else {
-      return false
+    this.setOffline(connection.user._id)
+    switch (connection.user.type) {
+      case 'device':
+        this.app.service('/api/devices').setOffline(connection.user._id)
+        break
+    
+      default:
+        break
     }
   }
 }
