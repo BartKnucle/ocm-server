@@ -8,24 +8,24 @@ exports.Users = class Users extends ServiceClass {
     super.setup(app)
   }
 
-  setOnline(userId) {
+  setOnline (userId) {
     this.patch(
       userId,
       { online: true }
     )
-    .catch((err) => {
-      return err
-    })
+      .catch((err) => {
+        return err
+      })
   }
 
-  setOffline(userId) {
+  setOffline (userId) {
     this.patch(
       userId,
       { online: false }
     )
-    .catch((err) => {
-      return err
-    })
+      .catch((err) => {
+        return err
+      })
   }
 
   //  On user connection
@@ -35,7 +35,6 @@ exports.Users = class Users extends ServiceClass {
       case 'device':
         this.app.service('/api/devices').setOnline(authResult.user._id)
         break
-    
       default:
         break
     }
@@ -48,7 +47,6 @@ exports.Users = class Users extends ServiceClass {
       case 'device':
         this.app.service('/api/devices').setOffline(connection.user._id)
         break
-    
       default:
         break
     }
