@@ -9,28 +9,21 @@ exports.Users = class Users extends ServiceClass {
   }
 
   setOnline (userId) {
-    this.patch(
+    return this.patch(
       userId,
       { online: true }
     )
-      .catch((err) => {
-        return err
-      })
   }
 
   setOffline (userId) {
-    this.patch(
+    return this.patch(
       userId,
       { online: false }
     )
-      .catch((err) => {
-        return err
-      })
   }
 
   //  On user connection
   onConnect (authResult) {
-    this.setOnline(authResult.user._id)
     switch (authResult.user.type) {
       case 'device':
         this.app.service('/api/devices').setOnline(authResult.user._id)
@@ -38,17 +31,25 @@ exports.Users = class Users extends ServiceClass {
       default:
         break
     }
+    return this.setOnline(authResult.user._id)
   }
 
   //  On user diconnection
   onDisconnect (connection) {
-    this.setOffline(connection.user._id)
-    switch (connection.user.type) {
-      case 'device':
-        this.app.service('/api/devices').setOffline(connection.user._id)
-        break
-      default:
-        break
+    if (connection.user) {
+      switch (connection.user.type) {
+        case 'device':
+          this.app.service('/api/devices').setOffline(connection.user._id)
+          break
+        default:
+          break
+      }
+      return this.setOffline(connection.user._id)
+        .catch(() => {
+          return false
+        })
+    } else {
+      return false
     }
   }
 }
