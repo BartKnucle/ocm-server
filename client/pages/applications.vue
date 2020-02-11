@@ -17,6 +17,10 @@
         @uploaded="application.file = $event"
       />
       <Select
+        :bindings="addOS"
+        @componentEvent="application.os = $event.event"
+      />
+      <Select
         :bindings="addTypes"
         @componentEvent="application.type = $event.event"
       />
@@ -79,6 +83,16 @@ export default {
           }
         },
         {
+          value: 'os',
+          text: 'Os',
+          component: {
+            name: 'Label',
+            bindings: {
+              label: 'os'
+            }
+          }
+        },
+        {
           value: 'type',
           text: 'Type',
           component: {
@@ -104,6 +118,7 @@ export default {
       application: {
         name: null,
         file: null,
+        os: null,
         type: null
       },
       buttons: [
@@ -127,9 +142,13 @@ export default {
         }
       ],
       addTypes: {
+        items: ['Powershell']
+      },
+      addSelectedType: null,
+      addOS: {
         items: ['Windows', 'Linux']
       },
-      addSelectedType: null
+      addSelectedOS: null
     }
   },
   computed: {
