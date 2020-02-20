@@ -4,6 +4,7 @@
       v-bind="bind"
       @change="sendEvent($event, item)"
       @update:list-index="sendEvent($event, item)"
+      dense
     />
   </section>
 </template>

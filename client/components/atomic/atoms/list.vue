@@ -2,6 +2,7 @@
   <section>
     <v-list
       v-bind="properties"
+      dense
     >
       <slot />
     </v-list>

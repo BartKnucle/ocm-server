@@ -4,6 +4,7 @@
       :items="list_to_tree"
       v-bind="properties"
       @update:active="$emit('selectItem', $event)"
+      dense
     />
   </section>
 </template>
