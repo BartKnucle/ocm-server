@@ -18,52 +18,60 @@ export default {
   data () {
     return {
       type: 'BarChart',
-      headers: ['Locations', 'Count'],
+      headers: ['Locations', 'Total', 'Online', 'Offline'],
       options: {
         title: 'Locations',
         width: 500,
         height: 300,
         backgroundColor: 'transparent',
         pieSliceBorderColor: 'transparent',
-        pieHole: 0.4,
         titleTextStyle: {
           color: 'orange'
         },
-        legend: {
-          textStyle: { color: 'white' }
+        hAxis: {
+          title: 'Count',
+          minValue: 0,
+          textStyle: {
+            color: 'white'
+          },
+          titleTextStyle: {
+            color: 'white'
+          }
+        },
+        vAxis: {
+          textStyle: {
+            color: 'white'
+          }
         }
       }
     }
   },
   computed: { // only getters have live queries
     ...mapGetters('devices', { devices: 'find', getDevice: 'get' }),
-    ...mapGetters('subnets', { subnets: 'find', getSubnet: 'get' }),
-    ...mapGetters('locations', { locations: 'find', getLocation: 'get' }),
     countByOs () {
       return this.devices().data.reduce((acc, device) => {
-        const subnet = this.getSubnet(device.net_gatewayV4)
-        const location = this.getLocation(subnet.location)
-
-        const cle = location.name
+        const cle = device.location.name
         const value = acc.find(x => x[0] === cle)
         if (value) {
           value[1] += 1
+          if (device.online) {
+            value[2] += 1
+          } else {
+            value[3] += 1
+          }
         } else {
-          acc.push([cle, 1])
+          acc.push([cle, 0, 0, 0])
         }
+
         return acc
       }, [this.headers])
     }
   },
   mounted () {
-    this.findLocations()
-    this.findSubnets()
     this.findDevices()
   },
   methods: {
-    ...mapActions('devices', { findDevices: 'find' }),
-    ...mapActions('subnets', { findSubnets: 'find' }),
-    ...mapActions('locations', { findLocations: 'find' })
+    ...mapActions('devices', { findDevices: 'find' })
   }
 }
 </script>

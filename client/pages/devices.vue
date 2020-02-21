@@ -71,6 +71,16 @@ export default {
           }
         },
         {
+          value: 'locationName',
+          text: 'Location',
+          component: {
+            name: 'Label',
+            bindings: {
+              label: 'locationName'
+            }
+          }
+        },
+        /*  {
           value: 'updated',
           text: 'Date',
           component: {
@@ -79,7 +89,7 @@ export default {
               label: 'updatedLabel'
             }
           }
-        },
+        }, */
         {
           value: 'isDp',
           text: 'Dp',
@@ -132,6 +142,7 @@ export default {
         }
 
         item.updatedLabel = new Date(item.updated)
+        item.locationName = item.location.name
 
         return item
       })

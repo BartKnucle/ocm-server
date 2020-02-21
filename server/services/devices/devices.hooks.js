@@ -13,6 +13,9 @@ const getRelationships = (options = {}) => {
     const data = await context.result.data.map(async (device) => {
       device.subnet = await context.app.service('/api/subnets').get(device.net_gatewayV4)
       device.location = await context.app.service('/api/locations').get(device.subnet.location)
+        .catch(() => {
+          return { name: '' }
+        })
       return device
     })
     context.result.data = await Promise.all(data)
