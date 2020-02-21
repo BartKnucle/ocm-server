@@ -7,6 +7,19 @@ const addSubnet = (options = {}) => {
   }
 }
 
+// Manage the relationhips
+const getRelationships = (options = {}) => {
+  return async (context) => {
+    const data = await context.result.data.map(async (device) => {
+      device.subnet = await context.app.service('/api/subnets').get(device.net_gatewayV4)
+      device.location = await context.app.service('/api/locations').get(device.subnet.location)
+      return device
+    })
+    context.result.data = await Promise.all(data)
+    return context
+  }
+}
+
 module.exports = {
   before: {
     all: [],
@@ -20,7 +33,7 @@ module.exports = {
 
   after: {
     all: [],
-    find: [],
+    find: [getRelationships()],
     get: [],
     create: [addSubnet()],
     update: [addSubnet()],
