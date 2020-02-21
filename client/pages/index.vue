@@ -1,15 +1,18 @@
 <template>
   <section>
-    <DevicesChart />
+    <osChart />
+    <onlineChart />
   </section>
 </template>
 
 <script>
-import DevicesChart from '~/components/devices/chart.vue'
+import osChart from '~/components/devices/os_chart.vue'
+import onlineChart from '~/components/devices/online_chart.vue'
 
 export default {
   components: {
-    DevicesChart
+    osChart,
+    onlineChart
   }
 }
 </script>

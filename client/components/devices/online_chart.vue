@@ -18,16 +18,20 @@ export default {
   data () {
     return {
       type: 'PieChart',
-      headers: ['OS', 'Count'],
+      headers: ['Online', 'Count'],
       options: {
-        title: 'OS',
-        width: 300,
+        title: 'Online',
+        width: 500,
         height: 300,
         backgroundColor: 'transparent',
         pieSliceBorderColor: 'transparent',
         pieHole: 0.4,
+        colors: ['red', 'green'],
         titleTextStyle: {
           color: 'orange'
+        },
+        legend: {
+          textStyle: { color: 'white' }
         }
       }
     }
@@ -36,10 +40,10 @@ export default {
     ...mapGetters('devices', { devices: 'find', get: 'get' }),
     countByOs () {
       return this.devices().data.reduce((acc, obj) => {
-        const cle = obj.distro
-        let value = acc.find(x => x[0] === cle)
+        const cle = obj.online.toString()
+        const value = acc.find(x => x[0] === cle)
         if (value) {
-          value += 1
+          value[1] += 1
         } else {
           acc.push([cle, 1])
         }
