@@ -102,46 +102,46 @@ exports.Device = class Device {
         name: 'Dell Inc.',
         models: [
           'Latitude E5570',
-          'Latitude E5480',
+          'Latitude E5480'
         ]
       },
       {
         name: 'HP',
         models: [
           'HP E5570',
-          'HP E5480',
+          'HP E5480'
         ]
       },
       {
         name: 'Toshiba',
         models: [
           'Toshiba E5570',
-          'Toshiba E5480',
+          'Toshiba E5480'
         ]
       },
       {
         name: 'Lenovo',
         models: [
           'Lenovo E5570',
-          'Lenovo E5480',
+          'Lenovo E5480'
         ]
       },
       {
         name: 'IBM',
         models: [
           'IBM E5570',
-          'IBM E5480',
+          'IBM E5480'
         ]
       }
     ]
 
-    const platforms= [
+    const platforms = [
       {
         name: 'win32',
         distros: [
           'Microsoft Windows 10 Entreprise',
           'Microsoft Windows 7 Entreprise',
-          'Microsoft Windows XP',
+          'Microsoft Windows XP'
         ]
       },
       {
@@ -153,24 +153,24 @@ exports.Device = class Device {
       }
     ]
 
-    const archs= [
+    const archs = [
       'x64',
       'x86'
     ]
 
     //  Set IDs
-    const manuId = Math.floor(Math.random()*manufacturers.length)
-    const osId = Math.floor(Math.random()*platforms.length)
+    const manuId = Math.floor(Math.random() * manufacturers.length)
+    const osId = Math.floor(Math.random() * platforms.length)
 
     this.client.service('/api/devices')
       .create({
         _id: this.id.toString(),
         online: true,
         sys_manufacturer: manufacturers[manuId].name,
-        sys_model: manufacturers[manuId].models[Math.floor(Math.random()*manufacturers[manuId].models.length)],
+        sys_model: manufacturers[manuId].models[Math.floor(Math.random() * manufacturers[manuId].models.length)],
         os_platform: platforms[osId].name,
-        os_distro: platforms[osId].distros[Math.floor(Math.random()*platforms[osId].distros.length)],
-        os_arch: archs[Math.floor(Math.random()*archs.length)]
+        os_distro: platforms[osId].distros[Math.floor(Math.random() * platforms[osId].distros.length)],
+        os_arch: archs[Math.floor(Math.random() * archs.length)]
       })
       .catch(() => {
         this.client.service('/api/devices')
@@ -179,10 +179,10 @@ exports.Device = class Device {
             {
               sys_manufacturer: manufacturers[manuId].name,
               online: true,
-              sys_model: manufacturers[manuId].models[Math.floor(Math.random()*manufacturers[manuId].models.length)],
+              sys_model: manufacturers[manuId].models[Math.floor(Math.random() * manufacturers[manuId].models.length)],
               os_platform: platforms[osId].name,
-              os_distro: platforms[osId].distros[Math.floor(Math.random()*platforms[osId].distros.length)],
-              os_arch: archs[Math.floor(Math.random()*archs.length)]
+              os_distro: platforms[osId].distros[Math.floor(Math.random() * platforms[osId].distros.length)],
+              os_arch: archs[Math.floor(Math.random() * archs.length)]
             }
           )
       })
