@@ -59,10 +59,11 @@ export default {
           } else {
             value[3] += 1
           }
+        } else if (device.online) {
+          acc.push([cle, 1, 1, 0])
         } else {
-          acc.push([cle, 0, 0, 0])
+          acc.push([cle, 1, 0, 1])
         }
-
         return acc
       }, [this.headers])
     }
