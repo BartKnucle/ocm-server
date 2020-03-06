@@ -65,28 +65,4 @@ describe('\'users\' service', () => {
     const disconnected = await app.service('/api/users').onDisconnect({})
     expect(disconnected).toBe(false)
   })
-
-  it('Create 10 records', async () => {
-    const t0 = performance.now()
-
-    for (let index = 0; index < 10; index++) {
-      await app.service('/api/users').create({ _id: index.toString(), password: index.toString() })
-    }
-
-    const t1 = performance.now()
-
-    expect(t1 - t0).toBeLessThan(5000)
-  })
-
-  it('Patch 10 records', async () => {
-    const t0 = performance.now()
-
-    for (let index = 0; index < 10; index++) {
-      await app.service('/api/users').patch(index.toString(), { online: false })
-    }
-
-    const t1 = performance.now()
-
-    expect(t1 - t0).toBeLessThan(5000)
-  })
 })
