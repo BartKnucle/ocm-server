@@ -75,8 +75,8 @@ describe('\'users\' service', () => {
 
     const t1 = performance.now()
 
-    expect(t1 - t0).toBeLessThan(2000)
-  }, 2000)
+    expect(t1 - t0).toBeLessThan(5000)
+  })
 
   it('Patch 10 records', async () => {
     const t0 = performance.now()
@@ -87,6 +87,6 @@ describe('\'users\' service', () => {
 
     const t1 = performance.now()
 
-    expect(t1 - t0).toBeLessThan(2000)
-  }, 2000)
+    expect(t1 - t0).toBeLessThan(5000)
+  })
 })
