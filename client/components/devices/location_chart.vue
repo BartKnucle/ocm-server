@@ -25,6 +25,7 @@ export default {
         height: 300,
         backgroundColor: 'transparent',
         pieSliceBorderColor: 'transparent',
+        colors: ['blue', 'green', 'red'],
         titleTextStyle: {
           color: 'orange'
         },
@@ -39,6 +40,11 @@ export default {
           }
         },
         vAxis: {
+          textStyle: {
+            color: 'white'
+          }
+        },
+        legend: {
           textStyle: {
             color: 'white'
           }
