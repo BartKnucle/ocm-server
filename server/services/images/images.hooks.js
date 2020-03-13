@@ -1,3 +1,10 @@
+const extract = (options = {}) => {
+  return (context) => {
+    context.app.service('/api/files').extract(context.result.file)
+    return context
+  }
+}
+
 module.exports = {
   before: {
     all: [],
@@ -13,7 +20,7 @@ module.exports = {
     all: [],
     find: [],
     get: [],
-    create: [],
+    create: [extract()],
     update: [],
     patch: [],
     remove: []
