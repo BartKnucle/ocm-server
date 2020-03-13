@@ -1,11 +1,25 @@
 const fs = require('fs')
 const path = require('path')
+const { spawn } = require('child_process')
+const _7z = require('7zip')['7z']
 const ServiceClass = require('../service.class')
 
 exports.Files = class Files extends ServiceClass {
   setup (app) {
     super.setup(app)
     this.clear()
+  }
+
+  //  Get the complete file path
+  filePath (file) {
+    return path.join(this.app.get('homePath'), '/files/' + file)
+  }
+
+  // extract file
+  extract (file) {
+    const extractDir = path.join(this.app.get('homePath'), '/files/extracted/', file)
+    const task = spawn(_7z, ['x', '-o' + extractDir, this.filePath(file), '-y'])
+    return task
   }
 
   // Sync files and database
@@ -18,7 +32,7 @@ exports.Files = class Files extends ServiceClass {
         //  Remove local file
         this.get(file)
           .catch(() => {
-            fs.unlink(path.join(this.app.get('homePath'), '/files/' + file), (err) => {
+            fs.unlink(this.filePath(file), (err) => {
               if (err) {
                 return err
               }

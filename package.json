@@ -14,6 +14,7 @@
     "simulate": "node ./simulate"
   },
   "dependencies": {
+    "7zip": "0.0.6",
     "@babel/plugin-proposal-class-properties": "^7.8.3",
     "@feathersjs/authentication": "^4.4.3",
     "@feathersjs/authentication-client": "^4.4.3",
