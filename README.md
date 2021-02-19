@@ -1,6 +1,6 @@
 # OCM Server
 
-> Open configuration management server
+> Open configuration management server is an open Sccm type configuration managmement
 
 ## Node 12.13.1 LTS
 
